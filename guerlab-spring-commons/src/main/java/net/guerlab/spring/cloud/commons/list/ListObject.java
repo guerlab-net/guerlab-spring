@@ -36,13 +36,13 @@ public class ListObject<T> {
 
         @Override
         public void setCount(
-                int count) {
+                long count) {
             throw new UnsupportedOperationException();
         }
 
         @Override
         public void setPageSize(
-                int pageSize) {
+                long pageSize) {
             throw new UnsupportedOperationException();
         }
     }
@@ -57,13 +57,13 @@ public class ListObject<T> {
      * 数据总数
      */
     @ApiModelProperty(value = "数据总数", required = true)
-    private int count;
+    private long count;
 
     /**
      * 查询内容数量
      */
     @ApiModelProperty(value = "查询内容数量", required = true)
-    private int pageSize = 10;
+    private long pageSize = 10;
 
     /**
      * 无参构造
@@ -92,7 +92,7 @@ public class ListObject<T> {
      * @param count
      *            数据总数
      */
-    public ListObject(int pageSize, int count) {
+    public ListObject(long pageSize, long count) {
         this.pageSize = pageSize;
         this.count = count;
     }
@@ -107,7 +107,7 @@ public class ListObject<T> {
      * @param command
      *            数据读取命令
      */
-    public ListObject(int pageSize, int count, ReadDataListCommand<T> command) {
+    public ListObject(long pageSize, long count, ReadDataListCommand<T> command) {
         this(pageSize, count);
 
         if (count <= 0 || command == null) {
@@ -145,7 +145,7 @@ public class ListObject<T> {
      *
      * @return 数据总数
      */
-    public int getCount() {
+    public long getCount() {
         return count;
     }
 
@@ -156,7 +156,7 @@ public class ListObject<T> {
      *            数据总数
      */
     public void setCount(
-            int count) {
+            long count) {
         this.count = count;
     }
 
@@ -165,7 +165,7 @@ public class ListObject<T> {
      *
      * @return 分页尺寸
      */
-    public int getPageSize() {
+    public long getPageSize() {
         return pageSize;
     }
 
@@ -176,7 +176,7 @@ public class ListObject<T> {
      *            分页尺寸
      */
     public void setPageSize(
-            int pageSize) {
+            long pageSize) {
         this.pageSize = pageSize;
     }
 }
