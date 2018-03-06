@@ -99,6 +99,21 @@
 				<artifactId>guerlab-spring-commons</artifactId>
 	            <version>${guerlab-spring.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>net.guerlab</groupId>
+				<artifactId>guerlab-spring-db-mysql-starter</artifactId>
+	            <version>${guerlab-spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.guerlab</groupId>
+				<artifactId>guerlab-spring-db-redis-starter</artifactId>
+	            <version>${guerlab-spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.guerlab</groupId>
+				<artifactId>guerlab-spring-starter</artifactId>
+	            <version>${guerlab-spring.version}</version>
+			</dependency>
 			
 			<!-- swagger -->
 			<dependency>
