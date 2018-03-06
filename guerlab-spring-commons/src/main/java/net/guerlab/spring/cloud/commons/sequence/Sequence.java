@@ -75,7 +75,7 @@ public class Sequence {
     /**
      * 获取ID
      *
-     * @return
+     * @return ID
      */
     public synchronized Long nextId() {
         long timestamp = timeGen();
@@ -127,7 +127,8 @@ public class Sequence {
      * 保证返回的毫秒数在参数之后(阻塞到下一个毫秒，直到获得新的时间戳)
      *
      * @param lastTimestamp
-     * @return
+     *            lastTimestamp
+     * @return timestamp
      */
     private long tilNextMillis(
             long lastTimestamp) {

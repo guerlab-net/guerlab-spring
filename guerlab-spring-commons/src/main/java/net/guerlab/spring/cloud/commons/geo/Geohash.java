@@ -81,7 +81,7 @@ public class Geohash {
 
     /**
      * 获取相邻的geohash
-     * 
+     *
      * @param geohash
      *            geohash
      * @param length
@@ -113,10 +113,10 @@ public class Geohash {
 
     /**
      * 解析
-     * 
+     *
      * @param geohash
      *            geohash
-     * @return
+     * @return 地理对象
      */
     public static Geo decode(
             String geohash) {
@@ -132,8 +132,7 @@ public class Geohash {
         for (int i = 0; i < geohash.length(); i++) {
             char c = geohash.charAt(i);
             int cd = BASE32.indexOf(c);
-            for (int j = 0; j < BITS.length; j++) {
-                int mask = BITS[j];
+            for (int mask : BITS) {
                 if (even) {
                     refineInterval(lon, cd, mask);
                 } else {
@@ -150,7 +149,7 @@ public class Geohash {
 
     /**
      * 编码geohash
-     * 
+     *
      * @param latitude
      *            经度
      * @param longitude
@@ -165,7 +164,7 @@ public class Geohash {
 
     /**
      * 编码geohash
-     * 
+     *
      * @param latitude
      *            经度
      * @param longitude
