@@ -3,6 +3,7 @@ net.guerlab.spring.cloud.commons.autoconfigure.LocaleAutoconfigure,\
 net.guerlab.spring.cloud.commons.autoconfigure.ObjectMapperAutoconfigure,\
 net.guerlab.spring.cloud.commons.autoconfigure.ResponseAdvisor,\
 net.guerlab.spring.cloud.commons.autoconfigure.RestTemplateAutoconfigure,\
+net.guerlab.spring.cloud.commons.autoconfigure.SequenceAutoconfigure,\
 net.guerlab.spring.cloud.commons.autoconfigure.SpringConfigTool,\
 net.guerlab.spring.cloud.commons.autoconfigure.WebMvcAutoconfigure,\
 net.guerlab.spring.cloud.commons.exception.handler.GlobalExceptionHandler
