@@ -1,6 +1,5 @@
 package net.guerlab.spring.cloud.commons.list;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class ListObject<T> {
     public static ListObject EMPTY = new EmptyListObject<>();
 
     @SuppressWarnings("unchecked")
-    public static final <T extends Serializable> ListObject<T> empty() {
+    public static final <T> ListObject<T> empty() {
         return EMPTY;
     }
 
