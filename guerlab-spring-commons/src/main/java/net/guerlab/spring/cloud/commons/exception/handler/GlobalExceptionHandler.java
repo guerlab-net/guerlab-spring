@@ -143,6 +143,8 @@ public class GlobalExceptionHandler {
             String message = responseStatus.reason();
 
             return new Error<>(getMessage(message), errorCode);
+        } else if (e instanceof ApplicationException) {
+            return handler0((ApplicationException) e);
         } else if (StringUtils.isBlank(e.getMessage())) {
             return handler0(new DefaultEexceptionInfo(e));
         } else {
