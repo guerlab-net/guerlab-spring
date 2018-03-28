@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
@@ -54,7 +55,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public Error<Void> methodArgumentTypeMismatchException(
             HttpServletRequest request,
+            HttpServletResponse response,
             MethodArgumentTypeMismatchException e) {
+        setHeader(request, response);
         beforeLog(request, e);
 
         return handler0(new MethodArgumentTypeMismatchExceptionInfo(e));
@@ -63,7 +66,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     public Error<Void> noHandlerFoundException(
             HttpServletRequest request,
+            HttpServletResponse response,
             NoHandlerFoundException e) {
+        setHeader(request, response);
         beforeLog(request, e);
 
         return handler0(new NoHandlerFoundExceptionInfo(e));
@@ -72,7 +77,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public Error<Void> httpRequestMethodNotSupportedException(
             HttpServletRequest request,
+            HttpServletResponse response,
             HttpRequestMethodNotSupportedException e) {
+        setHeader(request, response);
         beforeLog(request, e);
 
         return handler0(new HttpRequestMethodNotSupportedExceptionInfo(e));
@@ -81,7 +88,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public Error<Void> missingServletRequestParameterException(
             HttpServletRequest request,
+            HttpServletResponse response,
             MissingServletRequestParameterException e) {
+        setHeader(request, response);
         beforeLog(request, e);
 
         return handler0(new MissingServletRequestParameterExceptionInfo(e));
@@ -90,7 +99,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Error<Void> methodArgumentNotValidException(
             HttpServletRequest request,
+            HttpServletResponse response,
             MethodArgumentNotValidException e) {
+        setHeader(request, response);
         beforeLog(request, e);
 
         BindingResult bindingResult = e.getBindingResult();
@@ -104,7 +115,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public Error<Void> constraintViolationException(
             HttpServletRequest request,
+            HttpServletResponse response,
             ConstraintViolationException e) {
+        setHeader(request, response);
         beforeLog(request, e);
 
         Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
@@ -118,7 +131,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Error<Void> exception(
             HttpServletRequest request,
+            HttpServletResponse response,
             Exception e) {
+        setHeader(request, response);
         beforeLog(request, e);
 
         ResponseStatus responseStatus = AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class);
@@ -128,11 +143,27 @@ public class GlobalExceptionHandler {
             String message = responseStatus.reason();
 
             return new Error<>(getMessage(message), errorCode);
+        } else if (e instanceof ApplicationException) {
+            return handler0((ApplicationException) e);
         } else if (StringUtils.isBlank(e.getMessage())) {
             return handler0(new DefaultEexceptionInfo(e));
         } else {
             return handler0(e);
         }
+    }
+
+    private void setHeader(
+            HttpServletRequest request,
+            HttpServletResponse response) {
+        String origin = request.getHeader("origin");
+
+        if (StringUtils.isNotBlank(origin)) {
+            response.setHeader("Access-Control-Allow-Origin", origin);
+        }
+
+        response.setHeader("Access-Control-Allow-Methods", "*");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
     }
 
     private void beforeLog(
