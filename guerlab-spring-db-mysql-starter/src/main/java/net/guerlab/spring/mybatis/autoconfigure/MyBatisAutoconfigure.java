@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -18,10 +20,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @ConditionalOnClass({
-        DataSource.class, SqlSessionTemplate.class, SqlSessionFactory.class
+        DataSource.class, SqlSessionTemplate.class, SqlSessionFactory.class, PlatformTransactionManager.class
 })
 @EnableTransactionManagement
 public class MyBatisAutoconfigure {
+
+    /**
+     * 默认事务管理器名称
+     */
+    public static final String DEFAULT_TRANSACTION_MANAGER_BEAN_NAME = "defaultTransactionManager";
 
     /**
      * 会话模版配置
@@ -35,5 +42,18 @@ public class MyBatisAutoconfigure {
     public SqlSessionTemplate sqlSessionTemplate(
             SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
+    }
+
+    /**
+     * 配置默认事务管理器
+     *
+     * @param dataSource
+     *            数据源
+     * @return 事务管理器
+     */
+    @Bean(DEFAULT_TRANSACTION_MANAGER_BEAN_NAME)
+    public PlatformTransactionManager defaultTransactionManager(
+            DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 }
