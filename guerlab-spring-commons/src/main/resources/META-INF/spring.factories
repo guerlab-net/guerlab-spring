@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+net.guerlab.spring.cloud.commons.autoconfigure.ConverterConfig,\
 net.guerlab.spring.cloud.commons.autoconfigure.LocaleAutoconfigure,\
 net.guerlab.spring.cloud.commons.autoconfigure.ObjectMapperAutoconfigure,\
 net.guerlab.spring.cloud.commons.autoconfigure.ResponseAdvisor,\
