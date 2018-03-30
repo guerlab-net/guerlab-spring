@@ -11,6 +11,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import net.guerlab.spring.cloud.commons.annotation.IgnoreResponseHandler;
 import net.guerlab.web.result.Result;
 import net.guerlab.web.result.Succeed;
 
@@ -24,7 +25,9 @@ public class ResponseAdvisor implements ResponseBodyAdvice<Object> {
     public boolean supports(
             MethodParameter returnType,
             Class<? extends HttpMessageConverter<?>> converterType) {
-        return true;
+        return returnType.getMethod().getAnnotation(IgnoreResponseHandler.class) == null
+                && returnType.getContainingClass().getAnnotation(IgnoreResponseHandler.class) == null
+                && returnType.getDeclaringClass().getAnnotation(IgnoreResponseHandler.class) == null;
     }
 
     @Override
@@ -47,14 +50,5 @@ public class ResponseAdvisor implements ResponseBodyAdvice<Object> {
         }
 
         return body instanceof String ? new Succeed<>(Succeed.MSG, body) : new Succeed<>(body);
-    }
-
-    public static void main(
-            String[] args) {
-        MediaType a = MediaType.APPLICATION_JSON;
-        MediaType b = MediaType.APPLICATION_JSON_UTF8;
-
-        System.out.println(a.includes(b));
-        System.out.println(a.isCompatibleWith(b));
     }
 }
