@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -40,14 +41,30 @@ public class RestTemplateAutoconfigure {
     }
 
     /**
-     * 初始化RestTemplate
+     * 初始化LoadBalancedRestTemplate
      *
-     * @return RestTemplate
+     * @return LoadBalancedRestTemplate
      */
     @Bean
     @LoadBalanced
     @ConditionalOnMissingBean(value = RestTemplate.class, annotation = LoadBalanced.class)
     public RestTemplate loadBalancedRestTemplate() {
+        return createRestTemplate();
+    }
+
+    /**
+     * 初始化RestTemplate
+     *
+     * @return RestTemplate
+     */
+    @Bean
+    @Primary
+    @ConditionalOnMissingBean(value = RestTemplate.class)
+    public RestTemplate restTemplate() {
+        return createRestTemplate();
+    }
+
+    private RestTemplate createRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
 
         restTemplate.setMessageConverters(Arrays.asList(new MappingJackson2HttpMessageConverter(objectMapper),

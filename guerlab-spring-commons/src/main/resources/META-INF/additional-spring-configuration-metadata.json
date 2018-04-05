@@ -1,0 +1,26 @@
+{
+	"groups": [
+		{
+			"name": "sequence",
+			"type": "net.guerlab.spring.cloud.commons.autoconfigure.SequenceProperties",
+			"sourceType": "net.guerlab.spring.cloud.commons.autoconfigure.SequenceProperties",
+			"description": "序列配置"
+		}
+	],
+	"properties": [
+		{
+			"name": "sequence.worker-id",
+			"type": "long",
+			"sourceType": "net.guerlab.spring.cloud.commons.autoconfigure.SequenceProperties",
+			"description": "工作节点ID",
+			"defaultValue": "0"
+		},
+		{
+			"name": "sequence.data-center-id",
+			"type": "long",
+			"sourceType": "net.guerlab.spring.cloud.commons.autoconfigure.SequenceProperties",
+			"description": "数据中心ID",
+			"defaultValue": "0"
+		}
+	]
+}
