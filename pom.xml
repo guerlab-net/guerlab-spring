@@ -114,6 +114,11 @@
 				<artifactId>guerlab-spring-starter</artifactId>
 	            <version>${guerlab-spring.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>net.guerlab</groupId>
+                <artifactId>guerlab-spring-upload</artifactId>
+                <version>${guerlab-spring.version}</version>
+            </dependency>
 			
 			<!-- swagger -->
 			<dependency>
