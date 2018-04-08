@@ -47,20 +47,20 @@
 		
 		<guerlab-spring.version>0.0.1-SNAPSHOT</guerlab-spring.version>
 		
-		<spring-cloud.version>Edgware.SR2</spring-cloud.version>
-		<spring-boot.version>1.5.10.RELEASE</spring-boot.version>
+        <spring-cloud.version>Edgware.SR3</spring-cloud.version>
+        <spring-boot.version>1.5.11.RELEASE</spring-boot.version>
 		
-		<swagger.version>1.5.17</swagger.version>
+		<swagger.version>1.5.18</swagger.version>
 		<springfox.version>2.8.0</springfox.version>
 		
-		<druid.version>1.1.7</druid.version>
+		<druid.version>1.1.9</druid.version>
 		<mybatis-starter.version>1.3.1</mybatis-starter.version>
-		<mybatis-typehandlers-jsr310.version>1.0.1</mybatis-typehandlers-jsr310.version>
+		<mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
 		
 		<mapper-spring-boot-starter.version>1.1.4</mapper-spring-boot-starter.version>
 		<pagehelper-spring-boot-starter.version>1.2.1</pagehelper-spring-boot-starter.version>
 		
-		<jjwt.version>0.7.0</jjwt.version>
+		<jjwt.version>0.9.0</jjwt.version>
 	</properties>
 	
 	<dependencyManagement>
