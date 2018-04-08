@@ -283,5 +283,6 @@
 		<module>guerlab-spring-db-mysql-starter</module>
 		<module>guerlab-spring-db-redis-starter</module>
 		<module>guerlab-spring-starter</module>
+		<module>guerlab-spring-upload</module>
 	</modules>
 </project>
