@@ -4,6 +4,8 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 /**
+ * 方法参数不匹配
+ *
  * @author guer
  *
  */
@@ -13,6 +15,12 @@ public class MethodArgumentTypeMismatchExceptionInfo extends AbstractI18nInfo {
 
     private Class<?> requiredType;
 
+    /**
+     * 通过MethodArgumentTypeMismatchException初始化
+     * 
+     * @param cause
+     *            MethodArgumentTypeMismatchException
+     */
     public MethodArgumentTypeMismatchExceptionInfo(MethodArgumentTypeMismatchException cause) {
         super(cause, 403);
         value = cause.getValue();

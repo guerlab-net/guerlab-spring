@@ -4,8 +4,10 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
+import org.springframework.web.bind.support.WebBindingInitializer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 import net.guerlab.spring.cloud.commons.converter.LocalDateConverter;
@@ -28,13 +30,25 @@ public class ConverterConfig {
      */
     @PostConstruct
     public void initEditableValidation() {
-        ConfigurableWebBindingInitializer initializer = (ConfigurableWebBindingInitializer) handlerAdapter
-                .getWebBindingInitializer();
+        WebBindingInitializer webBindingInitializer = handlerAdapter.getWebBindingInitializer();
+
+        if (!(webBindingInitializer instanceof ConfigurableWebBindingInitializer)) {
+            return;
+        }
+
+        ConfigurableWebBindingInitializer initializer = (ConfigurableWebBindingInitializer) webBindingInitializer;
+
         if (initializer.getConversionService() == null) {
             return;
         }
 
-        GenericConversionService service = (GenericConversionService) initializer.getConversionService();
+        ConversionService conversionService = initializer.getConversionService();
+
+        if (!(conversionService instanceof GenericConversionService)) {
+            return;
+        }
+
+        GenericConversionService service = (GenericConversionService) conversionService;
 
         service.addConverter(new LocalDateTimeConverter());
         service.addConverter(new LocalDateConverter());

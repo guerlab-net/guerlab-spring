@@ -17,6 +17,12 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * RestTemplate自动配置
+ * 
+ * @author guer
+ *
+ */
 @Configuration
 @AutoConfigureAfter(ObjectMapperAutoconfigure.class)
 public class RestTemplateAutoconfigure {

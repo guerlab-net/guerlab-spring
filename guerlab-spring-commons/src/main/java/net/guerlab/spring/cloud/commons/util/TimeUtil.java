@@ -1,4 +1,4 @@
-package net.guerlab.spring.cloud.commons.time;
+package net.guerlab.spring.cloud.commons.util;
 
 import java.time.LocalDate;
 

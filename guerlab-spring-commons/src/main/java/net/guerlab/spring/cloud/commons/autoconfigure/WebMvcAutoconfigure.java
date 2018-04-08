@@ -2,6 +2,8 @@ package net.guerlab.spring.cloud.commons.autoconfigure;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +12,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -29,6 +32,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @AutoConfigureAfter(ObjectMapperAutoconfigure.class)
 public class WebMvcAutoconfigure extends WebMvcConfigurerAdapter {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebMvcAutoconfigure.class);
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -38,6 +43,10 @@ public class WebMvcAutoconfigure extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(
             ResourceHandlerRegistry registry) {
+        if (!hasSwagger()) {
+            return;
+        }
+
         registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
@@ -46,9 +55,9 @@ public class WebMvcAutoconfigure extends WebMvcConfigurerAdapter {
     public void addCorsMappings(
             CorsRegistry registry) {
         CorsRegistration registration = registry.addMapping("/**");
-        registration.allowedOrigins("*");
-        registration.allowedMethods("*");
-        registration.allowedHeaders("*");
+        registration.allowedOrigins(CorsConfiguration.ALL);
+        registration.allowedMethods(CorsConfiguration.ALL);
+        registration.allowedHeaders(CorsConfiguration.ALL);
         registration.allowCredentials(true);
     }
 
@@ -70,5 +79,15 @@ public class WebMvcAutoconfigure extends WebMvcConfigurerAdapter {
     @Bean
     public MethodValidationPostProcessor methodValidationPostProcessor() {
         return new MethodValidationPostProcessor();
+    }
+
+    private boolean hasSwagger() {
+        try {
+            getClass().getClassLoader().loadClass("springfox.documentation.swagger2.annotations.EnableSwagger2");
+            return true;
+        } catch (Exception e) {
+            LOGGER.trace(e.getMessage(), e);
+            return false;
+        }
     }
 }

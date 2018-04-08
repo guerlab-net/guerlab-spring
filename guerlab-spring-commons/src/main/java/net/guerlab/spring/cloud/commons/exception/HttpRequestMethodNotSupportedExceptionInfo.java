@@ -3,6 +3,8 @@ package net.guerlab.spring.cloud.commons.exception;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 /**
+ * 不支持的HTTP请求方式
+ *
  * @author guer
  *
  */
@@ -10,6 +12,12 @@ public class HttpRequestMethodNotSupportedExceptionInfo extends AbstractI18nInfo
 
     private String method;
 
+    /**
+     * 通过HttpRequestMethodNotSupportedException初始化
+     * 
+     * @param cause
+     *            HttpRequestMethodNotSupportedException
+     */
     public HttpRequestMethodNotSupportedExceptionInfo(HttpRequestMethodNotSupportedException cause) {
         super(cause, 405);
         method = cause.getMethod();

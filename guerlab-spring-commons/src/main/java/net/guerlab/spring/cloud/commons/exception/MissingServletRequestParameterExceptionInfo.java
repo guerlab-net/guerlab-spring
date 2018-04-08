@@ -3,6 +3,8 @@ package net.guerlab.spring.cloud.commons.exception;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 
 /**
+ * 缺失请求参数
+ *
  * @author guer
  *
  */
@@ -10,6 +12,12 @@ public class MissingServletRequestParameterExceptionInfo extends AbstractI18nInf
 
     private String parameterName;
 
+    /**
+     * 通过MissingServletRequestParameterException初始化
+     * 
+     * @param cause
+     *            MissingServletRequestParameterException
+     */
     public MissingServletRequestParameterExceptionInfo(MissingServletRequestParameterException cause) {
         super(cause, 403);
         parameterName = cause.getParameterName();

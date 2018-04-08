@@ -20,9 +20,4 @@ public class LocalDateConverter implements Converter<String, LocalDate> {
         return TimeHelper.parseLocalDateTime(source).toLocalDate();
     }
 
-    @Override
-    public String toString() {
-        return "LocalDateConverter [form=java.lang.String, to=java.time.LocalDate]";
-    }
-
 }

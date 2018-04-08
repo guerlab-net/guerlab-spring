@@ -3,6 +3,8 @@ package net.guerlab.spring.cloud.commons.exception;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
+ * 未发现处理程序(404)
+ * 
  * @author guer
  *
  */
@@ -12,6 +14,12 @@ public class NoHandlerFoundExceptionInfo extends AbstractI18nInfo {
 
     private String url;
 
+    /**
+     * 通过NoHandlerFoundException初始化
+     *
+     * @param cause
+     *            NoHandlerFoundException
+     */
     public NoHandlerFoundExceptionInfo(NoHandlerFoundException cause) {
         super(cause, 404);
         method = cause.getHttpMethod();

@@ -15,7 +15,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.guerlab.commons.exception.ApplicationException;
-import net.guerlab.spring.cloud.commons.autoconfigure.SpringConfigTool;
+import net.guerlab.spring.cloud.commons.util.SpringApplicationContextUtil;
 
 public class StringListTypeHandler extends BaseTypeHandler<List<String>> {
 
@@ -53,7 +53,7 @@ public class StringListTypeHandler extends BaseTypeHandler<List<String>> {
     }
 
     private static ObjectMapper getMapper() {
-        return SpringConfigTool.getContext().getBean(ObjectMapper.class);
+        return SpringApplicationContextUtil.getContext().getBean(ObjectMapper.class);
     }
 
     private String toJson(

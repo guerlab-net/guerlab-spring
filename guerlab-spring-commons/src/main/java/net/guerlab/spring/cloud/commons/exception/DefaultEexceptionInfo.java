@@ -1,11 +1,19 @@
 package net.guerlab.spring.cloud.commons.exception;
 
 /**
+ * 默认错误
+ *
  * @author guer
  *
  */
 public class DefaultEexceptionInfo extends AbstractI18nInfo {
 
+    /**
+     * 通过异常信息初始化
+     *
+     * @param cause
+     *            Throwable
+     */
     public DefaultEexceptionInfo(Throwable cause) {
         super(cause, 500);
     }

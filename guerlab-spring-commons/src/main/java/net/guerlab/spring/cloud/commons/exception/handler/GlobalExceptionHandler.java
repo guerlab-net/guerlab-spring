@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -161,8 +162,8 @@ public class GlobalExceptionHandler {
             response.setHeader("Access-Control-Allow-Origin", origin);
         }
 
-        response.setHeader("Access-Control-Allow-Methods", "*");
-        response.setHeader("Access-Control-Allow-Headers", "*");
+        response.setHeader("Access-Control-Allow-Methods", CorsConfiguration.ALL);
+        response.setHeader("Access-Control-Allow-Headers", CorsConfiguration.ALL);
         response.setHeader("Access-Control-Allow-Credentials", "true");
     }
 

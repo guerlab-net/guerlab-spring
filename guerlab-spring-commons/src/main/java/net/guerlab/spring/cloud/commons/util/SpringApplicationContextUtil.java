@@ -1,12 +1,18 @@
-package net.guerlab.spring.cloud.commons.autoconfigure;
+package net.guerlab.spring.cloud.commons.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * ApplicationContext工具类
+ * 
+ * @author guer
+ *
+ */
 @Configuration
-public class SpringConfigTool implements ApplicationContextAware {
+public class SpringApplicationContextUtil implements ApplicationContextAware {
 
     private static ApplicationContext context = null;
 
@@ -16,6 +22,11 @@ public class SpringConfigTool implements ApplicationContextAware {
         context = applicationContext;
     }
 
+    /**
+     * 获取ApplicationContext
+     *
+     * @return ApplicationContext
+     */
     public static ApplicationContext getContext() {
         return context;
     }

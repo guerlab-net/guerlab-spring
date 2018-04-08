@@ -1,24 +1,57 @@
 {
 	"groups": [
 		{
+			"name": "spring.i18n",
+			"type": "net.guerlab.spring.cloud.commons.properties.I18nProperties",
+			"sourceType": "net.guerlab.spring.cloud.commons.properties.I18nProperties",
+			"description": "国际化配置"
+		},
+		{
+			"name": "spring.response-advisor",
+			"type": "net.guerlab.spring.cloud.commons.properties.ResponseAdvisorProperties",
+			"sourceType": "net.guerlab.spring.cloud.commons.properties.ResponseAdvisorProperties",
+			"description": "响应数据处理配置"
+		},
+		{
 			"name": "sequence",
-			"type": "net.guerlab.spring.cloud.commons.autoconfigure.SequenceProperties",
-			"sourceType": "net.guerlab.spring.cloud.commons.autoconfigure.SequenceProperties",
-			"description": "序列配置"
+			"type": "net.guerlab.spring.cloud.commons.properties.SequenceProperties",
+			"sourceType": "net.guerlab.spring.cloud.commons.properties.SequenceProperties",
+			"description": "分布式序列配置"
 		}
 	],
 	"properties": [
 		{
+			"name": "spring.i18n.default-locale",
+			"type": "java.util.Locale",
+			"sourceType": "net.guerlab.spring.cloud.commons.properties.SequenceProperties",
+			"description": "默认语言",
+			"defaultValue": "java.util.Locale.getDefault()"
+		},
+		{
+			"name": "spring.i18n.locale-change-interceptor",
+			"type": "org.springframework.web.servlet.i18n.LocaleChangeInterceptor",
+			"sourceType": "net.guerlab.spring.cloud.commons.properties.SequenceProperties",
+			"description": "语言环境改变拦截器",
+			"defaultValue": "org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+		},
+		{
+			"name": "spring.response-advisor.excluded",
+			"type": "java.util.List<java.lang.String>",
+			"sourceType": "net.guerlab.spring.cloud.commons.properties.ResponseAdvisorProperties",
+			"description": "排除路径",
+			"defaultValue": "/swagger, /v2, /health, /info, /bus, /service-registry"
+		},
+		{
 			"name": "sequence.worker-id",
 			"type": "long",
-			"sourceType": "net.guerlab.spring.cloud.commons.autoconfigure.SequenceProperties",
+			"sourceType": "net.guerlab.spring.cloud.commons.properties.SequenceProperties",
 			"description": "工作节点ID",
 			"defaultValue": "0"
 		},
 		{
 			"name": "sequence.data-center-id",
 			"type": "long",
-			"sourceType": "net.guerlab.spring.cloud.commons.autoconfigure.SequenceProperties",
+			"sourceType": "net.guerlab.spring.cloud.commons.properties.SequenceProperties",
 			"description": "数据中心ID",
 			"defaultValue": "0"
 		}
