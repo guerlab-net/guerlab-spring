@@ -94,6 +94,7 @@ public class FileInfo {
         setFileName(SnHelper.createSn(), suffix);
         setPath(path);
         this.fileSize = fileSize;
+        this.contentType = contentType;
     }
 
     /**
@@ -114,6 +115,7 @@ public class FileInfo {
         setFileName(fileName, suffix);
         setPath(path);
         this.fileSize = fileSize;
+        this.contentType = contentType;
     }
 
     /**
@@ -130,6 +132,7 @@ public class FileInfo {
         setFileName(SnHelper.createSn(), suffix);
         setPath(pathInfo == null ? "" : pathInfo.getSavePath());
         fileSize = pathInfo == null ? 0 : pathInfo.fileSize;
+        this.contentType = contentType;
     }
 
     /**
@@ -148,6 +151,7 @@ public class FileInfo {
         setFileName(fileName, suffix);
         setPath(pathInfo == null ? "" : pathInfo.getSavePath());
         fileSize = pathInfo == null ? 0 : pathInfo.fileSize;
+        this.contentType = contentType;
     }
 
     /**
