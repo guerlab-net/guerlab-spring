@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.guerlab</groupId>
     <artifactId>guerlab-spring</artifactId>
-    <version>0.1.1</version>
+    <version>0.2.0</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -46,7 +46,7 @@
         <guerlab-excel.version>1.2.0</guerlab-excel.version>
         <guerlab-web.version>1.2.0</guerlab-web.version>
 
-        <guerlab-spring.version>0.1.1</guerlab-spring.version>
+        <guerlab-spring.version>0.2.0</guerlab-spring.version>
 
         <spring-cloud.version>Edgware.SR3</spring-cloud.version>
         <spring-boot.version>1.5.11.RELEASE</spring-boot.version>
@@ -60,6 +60,7 @@
 
         <mapper-spring-boot-starter.version>1.1.4</mapper-spring-boot-starter.version>
         <pagehelper-spring-boot-starter.version>1.2.1</pagehelper-spring-boot-starter.version>
+        <persistence-api.version>1.0.2</persistence-api.version>
 
         <jjwt.version>0.9.0</jjwt.version>
     </properties>
@@ -80,6 +81,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            
             <dependency>
                 <groupId>net.guerlab</groupId>
                 <artifactId>guerlab-commons</artifactId>
@@ -95,6 +97,7 @@
                 <artifactId>guerlab-web</artifactId>
                 <version>${guerlab-web.version}</version>
             </dependency>
+            
             <dependency>
                 <groupId>net.guerlab</groupId>
                 <artifactId>guerlab-spring-commons</artifactId>
@@ -102,24 +105,50 @@
             </dependency>
             <dependency>
                 <groupId>net.guerlab</groupId>
-                <artifactId>guerlab-spring-db-mysql-starter</artifactId>
+                <artifactId>guerlab-spring-cloud-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.guerlab</groupId>
-                <artifactId>guerlab-spring-db-redis-starter</artifactId>
+                <artifactId>guerlab-spring-lock-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.guerlab</groupId>
-                <artifactId>guerlab-spring-starter</artifactId>
+                <artifactId>guerlab-spring-mybatis-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.guerlab</groupId>
-                <artifactId>guerlab-spring-upload</artifactId>
+                <artifactId>guerlab-spring-mysql-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
+            <dependency>
+                <groupId>net.guerlab</groupId>
+                <artifactId>guerlab-spring-page-starter</artifactId>
+                <version>${guerlab-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.guerlab</groupId>
+                <artifactId>guerlab-spring-redis-starter</artifactId>
+                <version>${guerlab-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.guerlab</groupId>
+                <artifactId>guerlab-spring-swagger2-cloud-starter</artifactId>
+                <version>${guerlab-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.guerlab</groupId>
+                <artifactId>guerlab-spring-swagger2-starter</artifactId>
+                <version>${guerlab-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.guerlab</groupId>
+                <artifactId>guerlab-spring-upload-starter</artifactId>
+                <version>${guerlab-spring.version}</version>
+            </dependency>
+            
 
             <!-- swagger -->
             <dependency>
@@ -163,6 +192,11 @@
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pagehelper-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.persistence</groupId>
+                <artifactId>persistence-api</artifactId>
+                <version>${persistence-api.version}</version>
             </dependency>
 
             <!-- jwt -->
@@ -228,23 +262,6 @@
                     </executions>
                 </plugin>
                 <plugin>
-                    <groupId>pl.project13.maven</groupId>
-                    <artifactId>git-commit-id-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>revision</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <verbose>true</verbose>
-                        <dateFormat>yyyy-MM-dd'T'HH:mm:ssZ</dateFormat>
-                        <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                        <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-                    </configuration>
-                </plugin>
-                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
@@ -292,9 +309,14 @@
 
     <modules>
         <module>guerlab-spring-commons</module>
-        <module>guerlab-spring-db-mysql-starter</module>
-        <module>guerlab-spring-db-redis-starter</module>
-        <module>guerlab-spring-starter</module>
-        <module>guerlab-spring-upload</module>
+        <module>guerlab-spring-cloud-starter</module>
+        <module>guerlab-spring-lock-starter</module>
+        <module>guerlab-spring-mybatis-starter</module>
+        <module>guerlab-spring-mysql-starter</module>
+        <module>guerlab-spring-page-starter</module>
+        <module>guerlab-spring-redis-starter</module>
+        <module>guerlab-spring-swagger2-cloud-starter</module>
+        <module>guerlab-spring-swagger2-starter</module>
+        <module>guerlab-spring-upload-starter</module>
     </modules>
 </project>
