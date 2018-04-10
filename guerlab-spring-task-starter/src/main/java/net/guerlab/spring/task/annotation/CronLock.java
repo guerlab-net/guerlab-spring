@@ -1,4 +1,4 @@
-package net.guerlab.spring.lock.annotation;
+package net.guerlab.spring.task.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

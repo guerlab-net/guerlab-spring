@@ -110,11 +110,6 @@
             </dependency>
             <dependency>
                 <groupId>net.guerlab</groupId>
-                <artifactId>guerlab-spring-lock-starter</artifactId>
-                <version>${guerlab-spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.guerlab</groupId>
                 <artifactId>guerlab-spring-mybatis-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
@@ -141,6 +136,11 @@
             <dependency>
                 <groupId>net.guerlab</groupId>
                 <artifactId>guerlab-spring-swagger2-starter</artifactId>
+                <version>${guerlab-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.guerlab</groupId>
+                <artifactId>guerlab-spring-task-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
@@ -310,7 +310,7 @@
     <modules>
         <module>guerlab-spring-commons</module>
         <module>guerlab-spring-cloud-starter</module>
-        <module>guerlab-spring-lock-starter</module>
+        <module>guerlab-spring-task-starter</module>
         <module>guerlab-spring-mybatis-starter</module>
         <module>guerlab-spring-mysql-starter</module>
         <module>guerlab-spring-page-starter</module>

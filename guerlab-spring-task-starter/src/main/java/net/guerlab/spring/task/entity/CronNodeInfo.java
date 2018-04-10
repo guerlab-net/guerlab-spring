@@ -1,9 +1,7 @@
-package net.guerlab.spring.lock.entity;
+package net.guerlab.spring.task.entity;
 
 import java.net.InetAddress;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.time.LocalDateTime;
 
 /**
  * 任务节点信息
@@ -13,20 +11,15 @@ import org.slf4j.LoggerFactory;
  */
 public class CronNodeInfo {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CronNodeInfo.class);
-
     private String threadName = Thread.currentThread().getName();
 
     private String hostName = getLocalHostName();
 
     private String className;
 
-    public CronNodeInfo() {
-    }
+    private String applicationName;
 
-    public CronNodeInfo(Class<?> clazz) {
-        className = clazz.getName();
-    }
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      * 获取主机名称
@@ -38,7 +31,6 @@ public class CronNodeInfo {
             InetAddress localHost = InetAddress.getLocalHost();
             return localHost.getHostName();
         } catch (Exception e) {
-            LOGGER.debug(e.getMessage(), e);
             return "unknow";
         }
     }
@@ -101,5 +93,45 @@ public class CronNodeInfo {
     public void setClassName(
             String className) {
         this.className = className;
+    }
+
+    /**
+     * 返回应用名称
+     *
+     * @return 应用名称
+     */
+    public String getApplicationName() {
+        return applicationName;
+    }
+
+    /**
+     * 设置应用名称
+     *
+     * @param applicationName
+     *            应用名称
+     */
+    public void setApplicationName(
+            String applicationName) {
+        this.applicationName = applicationName;
+    }
+
+    /**
+     * 返回创建时间
+     *
+     * @return 创建时间
+     */
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * 设置创建时间
+     *
+     * @param createTime
+     *            创建时间
+     */
+    public void setCreateTime(
+            LocalDateTime createTime) {
+        this.createTime = createTime;
     }
 }

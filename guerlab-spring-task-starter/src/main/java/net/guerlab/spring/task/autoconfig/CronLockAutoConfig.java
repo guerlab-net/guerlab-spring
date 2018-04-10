@@ -1,21 +1,21 @@
-package net.guerlab.spring.lock.autoconfig;
-
-import java.util.concurrent.TimeUnit;
+package net.guerlab.spring.task.autoconfig;
 
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.Around; 
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.data.redis.core.RedisTemplate; 
+import org.springframework.core.env.Environment;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 
-import net.guerlab.spring.lock.annotation.CronLock;
-import net.guerlab.spring.lock.entity.CronNodeInfo;
+import net.guerlab.spring.cloud.commons.util.SpringApplicationContextUtil;
+import net.guerlab.spring.task.annotation.CronLock;
+import net.guerlab.spring.task.entity.CronNodeInfo;
 
 /**
  * 抽象任务
@@ -35,7 +35,7 @@ public class CronLockAutoConfig {
         @Autowired
         private RedisTemplate<String, Object> redisTemplate;
 
-        @Around("@annotation(net.guerlab.spring.lock.annotation.CronLock)")
+        @Around("@annotation(net.guerlab.spring.task.annotation.CronLock)")
         public Object deBefore(
                 ProceedingJoinPoint point) throws Throwable {
             Signature signature = point.getSignature();
@@ -55,7 +55,7 @@ public class CronLockAutoConfig {
 
             Object result = null;
 
-            boolean locked = lock(key, lock.timeOut(), lock.timeUnit());
+            boolean locked = lock(lock, methodSignature.getDeclaringTypeName());
 
             if (locked) {
                 result = proceed(point);
@@ -72,23 +72,37 @@ public class CronLockAutoConfig {
         }
 
         private boolean lock(
-                String key,
-                long timeout,
-                TimeUnit unit) {
-            if (!redisTemplate.opsForValue().setIfAbsent(key, new CronNodeInfo())) {
+                CronLock lock,
+                String className) {
+            CronNodeInfo info = new CronNodeInfo();
+
+            info.setClassName(className);
+            info.setApplicationName(getApplicationName());
+
+            String key = lock.key();
+
+            if (!redisTemplate.opsForValue().setIfAbsent(key, info)) {
                 return false;
             }
+
+            long timeout = lock.timeOut();
 
             if (timeout < 0) {
                 return true;
             } else {
-                return redisTemplate.expire(key, timeout, unit);
+                return redisTemplate.expire(key, timeout, lock.timeUnit());
             }
         }
 
         private void unlock(
                 String key) {
             redisTemplate.delete(key);
+        }
+
+        private String getApplicationName() {
+            Environment env = SpringApplicationContextUtil.getContext().getEnvironment();
+
+            return env == null ? "" : env.getProperty("spring.application.name");
         }
     }
 }
