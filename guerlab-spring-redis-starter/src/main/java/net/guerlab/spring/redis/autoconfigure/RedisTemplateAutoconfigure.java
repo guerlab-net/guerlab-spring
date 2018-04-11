@@ -9,7 +9,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.guerlab.spring.cloud.commons.autoconfigure.ObjectMapperAutoconfigure;
+import net.guerlab.spring.commons.autoconfigure.ObjectMapperAutoconfigure;
 
 /**
  * RedisTemplate自动配置

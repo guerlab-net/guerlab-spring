@@ -15,7 +15,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.guerlab.commons.exception.ApplicationException;
-import net.guerlab.spring.cloud.commons.util.SpringApplicationContextUtil;
+import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
 
 /**
  * String集合处理

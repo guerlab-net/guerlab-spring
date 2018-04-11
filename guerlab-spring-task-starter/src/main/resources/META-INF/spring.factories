@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-net.guerlab.spring.task.autoconfig.CronLockAutoConfig
+net.guerlab.spring.task.autoconfig.TaskLockAutoConfig

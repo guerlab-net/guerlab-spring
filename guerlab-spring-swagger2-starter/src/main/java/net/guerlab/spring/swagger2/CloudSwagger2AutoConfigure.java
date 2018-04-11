@@ -20,7 +20,7 @@ import com.google.common.base.Strings;
 
 import io.swagger.models.Swagger;
 import net.guerlab.commons.exception.ApplicationException;
-import net.guerlab.spring.cloud.commons.annotation.IgnoreResponseHandler;
+import net.guerlab.spring.commons.annotation.IgnoreResponseHandler;
 import springfox.documentation.service.Documentation;
 import springfox.documentation.spring.web.DocumentationCache;
 import springfox.documentation.spring.web.plugins.Docket;

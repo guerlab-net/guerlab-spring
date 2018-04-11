@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.guerlab</groupId>
     <artifactId>guerlab-spring</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -46,10 +46,10 @@
         <guerlab-excel.version>1.2.0</guerlab-excel.version>
         <guerlab-web.version>1.2.0</guerlab-web.version>
 
-        <guerlab-spring.version>0.2.0</guerlab-spring.version>
+        <guerlab-spring.version>0.3.0</guerlab-spring.version>
 
         <spring-cloud.version>Edgware.SR3</spring-cloud.version>
-        <spring-boot.version>1.5.11.RELEASE</spring-boot.version>
+        <spring-boot.version>1.5.12.RELEASE</spring-boot.version>
 
         <swagger.version>1.5.18</swagger.version>
         <springfox.version>2.8.0</springfox.version>
@@ -110,6 +110,11 @@
             </dependency>
             <dependency>
                 <groupId>net.guerlab</groupId>
+                <artifactId>guerlab-spring-mapper-starter</artifactId>
+                <version>${guerlab-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.guerlab</groupId>
                 <artifactId>guerlab-spring-mybatis-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
@@ -120,12 +125,12 @@
             </dependency>
             <dependency>
                 <groupId>net.guerlab</groupId>
-                <artifactId>guerlab-spring-page-starter</artifactId>
+                <artifactId>guerlab-spring-redis-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.guerlab</groupId>
-                <artifactId>guerlab-spring-redis-starter</artifactId>
+                <artifactId>guerlab-spring-searchparams</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
@@ -311,10 +316,11 @@
         <module>guerlab-spring-commons</module>
         <module>guerlab-spring-cloud-starter</module>
         <module>guerlab-spring-task-starter</module>
+        <module>guerlab-spring-mapper-starter</module>
         <module>guerlab-spring-mybatis-starter</module>
         <module>guerlab-spring-mysql-starter</module>
-        <module>guerlab-spring-page-starter</module>
         <module>guerlab-spring-redis-starter</module>
+        <module>guerlab-spring-searchparams</module>
         <module>guerlab-spring-swagger2-cloud-starter</module>
         <module>guerlab-spring-swagger2-starter</module>
         <module>guerlab-spring-upload-starter</module>

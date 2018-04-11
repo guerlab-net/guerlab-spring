@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import net.guerlab.spring.cloud.commons.sequence.SnHelper;
+import net.guerlab.spring.commons.sequence.SnHelper;
 import net.guerlab.spring.upload.config.PathInfoConfig;
 
 /**
