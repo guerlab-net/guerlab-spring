@@ -35,7 +35,7 @@ public class TaskLockAutoConfig {
         @Autowired
         private RedisTemplate<String, Object> redisTemplate;
 
-        @Around("@annotation(net.guerlab.spring.task.annotation.CronLock)")
+        @Around("@annotation(net.guerlab.spring.task.annotation.TaskLock)")
         public Object deBefore(
                 ProceedingJoinPoint point) throws Throwable {
             Signature signature = point.getSignature();
