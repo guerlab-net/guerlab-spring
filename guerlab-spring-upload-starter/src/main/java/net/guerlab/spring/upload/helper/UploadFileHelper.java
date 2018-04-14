@@ -52,9 +52,17 @@ public class UploadFileHelper {
 
         if (index != -1) {
             return fileName.substring(index);
-        } else {
-            return "";
         }
+
+        String contentType = fileItem.getContentType();
+
+        int contentTypeIndex = contentType.lastIndexOf('/');
+
+        if (contentTypeIndex == -1) {
+            return contentType;
+        }
+
+        return "." + contentType.substring(contentTypeIndex + 1);
     }
 
     /**
