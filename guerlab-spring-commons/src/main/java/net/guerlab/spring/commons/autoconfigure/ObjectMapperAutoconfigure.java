@@ -29,6 +29,7 @@ import net.guerlab.commons.time.jackson.serializer.LocalDateTimeSerializer;
 import net.guerlab.commons.time.jackson.serializer.LocalTimeSerializer;
 import net.guerlab.commons.time.jackson.serializer.MonthSerializer;
 import net.guerlab.commons.time.jackson.serializer.YearSerializer;
+import net.guerlab.spring.commons.jackson.serializer.LongStringSerializer;
 
 /**
  * ObjectMapper配置
@@ -55,6 +56,8 @@ public class ObjectMapperAutoconfigure {
         module.addSerializer(LocalTime.class, new LocalTimeSerializer());
         module.addSerializer(Month.class, new MonthSerializer());
         module.addSerializer(Year.class, new YearSerializer());
+        module.addSerializer(Long.class, LongStringSerializer.INSTANCE);
+        module.addSerializer(Long.TYPE, LongStringSerializer.INSTANCE);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
