@@ -57,7 +57,6 @@ public class ObjectMapperAutoconfigure {
         module.addSerializer(Month.class, new MonthSerializer());
         module.addSerializer(Year.class, new YearSerializer());
         module.addSerializer(Long.class, LongStringSerializer.INSTANCE);
-        module.addSerializer(Long.TYPE, LongStringSerializer.INSTANCE);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
