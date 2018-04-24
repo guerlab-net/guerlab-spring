@@ -1,5 +1,7 @@
 package net.guerlab.spring.commons.autoconfigure;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -29,6 +31,8 @@ import net.guerlab.commons.time.jackson.serializer.LocalDateTimeSerializer;
 import net.guerlab.commons.time.jackson.serializer.LocalTimeSerializer;
 import net.guerlab.commons.time.jackson.serializer.MonthSerializer;
 import net.guerlab.commons.time.jackson.serializer.YearSerializer;
+import net.guerlab.spring.commons.jackson.serializer.BigDecimalStringSerializer;
+import net.guerlab.spring.commons.jackson.serializer.BigIntegerStringSerializer;
 import net.guerlab.spring.commons.jackson.serializer.LongStringSerializer;
 
 /**
@@ -57,6 +61,8 @@ public class ObjectMapperAutoconfigure {
         module.addSerializer(Month.class, new MonthSerializer());
         module.addSerializer(Year.class, new YearSerializer());
         module.addSerializer(Long.class, LongStringSerializer.INSTANCE);
+        module.addSerializer(BigInteger.class, BigIntegerStringSerializer.INSTANCE);
+        module.addSerializer(BigDecimal.class, BigDecimalStringSerializer.INSTANCE);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();

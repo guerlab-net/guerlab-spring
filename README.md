@@ -20,6 +20,23 @@ spring 扩展工具集
 
 ## 更新记录
 
+### 20180424 v0.3.6
+
+- net.guerlab.spring.searchparams.SearchModelType增加4种方式支持（START_WITH、START_NOT_WITH、END_WITH、END_NOT_WITH）
+- net.guerlab.spring.commons.autoconfigure.ObjectMapperAutoconfigure增加对BigDecimal、BigInteger转换为string类型的支持，修正web请求时js的number精度缺失问题
+
+### 20180419 v0.3.5
+
+-  更新依赖版本
+
+### 20180419 v0.3.4
+
+-  更新依赖版本
+
+### 20180419 v0.3.3
+
+- net.guerlab.spring.commons.autoconfigure.ObjectMapperAutoconfigure增加对Long转换为string类型的支持，修正web请求时js的number精度缺失问题
+
 ### 20180415 v0.3.2
 
 - net.guerlab.spring.upload.helper.UploadFileHelper增强获取文件类型的处理

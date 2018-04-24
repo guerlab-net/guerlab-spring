@@ -24,9 +24,6 @@ public class DefaultHandler implements SearchParamsHandler {
             final SearchModelType searchModelType) {
         Criteria criteria = example.and();
         switch (searchModelType) {
-            case EQUAL_TO:
-                criteria.andEqualTo(columnName, value);
-                break;
             case GREATER_THAN:
                 criteria.andGreaterThan(columnName, value);
                 break;
@@ -45,13 +42,16 @@ public class DefaultHandler implements SearchParamsHandler {
             case LESS_THAN_OR_EQUAL_TO:
                 criteria.andLessThanOrEqualTo(columnName, value);
                 break;
+            case EQUAL_TO:
             case LIKE:
+            case START_WITH:
+            case END_WITH:
                 criteria.andEqualTo(columnName, value);
                 break;
             case NOT_EQUAL_TO:
-                criteria.andNotEqualTo(columnName, value);
-                break;
             case NOT_LIKE:
+            case START_NOT_WITH:
+            case END_NOT_WITH:
                 criteria.andNotEqualTo(columnName, value);
                 break;
             default:

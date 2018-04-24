@@ -63,11 +63,23 @@ public class StringHandler implements SearchParamsHandler {
             case LIKE:
                 criteria.andLike(columnName, PERCENT + str + PERCENT);
                 break;
-            case NOT_EQUAL_TO:
-                criteria.andNotEqualTo(columnName, str);
-                break;
             case NOT_LIKE:
                 criteria.andNotLike(columnName, PERCENT + str + PERCENT);
+                break;
+            case START_WITH:
+                criteria.andLike(columnName, str + PERCENT);
+                break;
+            case START_NOT_WITH:
+                criteria.andNotLike(columnName, str + PERCENT);
+                break;
+            case END_WITH:
+                criteria.andLike(columnName, PERCENT + str);
+                break;
+            case END_NOT_WITH:
+                criteria.andNotLike(columnName, PERCENT + str);
+                break;
+            case NOT_EQUAL_TO:
+                criteria.andNotEqualTo(columnName, str);
                 break;
             default:
                 criteria.andEqualTo(columnName, str);

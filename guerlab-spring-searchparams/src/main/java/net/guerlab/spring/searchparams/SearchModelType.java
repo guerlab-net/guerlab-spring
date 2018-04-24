@@ -59,6 +59,26 @@ public enum SearchModelType {
     NOT_LIKE,
 
     /**
+     * 前匹配
+     */
+    START_WITH,
+
+    /**
+     * 前不匹配
+     */
+    START_NOT_WITH,
+
+    /**
+     * 后匹配
+     */
+    END_WITH,
+
+    /**
+     * 后不匹配
+     */
+    END_NOT_WITH,
+
+    /**
      * 在列表中,只能配合Collection接口使用
      */
     IN,
