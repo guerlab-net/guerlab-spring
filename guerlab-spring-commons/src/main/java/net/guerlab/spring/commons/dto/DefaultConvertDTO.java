@@ -3,8 +3,6 @@ package net.guerlab.spring.commons.dto;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,8 +18,6 @@ import net.guerlab.commons.exception.ApplicationException;
  *            DTO对象类型
  */
 public interface DefaultConvertDTO<D> extends ConvertDTO<D> {
-
-    Logger LOGGER = LoggerFactory.getLogger(DefaultConvertDTO.class);
 
     /**
      * 转换
@@ -52,11 +48,10 @@ public interface DefaultConvertDTO<D> extends ConvertDTO<D> {
         }
 
         D dto;
-        
+
         try {
             dto = clazz.newInstance();
         } catch (Exception e) {
-            LOGGER.error(e.getLocalizedMessage(), e);
             throw new ApplicationException(e.getLocalizedMessage(), e);
         }
 
