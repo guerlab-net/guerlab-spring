@@ -13,13 +13,20 @@ import net.guerlab.spring.commons.autoconfigure.ObjectMapperAutoconfigure;
 
 /**
  * RedisTemplate自动配置
- * 
+ *
  * @author guer
  *
  */
 @Configuration
 public class RedisTemplateAutoconfigure {
 
+    /**
+     * create RedisTemplate
+     * 
+     * @param factory
+     *            RedisConnectionFactory
+     * @return RedisTemplate
+     */
     @Bean
     public RedisTemplate<String, ?> redisTemplate(
             RedisConnectionFactory factory) {

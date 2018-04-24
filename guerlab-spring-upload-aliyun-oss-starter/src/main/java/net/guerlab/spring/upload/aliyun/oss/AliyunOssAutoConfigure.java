@@ -24,6 +24,11 @@ public class AliyunOssAutoConfigure {
     @Autowired
     private AliyunOssProperties properties;
 
+    /**
+     * create OSS client
+     *
+     * @return OSS client
+     */
     @RefreshScope
     @Bean
     public OSS ossClient() {
@@ -42,6 +47,15 @@ public class AliyunOssAutoConfigure {
         return new OSSClient(endpoint, credsProvider, config);
     }
 
+    /**
+     * create AliyunOssHandler by oss client and oss properties
+     *
+     * @param ossClient
+     *            OSS client
+     * @param properties
+     *            OSS properties
+     * @return AliyunOssHandler AliyunOssHandler
+     */
     @Bean
     public AliyunOssHandler aliyunOssHandler(
             OSS ossClient,

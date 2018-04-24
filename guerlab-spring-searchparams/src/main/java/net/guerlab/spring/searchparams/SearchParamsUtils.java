@@ -28,7 +28,6 @@ public class SearchParamsUtils {
             .equals(e.getDeclaringClass().getName());
 
     private SearchParamsUtils() {
-        throw new SecurityException();
     }
 
     /**

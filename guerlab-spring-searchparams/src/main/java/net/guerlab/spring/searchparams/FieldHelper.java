@@ -41,7 +41,6 @@ public class FieldHelper {
     private static final BaseFilter BASE_FILTER = new BaseFilter();
 
     private FieldHelper() {
-        throw new SecurityException();
     }
 
     /**

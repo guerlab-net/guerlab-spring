@@ -33,6 +33,14 @@ public class AliyunOssHandler implements UploadHandler {
 
     private AliyunOssProperties properties;
 
+    /**
+     * create AliyunOssHandler by oss client and oss properties
+     *
+     * @param ossClient
+     *            oss client
+     * @param properties
+     *            oss properties
+     */
     AliyunOssHandler(OSS ossClient, AliyunOssProperties properties) {
         this.ossClient = ossClient;
         this.properties = properties;

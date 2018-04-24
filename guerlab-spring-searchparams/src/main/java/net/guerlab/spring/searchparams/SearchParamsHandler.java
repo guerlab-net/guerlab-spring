@@ -10,6 +10,7 @@ import tk.mybatis.mapper.entity.Example;
  * @author guer
  *
  */
+@FunctionalInterface
 public interface SearchParamsHandler {
 
     /**

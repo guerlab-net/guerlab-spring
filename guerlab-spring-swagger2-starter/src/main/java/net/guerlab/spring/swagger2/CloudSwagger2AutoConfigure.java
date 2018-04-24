@@ -41,6 +41,12 @@ public class CloudSwagger2AutoConfigure {
      */
     public static final String BASE_PATH = "/swagger-cloud";
 
+    /**
+     * swagger2 controller with spring cloud
+     *
+     * @author guer
+     *
+     */
     @IgnoreResponseHandler
     @RestController
     @RequestMapping(CloudSwagger2AutoConfigure.BASE_PATH)
@@ -52,6 +58,15 @@ public class CloudSwagger2AutoConfigure {
         @Autowired
         private ServiceModelToSwagger2Mapper mapper;
 
+        /**
+         * get Documentation
+         *
+         * @param swaggerGroup
+         *            swagger Group
+         * @param servletRequest
+         *            request
+         * @return swagger
+         */
         @GetMapping("/v2/api-docs")
         public Swagger getDocumentation(
                 @RequestParam(value = "group", required = false) String swaggerGroup,

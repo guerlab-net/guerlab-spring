@@ -28,13 +28,28 @@ import net.guerlab.spring.task.entity.TaskNodeInfo;
 })
 public class TaskLockAutoConfig {
 
+    /**
+     * Task Lock's Aop
+     *
+     * @author guer
+     *
+     */
     @Aspect
     @Component
-    public static class CronAop {
+    public static class TaskLockAop {
 
         @Autowired
         private RedisTemplate<String, Object> redisTemplate;
 
+        /**
+         * task run before aop
+         *
+         * @param point
+         *            task
+         * @return task method return object
+         * @throws Throwable
+         *             Throws Throwable when running an error.
+         */
         @Around("@annotation(net.guerlab.spring.task.annotation.TaskLock)")
         public Object deBefore(
                 ProceedingJoinPoint point) throws Throwable {
