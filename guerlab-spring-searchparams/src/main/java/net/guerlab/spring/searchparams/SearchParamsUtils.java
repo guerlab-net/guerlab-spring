@@ -16,7 +16,7 @@ import tk.mybatis.mapper.entity.Example;
 
 /**
  * SearchParams工具类
- * 
+ *
  * @author guer
  *
  */
@@ -64,6 +64,44 @@ public class SearchParamsUtils {
         }
 
         getFields(searchParams).stream().forEach(field -> setCriteriaValue(field, example, searchParams, config));
+    }
+
+    /**
+     * 将参数列表对象转换为map对象,包含pageId/pageSize字段
+     *
+     * @param searchParams
+     *            参数列表对象
+     * @return 参数表
+     */
+    public static Map<String, Object> toAllMap(
+            final AbstractSearchParams searchParams) {
+        return toAllMap(searchParams, SearchParamsParseConfig.getGlobalInstance());
+    }
+
+    /**
+     * 将参数列表对象转换为map对象,包含pageId/pageSize字段
+     *
+     * @param searchParams
+     *            参数列表对象
+     * @param config
+     *            SearchParams类解析配置
+     * @return 参数表
+     */
+    public static Map<String, Object> toAllMap(
+            final AbstractSearchParams searchParams,
+            final SearchParamsParseConfig config) {
+        if (searchParams == null) {
+            return Collections.emptyMap();
+        }
+
+        Map<String, Object> map = new HashMap<>();
+
+        getFields(searchParams).stream().forEach(field -> setMapValue(field, map, searchParams, config));
+
+        map.put("pageId", searchParams.getPageId());
+        map.put("pageSize", searchParams.getPageSize());
+
+        return map;
     }
 
     /**

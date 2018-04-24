@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,9 @@ import org.springframework.util.MimeType;
 import org.springframework.web.multipart.MultipartFile;
 
 import net.guerlab.commons.exception.ApplicationException;
+import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
 import net.guerlab.spring.upload.entity.FileInfo;
+import net.guerlab.spring.upload.handler.UploadHandler;
 
 /**
  * 上传处理
@@ -214,16 +217,32 @@ public class UploadFileHelper {
             final String path,
             final String fileName,
             final String suffix) {
-        FileInfo pathInfo = new FileInfo(path, fileName, getSuffix(suffix, fileItem), fileItem.getContentType(),
+        FileInfo fileInfo = new FileInfo(path, fileName, getSuffix(suffix, fileItem), fileItem.getContentType(),
                 fileItem.getSize());
 
         try {
-            write(fileItem, pathInfo);
-            return pathInfo;
+            write(fileItem, fileInfo);
+
+            handler0(fileInfo);
+
+            return fileInfo;
         } catch (Exception e) {
             LOGGER.debug(e.getMessage(), e);
             throw new ApplicationException(e.getMessage(), e);
         }
+    }
+
+    private static void handler0(
+            FileInfo fileInfo) {
+        Map<String, UploadHandler> handlerMap = SpringApplicationContextUtil.getContext()
+                .getBeansOfType(UploadHandler.class);
+
+        if (handlerMap.isEmpty()) {
+            return;
+        }
+
+        handlerMap.values().parallelStream().filter(e -> e != null && e.accept(fileInfo))
+                .forEach(e -> e.handler(fileInfo));
     }
 
     private static String getSuffix(
@@ -240,8 +259,8 @@ public class UploadFileHelper {
 
     private static void write(
             final MultipartFile fileItem,
-            final FileInfo pathInfo) throws IOException {
-        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(pathInfo.getSaveFile()));
+            final FileInfo fileInfo) throws IOException {
+        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(fileInfo.getSaveFile()));
         stream.write(fileItem.getBytes());
         stream.close();
     }

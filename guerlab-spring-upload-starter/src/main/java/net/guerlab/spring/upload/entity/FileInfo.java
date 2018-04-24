@@ -20,8 +20,6 @@ import net.guerlab.spring.upload.config.PathInfoConfig;
 @ApiModel("文件信息")
 public class FileInfo {
 
-    private static final boolean IS_WINDOWS;
-
     /**
      * 保存路径
      */
@@ -71,12 +69,6 @@ public class FileInfo {
     @ApiModelProperty(hidden = true)
     @JsonIgnore
     private File saveFile;
-
-    static {
-        String os = System.getProperty("os.name");
-
-        IS_WINDOWS = os != null && os.toLowerCase().startsWith("win");
-    }
 
     /**
      * 通过保存路径和文件名后缀初始化路径信息
@@ -247,8 +239,10 @@ public class FileInfo {
             String path) {
         savePath = StringUtils.isBlank(path) ? "" : path + File.separatorChar;
 
-        if (!IS_WINDOWS) {
-            savePath = savePath.replaceAll("\\\\", "\\").replaceAll("//", "/");
+        savePath = savePath.replaceAll("\\\\", "/").replaceAll("//", "/");
+
+        if ("/".equals(savePath)) {
+            savePath = "";
         }
 
         saveDir = new File(PathInfoConfig.getSaveBaseDir(), savePath);

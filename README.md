@@ -20,6 +20,12 @@ spring 扩展工具集
 
 ## 更新记录
 
+### 20180424 v0.3.7
+
+- guerlab-spring-upload-starter增加扩展上传处理接口
+- 增加guerlab-spring-upload-aliyun-oss-starter扩展
+- guerlab-spring-searchparams/net.guerlab.spring.searchparams.SearchParamsUtils增加toAllMap方法
+
 ### 20180424 v0.3.6
 
 - net.guerlab.spring.searchparams.SearchModelType增加4种方式支持（START_WITH、START_NOT_WITH、END_WITH、END_NOT_WITH）
