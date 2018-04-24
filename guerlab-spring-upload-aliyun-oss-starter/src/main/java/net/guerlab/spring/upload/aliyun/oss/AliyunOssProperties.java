@@ -14,7 +14,7 @@ import com.aliyun.oss.ClientConfiguration;
  */
 @Configuration
 @RefreshScope
-@ConfigurationProperties(prefix = "aliyun.oss")
+@ConfigurationProperties(prefix = "upload.aliyun.oss")
 public class AliyunOssProperties {
 
     /**

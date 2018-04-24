@@ -10,15 +10,12 @@ import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
 
 /**
+ * 集合处理
+ *
  * @author guer
  *
  */
 public class CollectionHandler implements SearchParamsHandler {
-
-    /**
-     * 默认处理实例
-     */
-    public static final CollectionHandler INSTANCE = new CollectionHandler();
 
     @SuppressWarnings("unchecked")
     @Override

@@ -14,8 +14,6 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  */
 public class LongStringSerializer extends JsonSerializer<Long> {
 
-    public static final LongStringSerializer INSTANCE = new LongStringSerializer();
-
     @Override
     public void serialize(
             Long value,

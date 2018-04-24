@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * ApplicationContext工具类
- * 
+ *
  * @author guer
  *
  */

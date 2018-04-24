@@ -4,19 +4,18 @@ import java.time.LocalDate;
 
 /**
  * 时间工具类
- * 
+ *
  * @author guer
  *
  */
 public class TimeUtil {
 
     private TimeUtil() {
-
     }
 
     /**
      * 获取当前日的字符串int值
-     * 
+     *
      * @return 当前日的字符串int值
      */
     public static int getNowDayInt() {
@@ -29,7 +28,7 @@ public class TimeUtil {
 
     /**
      * 获取当前日的字符串
-     * 
+     *
      * @return 当前日的字符串
      */
     public static String getNowDayString() {
@@ -38,7 +37,7 @@ public class TimeUtil {
 
     /**
      * 获取当前月的字符串int值
-     * 
+     *
      * @return 当前月的字符串int值
      */
     public static int getNowMonthInt() {
@@ -50,7 +49,7 @@ public class TimeUtil {
 
     /**
      * 获取当前月的字符串
-     * 
+     *
      * @return 当前月的字符串
      */
     public static String getNowMonthString() {

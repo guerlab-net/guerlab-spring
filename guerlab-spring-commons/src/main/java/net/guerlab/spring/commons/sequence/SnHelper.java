@@ -16,7 +16,6 @@ public class SnHelper {
     private static final DateTimeFormatter SIMPLE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
     private SnHelper() {
-        throw new IllegalAccessError();
     }
 
     /**

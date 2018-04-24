@@ -1,6 +1,10 @@
 package net.guerlab.spring.commons.sequence;
 
+import net.guerlab.commons.exception.ApplicationException;
+
 /**
+ * 序列
+ *
  * @author guer
  *
  */
@@ -37,7 +41,7 @@ public class Sequence {
 
     private long dataCenterId;
 
-    private long sequence = 0L;
+    private long nowSequence = 0L;
 
     private long lastTimestamp = -1L;
 
@@ -67,6 +71,12 @@ public class Sequence {
         this.dataCenterId = dataCenterId;
     }
 
+    /**
+     * 设置是否使用时钟
+     *
+     * @param clock
+     *            是否使用时钟
+     */
     public void setClock(
             boolean clock) {
         isClock = clock;
@@ -83,33 +93,33 @@ public class Sequence {
         // 闰秒：如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常
         if (timestamp < lastTimestamp) {
             long offset = lastTimestamp - timestamp;
-            if (offset <= 5) {
-                try {
-                    this.wait(offset << 1);
-                    timestamp = timeGen();
-                    if (timestamp < lastTimestamp) {
-                        throw new RuntimeException(String
-                                .format("Clock moved backwards.  Refusing to generate id for %d milliseconds", offset));
-                    }
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                throw new RuntimeException(
+            if (offset > 5) {
+                throw new ApplicationException(
                         String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds", offset));
+            }
+
+            try {
+                this.wait(offset << 1);
+                timestamp = timeGen();
+                if (timestamp < lastTimestamp) {
+                    throw new ApplicationException(String
+                            .format("Clock moved backwards.  Refusing to generate id for %d milliseconds", offset));
+                }
+            } catch (Exception e) {
+                throw new ApplicationException(e);
             }
         }
 
         // 解决跨毫秒生成ID序列号始终为偶数的缺陷:如果是同一时间生成的，则进行毫秒内序列
         if (lastTimestamp == timestamp) {
             // 通过位与运算保证计算的结果范围始终是 0-4095
-            sequence = sequence + 1 & sequenceMask;
-            if (sequence == 0) {
+            nowSequence = nowSequence + 1 & sequenceMask;
+            if (nowSequence == 0) {
                 timestamp = tilNextMillis(lastTimestamp);
             }
         } else {
             // 时间戳改变，毫秒内序列重置
-            sequence = 0L;
+            nowSequence = 0L;
         }
 
         lastTimestamp = timestamp;
@@ -120,7 +130,7 @@ public class Sequence {
          * 3.最后转换成10进制，就是最终生成的id
          */
         return timestamp - startTime << timestampLeftShift | dataCenterId << dataCenterIdShift
-                | workerId << workerIdShift | sequence;
+                | workerId << workerIdShift | nowSequence;
     }
 
     /**

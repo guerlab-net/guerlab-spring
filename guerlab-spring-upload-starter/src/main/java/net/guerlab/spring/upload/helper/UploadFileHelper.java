@@ -33,7 +33,6 @@ public class UploadFileHelper {
     private static final Logger LOGGER = LoggerFactory.getLogger(UploadFileHelper.class);
 
     private UploadFileHelper() {
-        throw new IllegalAccessError();
     }
 
     /**

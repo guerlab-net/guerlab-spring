@@ -15,7 +15,6 @@ import net.guerlab.web.result.Result;
 public class ResultUtil {
 
     private ResultUtil() {
-
     }
 
     /**

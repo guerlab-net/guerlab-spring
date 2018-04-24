@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class ListObject<T> {
 
     @SuppressWarnings("rawtypes")
-    public static ListObject EMPTY = new EmptyListObject<>();
+    public static final ListObject EMPTY = new EmptyListObject<>();
 
     @SuppressWarnings("unchecked")
     public static final <T> ListObject<T> empty() {

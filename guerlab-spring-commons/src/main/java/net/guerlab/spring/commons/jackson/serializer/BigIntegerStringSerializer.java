@@ -15,8 +15,6 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  */
 public class BigIntegerStringSerializer extends JsonSerializer<BigInteger> {
 
-    public static final BigIntegerStringSerializer INSTANCE = new BigIntegerStringSerializer();
-
     @Override
     public void serialize(
             BigInteger value,

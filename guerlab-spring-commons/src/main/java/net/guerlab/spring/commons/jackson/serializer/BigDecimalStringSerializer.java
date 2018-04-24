@@ -15,8 +15,6 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  */
 public class BigDecimalStringSerializer extends JsonSerializer<BigDecimal> {
 
-    public static final BigDecimalStringSerializer INSTANCE = new BigDecimalStringSerializer();
-
     @Override
     public void serialize(
             BigDecimal value,

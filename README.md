@@ -17,8 +17,13 @@ spring 扩展工具集
 |guerlab-spring-swagger2-starter|配合guerlab-spring-swagger2-cloud-starter进行swagger2聚合|
 |guerlab-spring-task-starter|基于redis的锁控制|
 |guerlab-spring-upload-starter|上传支持|
+|guerlab-spring-upload-aliyun-oss-starter|阿里云oss上传支持|
 
 ## 更新记录
+
+### 20180424 v0.3.8
+
+- guerlab-spring-commons删除net.guerlab.spring.commons.geo包,net.guerlab.spring.commons.geo独立成guerlab-geo项目
 
 ### 20180424 v0.3.7
 

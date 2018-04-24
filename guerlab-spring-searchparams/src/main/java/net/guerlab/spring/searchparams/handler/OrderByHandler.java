@@ -6,15 +6,12 @@ import net.guerlab.spring.searchparams.SearchParamsHandler;
 import tk.mybatis.mapper.entity.Example;
 
 /**
+ * 排序处理
+ * 
  * @author guer
  *
  */
 public class OrderByHandler implements SearchParamsHandler {
-
-    /**
-     * 默认处理实例
-     */
-    public static final OrderByHandler INSTANCE = new OrderByHandler();
 
     @Override
     public void setValue(

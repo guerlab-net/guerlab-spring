@@ -12,7 +12,7 @@ import net.guerlab.spring.searchparams.handler.StringHandler;
 
 /**
  * SearchParams解析配置
- * 
+ *
  * @author guer
  *
  */
@@ -22,7 +22,7 @@ public class SearchParamsParseConfig {
 
     private final Map<Type, SearchParamsHandler> handlers = new HashMap<>();
 
-    private SearchParamsHandler defaultHandler = DefaultHandler.INSTANCE;
+    private SearchParamsHandler defaultHandler = new DefaultHandler();
 
     static {
         GLOBAL = new SearchParamsParseConfig();
@@ -32,9 +32,9 @@ public class SearchParamsParseConfig {
      * 实例化SearchParams类解析配置
      */
     public SearchParamsParseConfig() {
-        handlers.put(String.class, StringHandler.INSTANCE);
-        handlers.put(Collection.class, CollectionHandler.INSTANCE);
-        handlers.put(OrderByType.class, OrderByHandler.INSTANCE);
+        handlers.put(String.class, new StringHandler());
+        handlers.put(Collection.class, new CollectionHandler());
+        handlers.put(OrderByType.class, new OrderByHandler());
     }
 
     /**

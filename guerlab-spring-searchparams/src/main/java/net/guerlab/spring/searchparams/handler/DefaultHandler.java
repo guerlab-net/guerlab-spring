@@ -6,15 +6,12 @@ import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
 
 /**
+ * 默认处理
+ * 
  * @author guer
  *
  */
 public class DefaultHandler implements SearchParamsHandler {
-
-    /**
-     * 默认处理实例
-     */
-    public static final DefaultHandler INSTANCE = new DefaultHandler();
 
     @Override
     public void setValue(

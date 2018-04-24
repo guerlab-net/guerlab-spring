@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
+ * 系统时钟
+ *
  * @author guer
  *
  */
@@ -44,10 +46,20 @@ public class SystemClock {
         return now.get();
     }
 
+    /**
+     * 获取当前时钟
+     *
+     * @return 当前时钟
+     */
     public static long now() {
         return instance().currentTimeMillis();
     }
 
+    /**
+     * 获取当前日期字符串
+     * 
+     * @return 当前日期字符串
+     */
     public static String nowDate() {
         return new Timestamp(instance().currentTimeMillis()).toString();
     }

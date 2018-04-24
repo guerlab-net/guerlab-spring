@@ -8,15 +8,12 @@ import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
 
 /**
+ * 字符串处理
+ * 
  * @author guer
  *
  */
 public class StringHandler implements SearchParamsHandler {
-
-    /**
-     * 默认处理实例
-     */
-    public static final StringHandler INSTANCE = new StringHandler();
 
     /**
      * 通用匹配符

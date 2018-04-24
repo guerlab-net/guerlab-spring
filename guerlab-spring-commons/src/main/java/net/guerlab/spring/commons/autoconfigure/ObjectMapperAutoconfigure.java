@@ -60,9 +60,9 @@ public class ObjectMapperAutoconfigure {
         module.addSerializer(LocalTime.class, new LocalTimeSerializer());
         module.addSerializer(Month.class, new MonthSerializer());
         module.addSerializer(Year.class, new YearSerializer());
-        module.addSerializer(Long.class, LongStringSerializer.INSTANCE);
-        module.addSerializer(BigInteger.class, BigIntegerStringSerializer.INSTANCE);
-        module.addSerializer(BigDecimal.class, BigDecimalStringSerializer.INSTANCE);
+        module.addSerializer(Long.class, new LongStringSerializer());
+        module.addSerializer(BigInteger.class, new BigIntegerStringSerializer());
+        module.addSerializer(BigDecimal.class, new BigDecimalStringSerializer());
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
