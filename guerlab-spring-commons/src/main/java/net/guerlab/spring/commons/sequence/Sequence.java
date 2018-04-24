@@ -11,31 +11,31 @@ import net.guerlab.commons.exception.ApplicationException;
 public class Sequence {
 
     /** 起始时间戳，用于用当前时间戳减去这个时间戳，算出偏移量 **/
-    private static final long startTime = 1519740777809L;
+    private static final long START_TIME = 1519740777809L;
 
     /** workerId占用的位数5（表示只允许workId的范围为：0-1023） **/
-    private static final long workerIdBits = 5L;
+    private static final long WORKER_ID_BITS = 5L;
 
     /** dataCenterId占用的位数：5 **/
-    private static final long dataCenterIdBits = 5L;
+    private static final long DATA_CENTER_ID_BITS = 5L;
 
     /** 序列号占用的位数：12（表示只允许workId的范围为：0-4095） **/
-    private static final long sequenceBits = 12L;
+    private static final long SEQUENCE_BITS = 12L;
 
     /** workerId可以使用的最大数值：31 **/
-    private static final long maxWorkerId = -1L ^ -1L << workerIdBits;
+    private static final long MAX_WORKER_ID = -1L ^ -1L << WORKER_ID_BITS;
 
     /** dataCenterId可以使用的最大数值：31 **/
-    private static final long maxDataCenterId = -1L ^ -1L << dataCenterIdBits;
+    private static final long MAX_DATA_CENTER_ID = -1L ^ -1L << DATA_CENTER_ID_BITS;
 
-    private static final long workerIdShift = sequenceBits;
+    private static final long WORKER_ID_SHIFT = SEQUENCE_BITS;
 
-    private static final long dataCenterIdShift = sequenceBits + workerIdBits;
+    private static final long DATA_CENTER_ID_SHIFT = SEQUENCE_BITS + WORKER_ID_BITS;
 
-    private static final long timestampLeftShift = sequenceBits + workerIdBits + dataCenterIdBits;
+    private static final long TIMESTAMP_LEFT_SHIFT = SEQUENCE_BITS + WORKER_ID_BITS + DATA_CENTER_ID_BITS;
 
     /** 用mask防止溢出:位与运算保证计算的结果范围始终是 0-4095 **/
-    private static final long sequenceMask = -1L ^ -1L << sequenceBits;
+    private static final long SEQUENCE_MASK = -1L ^ -1L << SEQUENCE_BITS;
 
     private long workerId;
 
@@ -58,13 +58,13 @@ public class Sequence {
      *            数据中心ID,数据范围为0~31
      */
     public Sequence(long workerId, long dataCenterId) {
-        if (workerId > maxWorkerId || workerId < 0) {
+        if (workerId > MAX_WORKER_ID || workerId < 0) {
             throw new IllegalArgumentException(
-                    String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
+                    String.format("worker Id can't be greater than %d or less than 0", MAX_WORKER_ID));
         }
-        if (dataCenterId > maxDataCenterId || dataCenterId < 0) {
+        if (dataCenterId > MAX_DATA_CENTER_ID || dataCenterId < 0) {
             throw new IllegalArgumentException(
-                    String.format("dataCenter Id can't be greater than %d or less than 0", maxDataCenterId));
+                    String.format("dataCenter Id can't be greater than %d or less than 0", MAX_DATA_CENTER_ID));
         }
 
         this.workerId = workerId;
@@ -113,7 +113,7 @@ public class Sequence {
         // 解决跨毫秒生成ID序列号始终为偶数的缺陷:如果是同一时间生成的，则进行毫秒内序列
         if (lastTimestamp == timestamp) {
             // 通过位与运算保证计算的结果范围始终是 0-4095
-            nowSequence = nowSequence + 1 & sequenceMask;
+            nowSequence = nowSequence + 1 & SEQUENCE_MASK;
             if (nowSequence == 0) {
                 timestamp = tilNextMillis(lastTimestamp);
             }
@@ -129,8 +129,8 @@ public class Sequence {
          * 2.然后对每个左移后的值(la、lb、lc、sequence)做位或运算，是为了把各个短的数据合并起来，合并成一个二进制数
          * 3.最后转换成10进制，就是最终生成的id
          */
-        return timestamp - startTime << timestampLeftShift | dataCenterId << dataCenterIdShift
-                | workerId << workerIdShift | nowSequence;
+        return timestamp - START_TIME << TIMESTAMP_LEFT_SHIFT | dataCenterId << DATA_CENTER_ID_SHIFT
+                | workerId << WORKER_ID_SHIFT | nowSequence;
     }
 
     /**
