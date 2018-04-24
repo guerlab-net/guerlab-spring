@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @param <D>
  *            DTO对象类型
  */
+@FunctionalInterface
 public interface ConvertDTO<D> {
 
     /**

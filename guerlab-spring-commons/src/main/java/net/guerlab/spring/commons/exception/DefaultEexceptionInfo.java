@@ -24,11 +24,6 @@ public class DefaultEexceptionInfo extends AbstractI18nInfo {
     }
 
     @Override
-    protected Object[] getArgs() {
-        return null;
-    }
-
-    @Override
     protected String getDefaultMessage() {
         return "系统繁忙,请稍后再试";
     }

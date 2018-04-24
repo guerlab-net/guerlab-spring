@@ -11,31 +11,31 @@ import net.guerlab.commons.exception.ApplicationException;
 public class Sequence {
 
     /** 起始时间戳，用于用当前时间戳减去这个时间戳，算出偏移量 **/
-    private final long startTime = 1519740777809L;
+    private static final long startTime = 1519740777809L;
 
     /** workerId占用的位数5（表示只允许workId的范围为：0-1023） **/
-    private final long workerIdBits = 5L;
+    private static final long workerIdBits = 5L;
 
     /** dataCenterId占用的位数：5 **/
-    private final long dataCenterIdBits = 5L;
+    private static final long dataCenterIdBits = 5L;
 
     /** 序列号占用的位数：12（表示只允许workId的范围为：0-4095） **/
-    private final long sequenceBits = 12L;
+    private static final long sequenceBits = 12L;
 
     /** workerId可以使用的最大数值：31 **/
-    private final long maxWorkerId = -1L ^ -1L << workerIdBits;
+    private static final long maxWorkerId = -1L ^ -1L << workerIdBits;
 
     /** dataCenterId可以使用的最大数值：31 **/
-    private final long maxDataCenterId = -1L ^ -1L << dataCenterIdBits;
+    private static final long maxDataCenterId = -1L ^ -1L << dataCenterIdBits;
 
-    private final long workerIdShift = sequenceBits;
+    private static final long workerIdShift = sequenceBits;
 
-    private final long dataCenterIdShift = sequenceBits + workerIdBits;
+    private static final long dataCenterIdShift = sequenceBits + workerIdBits;
 
-    private final long timestampLeftShift = sequenceBits + workerIdBits + dataCenterIdBits;
+    private static final long timestampLeftShift = sequenceBits + workerIdBits + dataCenterIdBits;
 
     /** 用mask防止溢出:位与运算保证计算的结果范围始终是 0-4095 **/
-    private final long sequenceMask = -1L ^ -1L << sequenceBits;
+    private static final long sequenceMask = -1L ^ -1L << sequenceBits;
 
     private long workerId;
 

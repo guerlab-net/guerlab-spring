@@ -27,6 +27,9 @@ public class SystemClock {
     private static class InstanceHolder {
 
         public static final SystemClock INSTANCE = new SystemClock(1);
+
+        private InstanceHolder() {
+        }
     }
 
     private static SystemClock instance() {
@@ -57,7 +60,7 @@ public class SystemClock {
 
     /**
      * 获取当前日期字符串
-     * 
+     *
      * @return 当前日期字符串
      */
     public static String nowDate() {

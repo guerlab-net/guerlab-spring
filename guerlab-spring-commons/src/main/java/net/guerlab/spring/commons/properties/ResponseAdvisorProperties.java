@@ -26,7 +26,7 @@ public class ResponseAdvisorProperties {
     /**
      * 默认排除路径
      */
-    public static final List<String> DEFAULT_EXCLUDED = Arrays.asList("/swagger", "/v2", "/health", "/info", "/bus",
+    private static final List<String> DEFAULT_EXCLUDED = Arrays.asList("/swagger", "/v2", "/health", "/info", "/bus",
             "/service-registry");
 
     /**

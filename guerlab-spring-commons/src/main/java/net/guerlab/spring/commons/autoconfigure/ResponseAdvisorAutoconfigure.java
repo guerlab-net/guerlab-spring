@@ -53,11 +53,9 @@ public class ResponseAdvisorAutoconfigure implements ResponseBodyAdvice<Object> 
 
         List<String> excluded = properties.getExcluded();
 
-        if (excluded != null && excluded.stream().anyMatch(requestPath::startsWith)) {
-            return body;
-        }
+        boolean excludedMatching = excluded != null && excluded.stream().anyMatch(requestPath::startsWith);
 
-        if (body instanceof Result) {
+        if (excludedMatching || body instanceof Result) {
             return body;
         }
 

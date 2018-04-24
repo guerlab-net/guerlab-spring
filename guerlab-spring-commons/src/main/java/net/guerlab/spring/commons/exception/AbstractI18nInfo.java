@@ -26,7 +26,7 @@ public abstract class AbstractI18nInfo {
 
     /**
      * 通过异常和错误码初始化
-     * 
+     *
      * @param throwable
      *            异常
      * @param errorCode
@@ -63,7 +63,7 @@ public abstract class AbstractI18nInfo {
      * @return 国际化key
      */
     protected String getKey() {
-        return null;
+        return "";
     }
 
     /**
@@ -72,7 +72,7 @@ public abstract class AbstractI18nInfo {
      * @return 国际化参数列表
      */
     protected Object[] getArgs() {
-        return null;
+        return new Object[0];
     }
 
     /**

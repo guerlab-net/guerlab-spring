@@ -20,32 +20,6 @@ public class ListObject<T> {
     @SuppressWarnings("rawtypes")
     public static final ListObject EMPTY = new EmptyListObject<>();
 
-    @SuppressWarnings("unchecked")
-    public static final <T> ListObject<T> empty() {
-        return EMPTY;
-    }
-
-    private static class EmptyListObject<E> extends ListObject<E> {
-
-        @Override
-        public void setList(
-                List<E> list) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void setCount(
-                long count) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void setPageSize(
-                long pageSize) {
-            throw new UnsupportedOperationException();
-        }
-    }
-
     /**
      * 数据列表
      */
@@ -177,5 +151,36 @@ public class ListObject<T> {
     public void setPageSize(
             long pageSize) {
         this.pageSize = pageSize;
+    }
+
+    /**
+     * 获取空列表对象
+     * 
+     * @return 空列表对象
+     */
+    @SuppressWarnings("unchecked")
+    public static final <T> ListObject<T> empty() {
+        return EMPTY;
+    }
+
+    private static class EmptyListObject<E> extends ListObject<E> {
+
+        @Override
+        public void setList(
+                List<E> list) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void setCount(
+                long count) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void setPageSize(
+                long pageSize) {
+            throw new UnsupportedOperationException();
+        }
     }
 }

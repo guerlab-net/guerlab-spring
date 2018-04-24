@@ -35,7 +35,6 @@ public interface DefaultConvertDTO<D> extends ConvertDTO<D> {
         Type[] types = getClass().getGenericInterfaces();
 
         Class<D> clazz = null;
-        D dto = null;
 
         for (Type type : types) {
             if (!(type instanceof ParameterizedType)) {
@@ -52,6 +51,8 @@ public interface DefaultConvertDTO<D> extends ConvertDTO<D> {
             }
         }
 
+        D dto;
+        
         try {
             dto = clazz.newInstance();
         } catch (Exception e) {
