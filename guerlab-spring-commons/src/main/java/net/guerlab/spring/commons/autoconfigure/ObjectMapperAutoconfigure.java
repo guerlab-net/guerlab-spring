@@ -45,6 +45,11 @@ import net.guerlab.spring.commons.jackson.serializer.LongStringSerializer;
 @AutoConfigureBefore(JacksonAutoConfiguration.class)
 public class ObjectMapperAutoconfigure {
 
+    /**
+     * create ObjectMapper
+     * 
+     * @return ObjectMapper
+     */
     @Bean
     @Primary
     public ObjectMapper objectMapper() {

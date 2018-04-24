@@ -76,6 +76,11 @@ public class WebMvcAutoconfigure extends WebMvcConfigurerAdapter {
         registry.addInterceptor(localeChangeInterceptor);
     }
 
+    /**
+     * create MethodValidationPostProcessor
+     * 
+     * @return MethodValidationPostProcessor
+     */
     @Bean
     public MethodValidationPostProcessor methodValidationPostProcessor() {
         return new MethodValidationPostProcessor();

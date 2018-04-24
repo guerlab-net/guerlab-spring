@@ -53,6 +53,17 @@ public class GlobalExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
+    /**
+     * MethodArgumentTypeMismatchException异常处理
+     *
+     * @param request
+     *            请求
+     * @param response
+     *            响应
+     * @param e
+     *            异常
+     * @return 响应数据
+     */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public Error<Void> methodArgumentTypeMismatchException(
             HttpServletRequest request,
@@ -64,6 +75,17 @@ public class GlobalExceptionHandler {
         return handler0(new MethodArgumentTypeMismatchExceptionInfo(e));
     }
 
+    /**
+     * NoHandlerFoundException异常处理
+     *
+     * @param request
+     *            请求
+     * @param response
+     *            响应
+     * @param e
+     *            异常
+     * @return 响应数据
+     */
     @ExceptionHandler(NoHandlerFoundException.class)
     public Error<Void> noHandlerFoundException(
             HttpServletRequest request,
@@ -75,6 +97,17 @@ public class GlobalExceptionHandler {
         return handler0(new NoHandlerFoundExceptionInfo(e));
     }
 
+    /**
+     * HttpRequestMethodNotSupportedException异常处理
+     *
+     * @param request
+     *            请求
+     * @param response
+     *            响应
+     * @param e
+     *            异常
+     * @return 响应数据
+     */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public Error<Void> httpRequestMethodNotSupportedException(
             HttpServletRequest request,
@@ -86,6 +119,17 @@ public class GlobalExceptionHandler {
         return handler0(new HttpRequestMethodNotSupportedExceptionInfo(e));
     }
 
+    /**
+     * MissingServletRequestParameterException异常处理
+     *
+     * @param request
+     *            请求
+     * @param response
+     *            响应
+     * @param e
+     *            异常
+     * @return 响应数据
+     */
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public Error<Void> missingServletRequestParameterException(
             HttpServletRequest request,
@@ -97,6 +141,17 @@ public class GlobalExceptionHandler {
         return handler0(new MissingServletRequestParameterExceptionInfo(e));
     }
 
+    /**
+     * MethodArgumentNotValidException异常处理
+     *
+     * @param request
+     *            请求
+     * @param response
+     *            响应
+     * @param e
+     *            异常
+     * @return 响应数据
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Error<Void> methodArgumentNotValidException(
             HttpServletRequest request,
@@ -113,6 +168,17 @@ public class GlobalExceptionHandler {
         return handler0(new RequestParamsError(message, e));
     }
 
+    /**
+     * ConstraintViolationException异常处理
+     *
+     * @param request
+     *            请求
+     * @param response
+     *            响应
+     * @param e
+     *            异常
+     * @return 响应数据
+     */
     @ExceptionHandler(ConstraintViolationException.class)
     public Error<Void> constraintViolationException(
             HttpServletRequest request,
@@ -129,6 +195,17 @@ public class GlobalExceptionHandler {
         return handler0(new RequestParamsError(message, e));
     }
 
+    /**
+     * 通用异常处理
+     *
+     * @param request
+     *            请求
+     * @param response
+     *            响应
+     * @param e
+     *            异常
+     * @return 响应数据
+     */
     @ExceptionHandler(Exception.class)
     public Error<Void> exception(
             HttpServletRequest request,

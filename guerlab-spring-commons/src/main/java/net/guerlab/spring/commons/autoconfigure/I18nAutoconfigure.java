@@ -24,6 +24,11 @@ public class I18nAutoconfigure {
     @Autowired
     private I18nProperties properties;
 
+    /**
+     * create LocaleResolver
+     * 
+     * @return LocaleResolver
+     */
     @Bean
     @ConditionalOnMissingBean
     public LocaleResolver localeResolver() {
@@ -32,6 +37,11 @@ public class I18nAutoconfigure {
         return slr;
     }
 
+    /**
+     * create LocaleChangeInterceptor
+     * 
+     * @return LocaleChangeInterceptor
+     */
     @Bean
     @ConditionalOnMissingBean
     public LocaleChangeInterceptor localeChangeInterceptor() {
