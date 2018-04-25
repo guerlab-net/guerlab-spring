@@ -13,8 +13,8 @@
 
     <licenses>
         <license>
-            <name>The Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE Version 3</name>
+            <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
         </license>
     </licenses>
 
@@ -27,6 +27,11 @@
             <organizationUrl>http://www.guerlab.net</organizationUrl>
         </developer>
     </developers>
+    
+    <organization>
+        <name>guerlab</name>
+        <url>http://www.guerlab.net</url>
+    </organization>
 
     <scm>
         <connection>scm:git:https://gitee.com/guerlab_net/guerlab-spring.git</connection>
@@ -34,6 +39,11 @@
         <url>https://gitee.com/guerlab_net/guerlab-spring</url>
         <tag>HEAD</tag>
     </scm>
+    
+    <issueManagement>
+        <system>gitee</system>
+        <url>https://gitee.com/guerlab/guerlab-spring/issues</url>
+    </issueManagement>
 
     <properties>
         <java.version>1.8</java.version>
