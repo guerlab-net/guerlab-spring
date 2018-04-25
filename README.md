@@ -2,6 +2,16 @@
 
 spring 扩展工具集
 
+## maven仓库地址
+
+```
+<dependency>
+	<groupId>net.guerlab</groupId>
+	<artifactId>guerlab-spring</artifactId>
+	<version>0.4.0</version>
+</dependency>
+```
+
 ## 子项目列表
 
 |子项目|说明|
@@ -20,6 +30,16 @@ spring 扩展工具集
 |guerlab-spring-upload-aliyun-oss-starter|阿里云oss上传支持|
 
 ## 更新记录
+
+### 20180426 v0.4.0
+
+- 更新依赖guerlab-commons 1.2.0 -> 1.3.0
+- 更新依赖guerlab-web 1.2.0 -> 1.3.0
+- guerlab-spring-commons删除net.guerlab.spring.commons.util.CollectionUtil,已迁移至guerlab-commons包net.guerlab.commons.collection.CollectionUtil
+- guerlab-spring-commons删除net.guerlab.spring.commons.list.ListObject,已迁移至guerlab-web包net.guerlab.web.result.ListObject
+- guerlab-spring-commons删除net.guerlab.spring.commons.list.ReadDataListCommand,已迁移至guerlab-web包net.guerlab.web.result.ReadDataListCommand
+- guerlab-spring-commons删除net.guerlab.spring.commons.util.ResultUtil,已迁移至guerlab-web包net.guerlab.web.result.ResultUtil
+- guerlab-spring-searchparams删除net.guerlab.spring.searchparams.FieldHelper,已迁移至guerlab-commons包net.guerlab.commons.reflection.FieldUtil
 
 ### 20180424 v0.3.8
 

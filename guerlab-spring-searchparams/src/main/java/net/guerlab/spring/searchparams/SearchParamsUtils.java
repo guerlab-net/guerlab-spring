@@ -12,6 +12,7 @@ import javax.persistence.Column;
 
 import org.apache.commons.lang3.StringUtils;
 
+import net.guerlab.commons.reflection.FieldUtil;
 import tk.mybatis.mapper.entity.Example;
 
 /**
@@ -140,7 +141,7 @@ public class SearchParamsUtils {
 
     private static List<Field> getFields(
             final AbstractSearchParams searchParams) {
-        return FieldHelper.getFiledsWithFilter(searchParams.getClass(), STATIC_FILTER, PAGE_PARAMS_FILTER);
+        return FieldUtil.getFiledsWithFilter(searchParams.getClass(), STATIC_FILTER, PAGE_PARAMS_FILTER);
     }
 
     private static SearchParamsHandler getHandler(
@@ -171,7 +172,7 @@ public class SearchParamsUtils {
             final SearchParamsParseConfig config) {
         String name = field.getName();
 
-        Object value = FieldHelper.get(searchParams, name);
+        Object value = FieldUtil.get(searchParams, name);
 
         if (value == null) {
             return;
@@ -199,7 +200,7 @@ public class SearchParamsUtils {
             final SearchParamsParseConfig config) {
         String name = field.getName();
 
-        Object value = FieldHelper.get(searchParams, name);
+        Object value = FieldUtil.get(searchParams, name);
 
         if (value == null) {
             return;
