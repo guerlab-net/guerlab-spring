@@ -8,7 +8,7 @@ spring 扩展工具集
 <dependency>
 	<groupId>net.guerlab</groupId>
 	<artifactId>guerlab-spring</artifactId>
-	<version>0.4.0</version>
+	<version>0.4.1</version>
 </dependency>
 ```
 
@@ -30,6 +30,10 @@ spring 扩展工具集
 |guerlab-spring-upload-aliyun-oss-starter|阿里云oss上传支持|
 
 ## 更新记录
+
+### 20180426 v0.4.1
+
+- 更新net.guerlab.spring.upload.handler.UploadHandler增加order()方法，使UploadHandler的执行顺序可以定制
 
 ### 20180426 v0.4.0
 

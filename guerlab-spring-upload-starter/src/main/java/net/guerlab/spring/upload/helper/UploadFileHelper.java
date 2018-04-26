@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -31,6 +33,13 @@ import net.guerlab.spring.upload.handler.UploadHandler;
 public class UploadFileHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UploadFileHelper.class);
+
+    private static final Executor HANDLER_POOL = Executors.newCachedThreadPool(r -> {
+        Thread thread = new Thread(r);
+        thread.setDaemon(true);
+        thread.setName("upload-handler");
+        return thread;
+    });
 
     private UploadFileHelper() {
     }
@@ -240,8 +249,9 @@ public class UploadFileHelper {
             return;
         }
 
-        handlerMap.values().parallelStream().filter(e -> e != null && e.accept(fileInfo))
-                .forEach(e -> e.handler(fileInfo));
+        HANDLER_POOL.execute(() -> handlerMap.values().stream().filter(e -> e != null && e.accept(fileInfo)).sorted((
+                o1,
+                o2) -> o2.order() - o1.order()).forEach(e -> e.handler(fileInfo)));
     }
 
     private static String getSuffix(

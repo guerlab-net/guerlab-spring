@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.guerlab</groupId>
     <artifactId>guerlab-spring</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -55,7 +55,7 @@
         <guerlab-commons.version>1.3.0</guerlab-commons.version>
         <guerlab-web.version>1.3.0</guerlab-web.version>
 
-        <guerlab-spring.version>0.4.0</guerlab-spring.version>
+        <guerlab-spring.version>0.4.1</guerlab-spring.version>
 
         <spring-cloud.version>Edgware.SR3</spring-cloud.version>
         <spring-boot.version>1.5.12.RELEASE</spring-boot.version>
