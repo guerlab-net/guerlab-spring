@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,23 +29,6 @@ public class RestTemplateAutoconfigure {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    /**
-     * 初始化AsyncRestTemplate
-     *
-     * @return AsyncRestTemplate
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnClass(AsyncRestTemplate.class)
-    public AsyncRestTemplate loadBalancedAsyncRestTemplate() {
-        AsyncRestTemplate asyncRestTemplate = new AsyncRestTemplate();
-
-        asyncRestTemplate.setMessageConverters(Arrays.asList(new MappingJackson2HttpMessageConverter(objectMapper),
-                new StringHttpMessageConverter(), new FormHttpMessageConverter()));
-
-        return asyncRestTemplate;
-    }
 
     /**
      * 初始化LoadBalancedRestTemplate

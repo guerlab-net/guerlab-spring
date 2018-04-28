@@ -2,22 +2,22 @@ package net.guerlab.spring.commons.autoconfigure;
 
 import java.util.List;
 
+import javax.validation.executable.ExecutableValidator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.servlet.config.annotation.CorsRegistration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @Configuration
 @AutoConfigureAfter(ObjectMapperAutoconfigure.class)
-public class WebMvcAutoconfigure extends WebMvcConfigurerAdapter {
+public class WebMvcAutoconfigure implements WebMvcConfigurer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebMvcAutoconfigure.class);
 
@@ -52,19 +52,8 @@ public class WebMvcAutoconfigure extends WebMvcConfigurerAdapter {
     }
 
     @Override
-    public void addCorsMappings(
-            CorsRegistry registry) {
-        CorsRegistration registration = registry.addMapping("/**");
-        registration.allowedOrigins(CorsConfiguration.ALL);
-        registration.allowedMethods(CorsConfiguration.ALL);
-        registration.allowedHeaders(CorsConfiguration.ALL);
-        registration.allowCredentials(true);
-    }
-
-    @Override
     public void configureMessageConverters(
             List<HttpMessageConverter<?>> converters) {
-        super.configureMessageConverters(converters);
         converters.clear();
         converters.add(new MappingJackson2HttpMessageConverter(objectMapper));
         converters.add(new StringHttpMessageConverter());
@@ -78,10 +67,11 @@ public class WebMvcAutoconfigure extends WebMvcConfigurerAdapter {
 
     /**
      * create MethodValidationPostProcessor
-     * 
+     *
      * @return MethodValidationPostProcessor
      */
     @Bean
+    @ConditionalOnClass(ExecutableValidator.class)
     public MethodValidationPostProcessor methodValidationPostProcessor() {
         return new MethodValidationPostProcessor();
     }
