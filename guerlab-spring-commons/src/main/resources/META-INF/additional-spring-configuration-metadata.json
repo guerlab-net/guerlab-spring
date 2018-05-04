@@ -17,6 +17,12 @@
 			"type": "net.guerlab.spring.commons.properties.SequenceProperties",
 			"sourceType": "net.guerlab.spring.commons.properties.SequenceProperties",
 			"description": "分布式序列配置"
+		},
+		{
+			"name": "web.cors",
+			"type": "net.guerlab.spring.commons.properties.CorsProperties",
+			"sourceType": "net.guerlab.spring.commons.properties.CorsProperties",
+			"description": "CORS配置"
 		}
 	],
 	"properties": [
@@ -54,6 +60,48 @@
 			"sourceType": "net.guerlab.spring.commons.properties.SequenceProperties",
 			"description": "数据中心ID",
 			"defaultValue": "0"
+		},
+		{
+			"name": "web.cors.enable",
+			"type": "boolean",
+			"sourceType": "net.guerlab.spring.commons.properties.CorsProperties",
+			"description": "enable cors properties"
+		},
+		{
+			"name": "web.cors.allow-credentials",
+			"type": "boolean",
+			"sourceType": "net.guerlab.spring.commons.properties.CorsProperties",
+			"description": "header indicates whether the response to request can be exposed when the omit credentials flag is unset."
+		},
+		{
+			"name": "web.cors.allowed-headers",
+			"type": "java.util.List<java.lang.String>",
+			"sourceType": "net.guerlab.spring.commons.properties.CorsProperties",
+			"description": "header indicates, as part of the response to a preflight request, which header field names can be used during the actual request."
+		},
+		{
+			"name": "web.cors.allowed-methods",
+			"type": "java.util.List<java.lang.String>",
+			"sourceType": "net.guerlab.spring.commons.properties.CorsProperties",
+			"description": "header indicates, as part of the response to a preflight request, which methods can be used during the actual request."
+		},
+		{
+			"name": "web.cors.allowed-origins",
+			"type": "java.util.List<java.lang.String>",
+			"sourceType": "net.guerlab.spring.commons.properties.CorsProperties",
+			"description": "header indicates whether a resource can be shared based by returning the value of the Origin request header, \"*\", or \"null\" in the response."
+		},
+		{
+			"name": "web.cors.exposed-headers",
+			"type": "java.util.List<java.lang.String>",
+			"sourceType": "net.guerlab.spring.commons.properties.CorsProperties",
+			"description": "header indicates which headers are safe to expose to the API of a CORS API specification."
+		},
+		{
+			"name": "web.cors.max-age",
+			"type": "java.lang.Long",
+			"sourceType": "net.guerlab.spring.commons.properties.CorsProperties",
+			"description": "header indicates how long the results of a preflight request can be cached in a preflight result cache."
 		}
 	]
 }

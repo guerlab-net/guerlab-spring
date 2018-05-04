@@ -46,13 +46,13 @@ import net.guerlab.spring.commons.jackson.serializer.LongStringSerializer;
 public class ObjectMapperAutoconfigure {
 
     /**
-     * create ObjectMapper
-     * 
-     * @return ObjectMapper
+     * 设置ObjectMapper属性
+     *
+     * @param objectMapper
+     *            objectMapper
      */
-    @Bean
-    @Primary
-    public ObjectMapper objectMapper() {
+    public static void setProperties(
+            final ObjectMapper objectMapper) {
         SimpleModule module = new SimpleModule();
         module.addDeserializer(LocalDate.class, new LocalDateDeserializer());
         module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer());
@@ -69,22 +69,34 @@ public class ObjectMapperAutoconfigure {
         module.addSerializer(BigInteger.class, new BigIntegerStringSerializer());
         module.addSerializer(BigDecimal.class, new BigDecimalStringSerializer());
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.findAndRegisterModules();
-        mapper.registerModule(module);
+        objectMapper.findAndRegisterModules();
+        objectMapper.registerModule(module);
 
-        mapper.setSerializationInclusion(Include.NON_NULL);
+        objectMapper.setSerializationInclusion(Include.NON_NULL);
 
-        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
-        mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
-        mapper.configure(SerializationFeature.WRITE_CHAR_ARRAYS_AS_JSON_ARRAYS, true);
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
+        objectMapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
+        objectMapper.configure(SerializationFeature.WRITE_CHAR_ARRAYS_AS_JSON_ARRAYS, true);
 
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        mapper.configure(Feature.WRITE_BIGDECIMAL_AS_PLAIN, true);
+        objectMapper.configure(Feature.WRITE_BIGDECIMAL_AS_PLAIN, true);
+    }
 
-        return mapper;
+    /**
+     * create ObjectMapper
+     *
+     * @return ObjectMapper
+     */
+    @Bean
+    @Primary
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        setProperties(objectMapper);
+
+        return objectMapper;
     }
 }

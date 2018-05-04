@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -69,7 +68,6 @@ public class GlobalExceptionHandler {
             HttpServletRequest request,
             HttpServletResponse response,
             MethodArgumentTypeMismatchException e) {
-        setHeader(request, response);
         beforeLog(request, e);
 
         return handler0(new MethodArgumentTypeMismatchExceptionInfo(e));
@@ -91,7 +89,6 @@ public class GlobalExceptionHandler {
             HttpServletRequest request,
             HttpServletResponse response,
             NoHandlerFoundException e) {
-        setHeader(request, response);
         beforeLog(request, e);
 
         return handler0(new NoHandlerFoundExceptionInfo(e));
@@ -113,7 +110,6 @@ public class GlobalExceptionHandler {
             HttpServletRequest request,
             HttpServletResponse response,
             HttpRequestMethodNotSupportedException e) {
-        setHeader(request, response);
         beforeLog(request, e);
 
         return handler0(new HttpRequestMethodNotSupportedExceptionInfo(e));
@@ -135,7 +131,6 @@ public class GlobalExceptionHandler {
             HttpServletRequest request,
             HttpServletResponse response,
             MissingServletRequestParameterException e) {
-        setHeader(request, response);
         beforeLog(request, e);
 
         return handler0(new MissingServletRequestParameterExceptionInfo(e));
@@ -157,7 +152,6 @@ public class GlobalExceptionHandler {
             HttpServletRequest request,
             HttpServletResponse response,
             MethodArgumentNotValidException e) {
-        setHeader(request, response);
         beforeLog(request, e);
 
         BindingResult bindingResult = e.getBindingResult();
@@ -184,7 +178,6 @@ public class GlobalExceptionHandler {
             HttpServletRequest request,
             HttpServletResponse response,
             ConstraintViolationException e) {
-        setHeader(request, response);
         beforeLog(request, e);
 
         Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
@@ -211,7 +204,6 @@ public class GlobalExceptionHandler {
             HttpServletRequest request,
             HttpServletResponse response,
             Exception e) {
-        setHeader(request, response);
         beforeLog(request, e);
 
         ResponseStatus responseStatus = AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class);
@@ -228,20 +220,6 @@ public class GlobalExceptionHandler {
         } else {
             return handler0(e);
         }
-    }
-
-    private void setHeader(
-            HttpServletRequest request,
-            HttpServletResponse response) {
-        String origin = request.getHeader("origin");
-
-        if (StringUtils.isNotBlank(origin)) {
-            response.setHeader("Access-Control-Allow-Origin", origin);
-        }
-
-        response.setHeader("Access-Control-Allow-Methods", CorsConfiguration.ALL);
-        response.setHeader("Access-Control-Allow-Headers", CorsConfiguration.ALL);
-        response.setHeader("Access-Control-Allow-Credentials", "true");
     }
 
     private void beforeLog(
