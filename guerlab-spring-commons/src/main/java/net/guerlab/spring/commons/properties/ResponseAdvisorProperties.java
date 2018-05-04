@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.stereotype.Component;
 
 /**
  * http响应数据处理配置参数<br>
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Component;
  * @author guer
  *
  */
-@Component
 @RefreshScope
 @ConfigurationProperties("spring.response-advisor")
 public class ResponseAdvisorProperties {

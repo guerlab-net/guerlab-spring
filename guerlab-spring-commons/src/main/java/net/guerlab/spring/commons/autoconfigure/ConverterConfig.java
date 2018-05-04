@@ -3,6 +3,7 @@ package net.guerlab.spring.commons.autoconfigure;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.support.GenericConversionService;
@@ -20,6 +21,7 @@ import net.guerlab.spring.commons.converter.LocalDateTimeConverter;
  *
  */
 @Configuration
+@ConditionalOnClass(RequestMappingHandlerAdapter.class)
 public class ConverterConfig {
 
     @Autowired

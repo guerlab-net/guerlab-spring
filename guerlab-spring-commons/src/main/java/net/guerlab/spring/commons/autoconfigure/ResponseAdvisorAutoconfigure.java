@@ -3,6 +3,7 @@ package net.guerlab.spring.commons.autoconfigure;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
@@ -24,41 +25,45 @@ import net.guerlab.web.result.Succeed;
  * @author guer
  *
  */
-@RestControllerAdvice
 @Configuration
+@ConditionalOnClass(ResponseBodyAdvice.class)
 @EnableConfigurationProperties(ResponseAdvisorProperties.class)
-public class ResponseAdvisorAutoconfigure implements ResponseBodyAdvice<Object> {
+public class ResponseAdvisorAutoconfigure {
 
-    @Autowired
-    private ResponseAdvisorProperties properties;
+    @RestControllerAdvice
+    public static class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
-    @Override
-    public boolean supports(
-            MethodParameter returnType,
-            Class<? extends HttpMessageConverter<?>> converterType) {
-        return returnType.getMethod().getAnnotation(IgnoreResponseHandler.class) == null
-                && returnType.getContainingClass().getAnnotation(IgnoreResponseHandler.class) == null
-                && returnType.getDeclaringClass().getAnnotation(IgnoreResponseHandler.class) == null;
-    }
+        @Autowired
+        private ResponseAdvisorProperties properties;
 
-    @Override
-    public Object beforeBodyWrite(
-            Object body,
-            MethodParameter returnType,
-            MediaType selectedContentType,
-            Class<? extends HttpMessageConverter<?>> selectedConverterType,
-            ServerHttpRequest request,
-            ServerHttpResponse response) {
-        String requestPath = request.getURI().getPath();
-
-        List<String> excluded = properties.getExcluded();
-
-        boolean excludedMatching = excluded != null && excluded.stream().anyMatch(requestPath::startsWith);
-
-        if (excludedMatching || body instanceof Result) {
-            return body;
+        @Override
+        public boolean supports(
+                MethodParameter returnType,
+                Class<? extends HttpMessageConverter<?>> converterType) {
+            return returnType.getMethod().getAnnotation(IgnoreResponseHandler.class) == null
+                    && returnType.getContainingClass().getAnnotation(IgnoreResponseHandler.class) == null
+                    && returnType.getDeclaringClass().getAnnotation(IgnoreResponseHandler.class) == null;
         }
 
-        return body instanceof String ? new Succeed<>(Succeed.MSG, body) : new Succeed<>(body);
+        @Override
+        public Object beforeBodyWrite(
+                Object body,
+                MethodParameter returnType,
+                MediaType selectedContentType,
+                Class<? extends HttpMessageConverter<?>> selectedConverterType,
+                ServerHttpRequest request,
+                ServerHttpResponse response) {
+            String requestPath = request.getURI().getPath();
+
+            List<String> excluded = properties.getExcluded();
+
+            boolean excludedMatching = excluded != null && excluded.stream().anyMatch(requestPath::startsWith);
+
+            if (excludedMatching || body instanceof Result) {
+                return body;
+            }
+
+            return body instanceof String ? new Succeed<>(Succeed.MSG, body) : new Succeed<>(body);
+        }
     }
 }

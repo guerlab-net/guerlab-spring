@@ -30,39 +30,44 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @Configuration
 @AutoConfigureAfter(ObjectMapperAutoconfigure.class)
-public class WebMvcAutoconfigure implements WebMvcConfigurer {
+public class WebMvcAutoconfigure {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebMvcAutoconfigure.class);
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    @Configuration
+    @ConditionalOnClass(WebMvcConfigurer.class)
+    public static class mvcAutoconfigure implements WebMvcConfigurer {
 
-    @Autowired
-    private LocaleChangeInterceptor localeChangeInterceptor;
+        @Autowired
+        private ObjectMapper objectMapper;
 
-    @Override
-    public void addResourceHandlers(
-            ResourceHandlerRegistry registry) {
-        if (!hasSwagger()) {
-            return;
+        @Autowired
+        private LocaleChangeInterceptor localeChangeInterceptor;
+
+        @Override
+        public void addResourceHandlers(
+                ResourceHandlerRegistry registry) {
+            if (!hasSwagger()) {
+                return;
+            }
+
+            registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+            registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         }
 
-        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
+        @Override
+        public void configureMessageConverters(
+                List<HttpMessageConverter<?>> converters) {
+            converters.clear();
+            converters.add(new MappingJackson2HttpMessageConverter(objectMapper));
+            converters.add(new StringHttpMessageConverter());
+        }
 
-    @Override
-    public void configureMessageConverters(
-            List<HttpMessageConverter<?>> converters) {
-        converters.clear();
-        converters.add(new MappingJackson2HttpMessageConverter(objectMapper));
-        converters.add(new StringHttpMessageConverter());
-    }
-
-    @Override
-    public void addInterceptors(
-            InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeInterceptor);
+        @Override
+        public void addInterceptors(
+                InterceptorRegistry registry) {
+            registry.addInterceptor(localeChangeInterceptor);
+        }
     }
 
     /**
@@ -76,9 +81,10 @@ public class WebMvcAutoconfigure implements WebMvcConfigurer {
         return new MethodValidationPostProcessor();
     }
 
-    private boolean hasSwagger() {
+    private static boolean hasSwagger() {
         try {
-            getClass().getClassLoader().loadClass("springfox.documentation.swagger2.annotations.EnableSwagger2");
+            WebMvcAutoconfigure.class.getClassLoader()
+                    .loadClass("springfox.documentation.swagger2.annotations.EnableSwagger2");
             return true;
         } catch (Exception e) {
             LOGGER.trace(e.getMessage(), e);

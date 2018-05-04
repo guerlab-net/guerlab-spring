@@ -1,6 +1,7 @@
 package net.guerlab.spring.commons.autoconfigure;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,9 @@ import net.guerlab.spring.commons.properties.I18nProperties;
  *
  */
 @Configuration
+@ConditionalOnClass({
+        LocaleResolver.class, LocaleChangeInterceptor.class, SessionLocaleResolver.class
+})
 @EnableConfigurationProperties(I18nProperties.class)
 public class I18nAutoconfigure {
 
@@ -26,7 +30,7 @@ public class I18nAutoconfigure {
 
     /**
      * create LocaleResolver
-     * 
+     *
      * @return LocaleResolver
      */
     @Bean
@@ -39,7 +43,7 @@ public class I18nAutoconfigure {
 
     /**
      * create LocaleChangeInterceptor
-     * 
+     *
      * @return LocaleChangeInterceptor
      */
     @Bean

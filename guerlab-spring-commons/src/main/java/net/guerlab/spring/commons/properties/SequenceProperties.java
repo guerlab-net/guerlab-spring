@@ -2,7 +2,6 @@ package net.guerlab.spring.commons.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.stereotype.Component;
 
 /**
  * 序列配置
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Component;
  * @author guer
  *
  */
-@Component
 @RefreshScope
 @ConfigurationProperties("sequence")
 public class SequenceProperties {

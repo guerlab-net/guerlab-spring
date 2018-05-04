@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 /**
@@ -13,7 +12,6 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
  * @author guer
  *
  */
-@Component
 @RefreshScope
 @ConfigurationProperties("spring.i18n")
 public class I18nProperties {
