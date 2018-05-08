@@ -1,5 +1,7 @@
 package net.guerlab.spring.searchparams;
 
+import javax.persistence.Transient;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -16,12 +18,14 @@ public abstract class AbstractSearchParams {
      * 分页ID
      */
     @ApiModelProperty(value = "分页ID", example = "1", allowableValues = "range[1, infinity]")
+    @Transient
     protected transient int pageId = 1;
 
     /**
      * 分页内容数量
      */
     @ApiModelProperty(value = "分页内容数量", example = "10", allowableValues = "range[1, infinity]")
+    @Transient
     protected transient int pageSize = 10;
 
     /**
