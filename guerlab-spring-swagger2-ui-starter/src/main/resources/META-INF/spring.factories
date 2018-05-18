@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+net.guerlab.spring.swagger2.ui.autoconfigure.Swagger2UiAutoConfigure

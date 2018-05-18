@@ -22,7 +22,7 @@ import net.guerlab.web.result.Result;
 import net.guerlab.web.result.Succeed;
 
 /**
- * 响应数据处理
+ * 响应数据处理自动配置
  *
  * @author guer
  *
@@ -32,6 +32,12 @@ import net.guerlab.web.result.Succeed;
 @EnableConfigurationProperties(ResponseAdvisorProperties.class)
 public class ResponseAdvisorAutoconfigure {
 
+    /**
+     * 响应数据处理
+     *
+     * @author guer
+     *
+     */
     @RestControllerAdvice
     public static class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
@@ -60,14 +66,29 @@ public class ResponseAdvisorAutoconfigure {
             return body instanceof String ? new Succeed<>(Succeed.MSG, body) : new Succeed<>(body);
         }
 
+        /**
+         * 判断方法或者类上是否包含指定注解
+         *
+         * @param returnType
+         *            方法参数对象
+         * @param annotationClass
+         *            注解类
+         * @return 是否包含注解
+         */
         private boolean hasAnnotation(
                 MethodParameter returnType,
                 Class<? extends Annotation> annotationClass) {
             return AnnotationUtils.findAnnotation(returnType.getMethod(), annotationClass) != null
-                    || AnnotationUtils.findAnnotation(returnType.getContainingClass(), annotationClass) != null
-                    || AnnotationUtils.findAnnotation(returnType.getDeclaringClass(), annotationClass) != null;
+                    || AnnotationUtils.findAnnotation(returnType.getContainingClass(), annotationClass) != null;
         }
 
+        /**
+         * 判断是否在排除路径中
+         * 
+         * @param request
+         *            请求对象
+         * @return 是否在排除路径中
+         */
         private boolean matchExcluded(
                 ServerHttpRequest request) {
             List<String> excluded = properties.getExcluded();

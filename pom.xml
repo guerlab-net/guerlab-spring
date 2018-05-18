@@ -166,6 +166,11 @@
             </dependency>
             <dependency>
                 <groupId>net.guerlab</groupId>
+                <artifactId>guerlab-spring-swagger2-ui-starter</artifactId>
+                <version>${guerlab-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.guerlab</groupId>
                 <artifactId>guerlab-spring-task-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
@@ -179,7 +184,6 @@
                 <artifactId>guerlab-spring-upload-aliyun-oss-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
-
 
             <!-- swagger -->
             <dependency>
@@ -368,6 +372,7 @@
         <module>guerlab-spring-searchparams</module>
         <module>guerlab-spring-swagger2-cloud-starter</module>
         <module>guerlab-spring-swagger2-starter</module>
+        <module>guerlab-spring-swagger2-ui-starter</module>
         <module>guerlab-spring-upload-starter</module>
         <module>guerlab-spring-upload-aliyun-oss-starter</module>
     </modules>

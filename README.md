@@ -8,7 +8,7 @@ spring 扩展工具集
 <dependency>
 	<groupId>net.guerlab</groupId>
 	<artifactId>guerlab-spring</artifactId>
-	<version>0.4.1</version>
+	<version>2.0.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -24,12 +24,44 @@ spring 扩展工具集
 |guerlab-spring-redis-starter|redis自动配置|
 |guerlab-spring-searchparams|searchparams支持|
 |guerlab-spring-swagger2-cloud-starter|swagger2聚合自动配置|
-|guerlab-spring-swagger2-starter|配合guerlab-spring-swagger2-cloud-starter进行swagger2聚合|
+|guerlab-spring-swagger2-starter|启用swagger2|
+|guerlab-spring-swagger2-ui-starter|启用swagger2-ui|
 |guerlab-spring-task-starter|基于redis的锁控制|
 |guerlab-spring-upload-starter|上传支持|
 |guerlab-spring-upload-aliyun-oss-starter|阿里云oss上传支持|
 
 ## 更新记录
+
+### 20180518 v2.0.0-SNAPSHOT
+
+- 优化RestControllerAdvice处理
+- 增强guerlab-spring-swagger2-starter功能,增加swagger的可配置支持
+- 增加guerlab-spring-swagger2-ui-starter,用于启用对swagger2-ui的访问支持
+
+### 20180508 v2.0.0-SNAPSHOT
+
+- 优化searchParams对transient的支持
+
+### 20180507 v2.0.0-SNAPSHOT
+
+- 增加lombok支持
+
+### 20180504 v2.0.0-SNAPSHOT
+
+- 更新cors配置
+
+### 20180429 v2.0.0-SNAPSHOT
+
+- 更新依赖spring-boot 1.5.12.RELEASE -> 2.0.1.RELEASE
+- 更新依赖spring-cloud Edgware.SR3 -> Finchley.RC1
+- 更新依赖mybatis-starter.version 1.3.1 -> 1.3.2
+- 更新依赖pagehelper-spring-boot-starter 1.2.1 -> 1.2.5
+- 更新依赖pagehelper 5.1.1 -> 5.1.4
+- 更新依赖mapper-spring-boot-starter 1.1.4 -> 2.0.2
+- 更新依赖mapper 3.4.3 -> 1.0.2
+- 新增net.guerlab.spring.commons.autoconfigure.SecurityAutoconfigure
+- 删除net.guerlab.spring.commons.autoconfigure.WebMvcAutoconfigure中关于CORS的处理
+- 删除net.guerlab.spring.commons.autoconfigure.RestTemplateAutoconfigure.loadBalancedAsyncRestTemplate方法
 
 ### 20180426 v0.4.1
 

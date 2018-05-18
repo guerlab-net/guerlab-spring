@@ -17,7 +17,7 @@ import org.springframework.web.util.UrlPathHelper;
  * @author guer
  *
  */
-class HostNameProvider {
+public class HostNameProvider {
 
     /**
      * conversion to UriComponents
@@ -28,7 +28,7 @@ class HostNameProvider {
      *            basePath
      * @return UriComponents
      */
-    static UriComponents componentsFrom(
+    public static UriComponents componentsFrom(
             HttpServletRequest request,
             String basePath) {
 
