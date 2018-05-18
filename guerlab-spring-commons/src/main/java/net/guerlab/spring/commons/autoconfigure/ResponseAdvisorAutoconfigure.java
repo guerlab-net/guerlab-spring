@@ -1,5 +1,6 @@
 package net.guerlab.spring.commons.autoconfigure;
 
+import java.lang.annotation.Annotation;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
@@ -40,9 +42,7 @@ public class ResponseAdvisorAutoconfigure {
         public boolean supports(
                 MethodParameter returnType,
                 Class<? extends HttpMessageConverter<?>> converterType) {
-            return returnType.getMethod().getAnnotation(IgnoreResponseHandler.class) == null
-                    && returnType.getContainingClass().getAnnotation(IgnoreResponseHandler.class) == null
-                    && returnType.getDeclaringClass().getAnnotation(IgnoreResponseHandler.class) == null;
+            return !hasAnnotation(returnType, IgnoreResponseHandler.class);
         }
 
         @Override
@@ -53,17 +53,32 @@ public class ResponseAdvisorAutoconfigure {
                 Class<? extends HttpMessageConverter<?>> selectedConverterType,
                 ServerHttpRequest request,
                 ServerHttpResponse response) {
-            String requestPath = request.getURI().getPath();
-
-            List<String> excluded = properties.getExcluded();
-
-            boolean excludedMatching = excluded != null && excluded.stream().anyMatch(requestPath::startsWith);
-
-            if (excludedMatching || body instanceof Result) {
+            if (matchExcluded(request) || body instanceof Result) {
                 return body;
             }
 
             return body instanceof String ? new Succeed<>(Succeed.MSG, body) : new Succeed<>(body);
+        }
+
+        private boolean hasAnnotation(
+                MethodParameter returnType,
+                Class<? extends Annotation> annotationClass) {
+            return AnnotationUtils.findAnnotation(returnType.getMethod(), annotationClass) != null
+                    || AnnotationUtils.findAnnotation(returnType.getContainingClass(), annotationClass) != null
+                    || AnnotationUtils.findAnnotation(returnType.getDeclaringClass(), annotationClass) != null;
+        }
+
+        private boolean matchExcluded(
+                ServerHttpRequest request) {
+            List<String> excluded = properties.getExcluded();
+
+            if (excluded == null || excluded.isEmpty()) {
+                return false;
+            }
+
+            String requestPath = request.getURI().getPath();
+
+            return excluded.stream().anyMatch(requestPath::startsWith);
         }
     }
 }
