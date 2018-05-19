@@ -35,7 +35,7 @@ import net.guerlab.spring.commons.exception.MethodArgumentTypeMismatchExceptionI
 import net.guerlab.spring.commons.exception.MissingServletRequestParameterExceptionInfo;
 import net.guerlab.spring.commons.exception.NoHandlerFoundExceptionInfo;
 import net.guerlab.spring.commons.exception.RequestParamsError;
-import net.guerlab.web.result.Error;
+import net.guerlab.web.result.Fail;
 
 /**
  * 异常统一处理配置
@@ -64,9 +64,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public Error<Void> methodArgumentTypeMismatchException(
-            HttpServletRequest request,
-            HttpServletResponse response,
+    public Fail<Void> methodArgumentTypeMismatchException(HttpServletRequest request, HttpServletResponse response,
             MethodArgumentTypeMismatchException e) {
         beforeLog(request, e);
 
@@ -85,9 +83,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(NoHandlerFoundException.class)
-    public Error<Void> noHandlerFoundException(
-            HttpServletRequest request,
-            HttpServletResponse response,
+    public Fail<Void> noHandlerFoundException(HttpServletRequest request, HttpServletResponse response,
             NoHandlerFoundException e) {
         beforeLog(request, e);
 
@@ -106,9 +102,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public Error<Void> httpRequestMethodNotSupportedException(
-            HttpServletRequest request,
-            HttpServletResponse response,
+    public Fail<Void> httpRequestMethodNotSupportedException(HttpServletRequest request, HttpServletResponse response,
             HttpRequestMethodNotSupportedException e) {
         beforeLog(request, e);
 
@@ -127,9 +121,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public Error<Void> missingServletRequestParameterException(
-            HttpServletRequest request,
-            HttpServletResponse response,
+    public Fail<Void> missingServletRequestParameterException(HttpServletRequest request, HttpServletResponse response,
             MissingServletRequestParameterException e) {
         beforeLog(request, e);
 
@@ -148,9 +140,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Error<Void> methodArgumentNotValidException(
-            HttpServletRequest request,
-            HttpServletResponse response,
+    public Fail<Void> methodArgumentNotValidException(HttpServletRequest request, HttpServletResponse response,
             MethodArgumentNotValidException e) {
         beforeLog(request, e);
 
@@ -174,9 +164,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    public Error<Void> constraintViolationException(
-            HttpServletRequest request,
-            HttpServletResponse response,
+    public Fail<Void> constraintViolationException(HttpServletRequest request, HttpServletResponse response,
             ConstraintViolationException e) {
         beforeLog(request, e);
 
@@ -200,10 +188,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(Exception.class)
-    public Error<Void> exception(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Exception e) {
+    public Fail<Void> exception(HttpServletRequest request, HttpServletResponse response, Exception e) {
         beforeLog(request, e);
 
         ResponseStatus responseStatus = AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class);
@@ -212,7 +197,7 @@ public class GlobalExceptionHandler {
             int errorCode = responseStatus.value().value();
             String message = responseStatus.reason();
 
-            return new Error<>(getMessage(message), errorCode);
+            return new Fail<>(getMessage(message), errorCode);
         } else if (e instanceof ApplicationException) {
             return handler0((ApplicationException) e);
         } else if (StringUtils.isBlank(e.getMessage())) {
@@ -222,30 +207,24 @@ public class GlobalExceptionHandler {
         }
     }
 
-    private void beforeLog(
-            HttpServletRequest request,
-            Throwable e) {
+    private void beforeLog(HttpServletRequest request, Throwable e) {
         LOGGER.debug("request uri[{} {}]", request.getMethod(), request.getRequestURI());
         LOGGER.debug(e.getLocalizedMessage(), e);
     }
 
-    private Error<Void> handler0(
-            Throwable ex) {
-        return new Error<>(getMessage(ex.getLocalizedMessage()));
+    private Fail<Void> handler0(Throwable ex) {
+        return new Fail<>(getMessage(ex.getLocalizedMessage()));
     }
 
-    private Error<Void> handler0(
-            ApplicationException ex) {
-        return new Error<>(getMessage(ex.getLocalizedMessage()), ex.getErrorCode());
+    private Fail<Void> handler0(ApplicationException ex) {
+        return new Fail<>(getMessage(ex.getLocalizedMessage()), ex.getErrorCode());
     }
 
-    private Error<Void> handler0(
-            AbstractI18nInfo i18nInfo) {
-        return new Error<>(i18nInfo.getMessage(messageSource), i18nInfo.getErrorCode());
+    private Fail<Void> handler0(AbstractI18nInfo i18nInfo) {
+        return new Fail<>(i18nInfo.getMessage(messageSource), i18nInfo.getErrorCode());
     }
 
-    private String getMessage(
-            String msg) {
+    private String getMessage(String msg) {
         if (StringUtils.isBlank(msg)) {
             return msg;
         }

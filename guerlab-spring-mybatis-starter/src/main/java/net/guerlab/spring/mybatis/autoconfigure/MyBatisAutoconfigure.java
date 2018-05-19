@@ -39,8 +39,7 @@ public class MyBatisAutoconfigure {
      */
     @ConditionalOnMissingBean(SqlSessionTemplate.class)
     @Bean
-    public SqlSessionTemplate sqlSessionTemplate(
-            SqlSessionFactory sqlSessionFactory) {
+    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 
@@ -52,8 +51,7 @@ public class MyBatisAutoconfigure {
      * @return 事务管理器
      */
     @Bean(DEFAULT_TRANSACTION_MANAGER_BEAN_NAME)
-    public PlatformTransactionManager defaultTransactionManager(
-            DataSource dataSource) {
+    public PlatformTransactionManager defaultTransactionManager(DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 }

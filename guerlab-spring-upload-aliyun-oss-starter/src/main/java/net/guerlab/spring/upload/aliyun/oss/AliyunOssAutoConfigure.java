@@ -57,9 +57,7 @@ public class AliyunOssAutoConfigure {
      * @return AliyunOssHandler AliyunOssHandler
      */
     @Bean
-    public AliyunOssHandler aliyunOssHandler(
-            OSS ossClient,
-            AliyunOssProperties properties) {
+    public AliyunOssHandler aliyunOssHandler(OSS ossClient, AliyunOssProperties properties) {
         return new AliyunOssHandler(ossClient, properties);
     }
 }

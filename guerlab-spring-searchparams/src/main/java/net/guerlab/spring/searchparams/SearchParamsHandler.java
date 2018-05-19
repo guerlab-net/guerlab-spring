@@ -25,10 +25,7 @@ public interface SearchParamsHandler {
      * @param searchModelType
      *            搜索模式类型
      */
-    void setValue(
-            final Example example,
-            final String columnName,
-            final Object value,
+    void setValue(final Example example, final String columnName, final Object value,
             final SearchModelType searchModelType);
 
     /**
@@ -43,10 +40,7 @@ public interface SearchParamsHandler {
      * @param searchModelType
      *            搜索模式类型
      */
-    default void setValue(
-            final Map<String, Object> map,
-            final String name,
-            final Object value,
+    default void setValue(final Map<String, Object> map, final String name, final Object value,
             final SearchModelType searchModelType) {
         map.put(name, value);
     }

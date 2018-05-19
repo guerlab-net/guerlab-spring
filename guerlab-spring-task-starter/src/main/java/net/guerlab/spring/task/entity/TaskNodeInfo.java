@@ -50,8 +50,7 @@ public class TaskNodeInfo {
      * @param threadName
      *            线程名称
      */
-    public void setThreadName(
-            String threadName) {
+    public void setThreadName(String threadName) {
         this.threadName = threadName;
     }
 
@@ -70,8 +69,7 @@ public class TaskNodeInfo {
      * @param hostName
      *            主机名称
      */
-    public void setHostName(
-            String hostName) {
+    public void setHostName(String hostName) {
         this.hostName = hostName;
     }
 
@@ -90,8 +88,7 @@ public class TaskNodeInfo {
      * @param className
      *            类名称
      */
-    public void setClassName(
-            String className) {
+    public void setClassName(String className) {
         this.className = className;
     }
 
@@ -110,8 +107,7 @@ public class TaskNodeInfo {
      * @param applicationName
      *            应用名称
      */
-    public void setApplicationName(
-            String applicationName) {
+    public void setApplicationName(String applicationName) {
         this.applicationName = applicationName;
     }
 
@@ -130,8 +126,7 @@ public class TaskNodeInfo {
      * @param createTime
      *            创建时间
      */
-    public void setCreateTime(
-            LocalDateTime createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 }

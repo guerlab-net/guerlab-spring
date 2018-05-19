@@ -32,21 +32,19 @@ public class SearchParamsUtils {
     }
 
     /**
-     * 将参数列表对象转换为map对象
+     * 将searchParams的参数转变为example的查询条件
      *
      * @param searchParams
      *            参数列表对象
      * @param example
      *            example
      */
-    public static void setCriteria(
-            final AbstractSearchParams searchParams,
-            final Example example) {
-        setCriteria(searchParams, example, SearchParamsParseConfig.getGlobalInstance());
+    public static void exampleAdvice(final AbstractSearchParams searchParams, final Example example) {
+        exampleAdvice(searchParams, example, SearchParamsParseConfig.getGlobalInstance());
     }
 
     /**
-     * 将参数列表对象转换为map对象
+     * 将searchParams的参数转变为example的查询条件
      *
      * @param searchParams
      *            参数列表对象
@@ -55,9 +53,7 @@ public class SearchParamsUtils {
      * @param config
      *            SearchParams类解析配置
      */
-    public static void setCriteria(
-            final AbstractSearchParams searchParams,
-            final Example example,
+    public static void exampleAdvice(final AbstractSearchParams searchParams, final Example example,
             final SearchParamsParseConfig config) {
         if (searchParams == null || example == null) {
             return;
@@ -67,14 +63,48 @@ public class SearchParamsUtils {
     }
 
     /**
+     * 将searchParams的参数转变为example的查询条件
+     *
+     * @deprecated 2.1 rename to
+     *             {@link #exampleAdvice(AbstractSearchParams, Example)}
+     *
+     * @param searchParams
+     *            参数列表对象
+     * @param example
+     *            example
+     */
+    @Deprecated
+    public static void setCriteria(final AbstractSearchParams searchParams, final Example example) {
+        exampleAdvice(searchParams, example, SearchParamsParseConfig.getGlobalInstance());
+    }
+
+    /**
+     * 将searchParams的参数转变为example的查询条件
+     *
+     * @deprecated 2.1 rename to
+     *             {@link #exampleAdvice(AbstractSearchParams, Example)}
+     *
+     * @param searchParams
+     *            参数列表对象
+     * @param example
+     *            example
+     * @param config
+     *            SearchParams类解析配置
+     */
+    @Deprecated
+    public static void setCriteria(final AbstractSearchParams searchParams, final Example example,
+            final SearchParamsParseConfig config) {
+        exampleAdvice(searchParams, example, config);
+    }
+
+    /**
      * 将参数列表对象转换为map对象,包含pageId/pageSize字段
      *
      * @param searchParams
      *            参数列表对象
      * @return 参数表
      */
-    public static Map<String, Object> toAllMap(
-            final AbstractSearchParams searchParams) {
+    public static Map<String, Object> toAllMap(final AbstractSearchParams searchParams) {
         return toAllMap(searchParams, SearchParamsParseConfig.getGlobalInstance());
     }
 
@@ -87,8 +117,7 @@ public class SearchParamsUtils {
      *            SearchParams类解析配置
      * @return 参数表
      */
-    public static Map<String, Object> toAllMap(
-            final AbstractSearchParams searchParams,
+    public static Map<String, Object> toAllMap(final AbstractSearchParams searchParams,
             final SearchParamsParseConfig config) {
         if (searchParams == null) {
             return Collections.emptyMap();
@@ -111,8 +140,7 @@ public class SearchParamsUtils {
      *            参数列表对象
      * @return 参数表
      */
-    public static Map<String, Object> toMap(
-            final AbstractSearchParams searchParams) {
+    public static Map<String, Object> toMap(final AbstractSearchParams searchParams) {
         return toMap(searchParams, SearchParamsParseConfig.getGlobalInstance());
     }
 
@@ -125,8 +153,7 @@ public class SearchParamsUtils {
      *            SearchParams类解析配置
      * @return 参数表
      */
-    public static Map<String, Object> toMap(
-            final AbstractSearchParams searchParams,
+    public static Map<String, Object> toMap(final AbstractSearchParams searchParams,
             final SearchParamsParseConfig config) {
         if (searchParams == null) {
             return Collections.emptyMap();
@@ -139,37 +166,28 @@ public class SearchParamsUtils {
         return map;
     }
 
-    private static List<Field> getFields(
-            final AbstractSearchParams searchParams) {
+    private static List<Field> getFields(final AbstractSearchParams searchParams) {
         return FieldUtil.getFiledsWithFilter(searchParams.getClass(), STATIC_FILTER, PAGE_PARAMS_FILTER);
     }
 
-    private static SearchParamsHandler getHandler(
-            final Field field,
-            final SearchParamsParseConfig config) {
+    private static SearchParamsHandler getHandler(final Field field, final SearchParamsParseConfig config) {
         SearchParamsParseConfig useConfig = config == null ? SearchParamsParseConfig.getGlobalInstance() : config;
 
         return useConfig.getHandler(field.getType());
     }
 
-    private static SearchModelType getSearchModelType(
-            final Field field) {
+    private static SearchModelType getSearchModelType(final Field field) {
         SearchModel searchModel = field.getAnnotation(SearchModel.class);
         return searchModel == null || searchModel.value() == null ? SearchModelType.EQUAL_TO : searchModel.value();
     }
 
-    private static String getColumnName(
-            final Field field,
-            final String name) {
+    private static String getColumnName(final Field field, final String name) {
         Column column = field.getAnnotation(Column.class);
         return column != null && StringUtils.isNotBlank(column.name()) ? column.name() : name;
     }
 
-    private static void setCriteriaValue(
-            final Field field,
-            final Example example,
-            final AbstractSearchParams searchParams,
-            final SearchParamsParseConfig config) {
+    private static void setCriteriaValue(final Field field, final Example example,
+            final AbstractSearchParams searchParams, final SearchParamsParseConfig config) {
         String name = field.getName();
 
         Object value = FieldUtil.get(searchParams, name);
@@ -193,11 +211,8 @@ public class SearchParamsUtils {
         handler.setValue(example, getColumnName(field, name), value, searchModelType);
     }
 
-    private static void setMapValue(
-            final Field field,
-            final Map<String, Object> map,
-            final AbstractSearchParams searchParams,
-            final SearchParamsParseConfig config) {
+    private static void setMapValue(final Field field, final Map<String, Object> map,
+            final AbstractSearchParams searchParams, final SearchParamsParseConfig config) {
         String name = field.getName();
 
         Object value = FieldUtil.get(searchParams, name);

@@ -22,8 +22,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 public class DocketFactory {
 
-    public static Docket build(
-            DocketProperties properties) {
+    public static Docket build(DocketProperties properties) {
         Docket docket = new Docket(DocumentationType.SWAGGER_2);
 
         ApiInfoProperties apiInfo = properties.getApiInfo();
@@ -47,9 +46,7 @@ public class DocketFactory {
         return docket;
     }
 
-    private static void setApiSelectorBuilder(
-            Docket docket,
-            DocketProperties properties) {
+    private static void setApiSelectorBuilder(Docket docket, DocketProperties properties) {
         ApiSelectorBuilder apiSelectorBuilder = docket.select();
 
         if (StringUtils.isNotBlank(properties.getBasePackage())) {
@@ -70,17 +67,14 @@ public class DocketFactory {
         apiSelectorBuilder.build();
     }
 
-    private static void setGlobalOperationParameters(
-            Docket docket,
-            List<ParameterProperties> propertiesList) {
+    private static void setGlobalOperationParameters(Docket docket, List<ParameterProperties> propertiesList) {
         List<Parameter> operationParameters = propertiesList.stream().map(DocketFactory::createParameter)
                 .collect(Collectors.toList());
 
         docket.globalOperationParameters(operationParameters);
     }
 
-    private static Parameter createParameter(
-            ParameterProperties properties) {
+    private static Parameter createParameter(ParameterProperties properties) {
         ParameterBuilder builder = new ParameterBuilder();
 
         builder.name(properties.getName());
@@ -97,8 +91,7 @@ public class DocketFactory {
         return builder.build();
     }
 
-    private static ApiInfo buildApiInfo(
-            ApiInfoProperties apiInfo) {
+    private static ApiInfo buildApiInfo(ApiInfoProperties apiInfo) {
         ApiInfoBuilder builder = new ApiInfoBuilder();
 
         builder.title(apiInfo.getTitle());

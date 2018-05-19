@@ -44,8 +44,7 @@ public abstract class AbstractI18nInfo {
      *            messageSource
      * @return 国际化处理后内容
      */
-    public final String getMessage(
-            MessageSource messageSource) {
+    public final String getMessage(MessageSource messageSource) {
         String key = getKey();
 
         if (StringUtils.isBlank(key)) {

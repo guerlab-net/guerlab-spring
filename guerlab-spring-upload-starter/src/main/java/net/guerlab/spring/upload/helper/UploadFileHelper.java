@@ -51,8 +51,7 @@ public class UploadFileHelper {
      *            文件对象
      * @return 后缀名
      */
-    public static String getSuffix(
-            final MultipartFile fileItem) {
+    public static String getSuffix(final MultipartFile fileItem) {
         if (fileItem == null) {
             return null;
         }
@@ -85,9 +84,7 @@ public class UploadFileHelper {
      *            mime格式
      * @return 是否为指定的格式
      */
-    public static boolean includes(
-            final MultipartFile fileItem,
-            final MimeType mimeType) {
+    public static boolean includes(final MultipartFile fileItem, final MimeType mimeType) {
         if (fileItem == null || mimeType == null) {
             return false;
         }
@@ -102,8 +99,7 @@ public class UploadFileHelper {
      *            上传文件对象
      * @return 保存路径
      */
-    public static FileInfo upload(
-            final MultipartFile fileItem) {
+    public static FileInfo upload(final MultipartFile fileItem) {
         return toUpload(fileItem, null);
     }
 
@@ -116,9 +112,7 @@ public class UploadFileHelper {
      *            保存路径
      * @return 保存路径
      */
-    public static FileInfo upload(
-            final MultipartFile fileItem,
-            final String path) {
+    public static FileInfo upload(final MultipartFile fileItem, final String path) {
         return toUpload(fileItem, path);
     }
 
@@ -133,10 +127,7 @@ public class UploadFileHelper {
      *            保存文件名
      * @return 保存路径
      */
-    public static FileInfo upload(
-            final MultipartFile fileItem,
-            final String path,
-            final String fileName) {
+    public static FileInfo upload(final MultipartFile fileItem, final String path, final String fileName) {
         return toUpload(fileItem, path, fileName, null);
     }
 
@@ -147,8 +138,7 @@ public class UploadFileHelper {
      *            上传文件列表
      * @return 文件信息列表
      */
-    public static List<FileInfo> multiUpload(
-            final List<MultipartFile> fileItemList) {
+    public static List<FileInfo> multiUpload(final List<MultipartFile> fileItemList) {
         return toMultiUpload(fileItemList, UploadFileHelper::upload);
     }
 
@@ -161,9 +151,7 @@ public class UploadFileHelper {
      *            保存路径
      * @return 文件信息列表
      */
-    public static List<FileInfo> multiUpload(
-            final List<MultipartFile> fileItemList,
-            final String savePath) {
+    public static List<FileInfo> multiUpload(final List<MultipartFile> fileItemList, final String savePath) {
         return toMultiUpload(fileItemList, fileItem -> upload(fileItem, savePath));
     }
 
@@ -178,9 +166,7 @@ public class UploadFileHelper {
      *            保存文件名
      * @return 文件信息列表
      */
-    public static List<FileInfo> multiUpload(
-            final List<MultipartFile> fileItemList,
-            final String savePath,
+    public static List<FileInfo> multiUpload(final List<MultipartFile> fileItemList, final String savePath,
             final String fileName) {
         if (CollectionUtils.isEmpty(fileItemList)) {
             LOGGER.debug("fileItemList is null or is empty");
@@ -202,8 +188,7 @@ public class UploadFileHelper {
         return list;
     }
 
-    private static List<FileInfo> toMultiUpload(
-            final List<MultipartFile> fileItemList,
+    private static List<FileInfo> toMultiUpload(final List<MultipartFile> fileItemList,
             Function<MultipartFile, FileInfo> mapper) {
         if (CollectionUtils.isEmpty(fileItemList)) {
             LOGGER.debug("fileItemList is null or is empty");
@@ -214,16 +199,11 @@ public class UploadFileHelper {
                 .collect(Collectors.toList());
     }
 
-    private static FileInfo toUpload(
-            final MultipartFile fileItem,
-            final String path) {
+    private static FileInfo toUpload(final MultipartFile fileItem, final String path) {
         return toUpload(fileItem, path, null, null);
     }
 
-    private static FileInfo toUpload(
-            final MultipartFile fileItem,
-            final String path,
-            final String fileName,
+    private static FileInfo toUpload(final MultipartFile fileItem, final String path, final String fileName,
             final String suffix) {
         FileInfo fileInfo = new FileInfo(path, fileName, getSuffix(suffix, fileItem), fileItem.getContentType(),
                 fileItem.getSize());
@@ -240,8 +220,7 @@ public class UploadFileHelper {
         }
     }
 
-    private static void handler0(
-            FileInfo fileInfo) {
+    private static void handler0(FileInfo fileInfo) {
         Map<String, UploadHandler> handlerMap = SpringApplicationContextUtil.getContext()
                 .getBeansOfType(UploadHandler.class);
 
@@ -249,14 +228,11 @@ public class UploadFileHelper {
             return;
         }
 
-        HANDLER_POOL.execute(() -> handlerMap.values().stream().filter(e -> e != null && e.accept(fileInfo)).sorted((
-                o1,
-                o2) -> o2.order() - o1.order()).forEach(e -> e.handler(fileInfo)));
+        HANDLER_POOL.execute(() -> handlerMap.values().stream().filter(e -> e != null && e.accept(fileInfo))
+                .sorted((o1, o2) -> o2.order() - o1.order()).forEach(e -> e.handler(fileInfo)));
     }
 
-    private static String getSuffix(
-            final String suffix,
-            final MultipartFile fileItem) {
+    private static String getSuffix(final String suffix, final MultipartFile fileItem) {
         String value = suffix;
 
         if (value == null) {
@@ -266,9 +242,7 @@ public class UploadFileHelper {
         return StringUtils.isBlank(value) ? "" : value;
     }
 
-    private static void write(
-            final MultipartFile fileItem,
-            final FileInfo fileInfo) throws IOException {
+    private static void write(final MultipartFile fileItem, final FileInfo fileInfo) throws IOException {
         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(fileInfo.getSaveFile()));
         stream.write(fileItem.getBytes());
         stream.close();

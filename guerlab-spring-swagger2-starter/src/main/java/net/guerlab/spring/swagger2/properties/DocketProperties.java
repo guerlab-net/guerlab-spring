@@ -64,8 +64,7 @@ public class DocketProperties {
      * @param groupName
      *            分组名称
      */
-    public void setGroupName(
-            String groupName) {
+    public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
 
@@ -84,8 +83,7 @@ public class DocketProperties {
      * @param basePackage
      *            基础包路径
      */
-    public void setBasePackage(
-            String basePackage) {
+    public void setBasePackage(String basePackage) {
         this.basePackage = basePackage;
     }
 
@@ -104,8 +102,7 @@ public class DocketProperties {
      * @param pathRegex
      *            请求路径正则表达式
      */
-    public void setPathRegex(
-            String pathRegex) {
+    public void setPathRegex(String pathRegex) {
         this.pathRegex = pathRegex;
     }
 
@@ -124,8 +121,7 @@ public class DocketProperties {
      * @param pathAntPattern
      *            请求路径ANT表达式
      */
-    public void setPathAntPattern(
-            String pathAntPattern) {
+    public void setPathAntPattern(String pathAntPattern) {
         this.pathAntPattern = pathAntPattern;
     }
 
@@ -144,8 +140,7 @@ public class DocketProperties {
      * @param applyDefaultResponseMessages
      *            是否允许默认响应信息
      */
-    public void setApplyDefaultResponseMessages(
-            boolean applyDefaultResponseMessages) {
+    public void setApplyDefaultResponseMessages(boolean applyDefaultResponseMessages) {
         this.applyDefaultResponseMessages = applyDefaultResponseMessages;
     }
 
@@ -164,8 +159,7 @@ public class DocketProperties {
      * @param apiInfo
      *            api信息
      */
-    public void setApiInfo(
-            ApiInfoProperties apiInfo) {
+    public void setApiInfo(ApiInfoProperties apiInfo) {
         this.apiInfo = apiInfo;
     }
 
@@ -184,8 +178,7 @@ public class DocketProperties {
      * @param globalOperationParameters
      *            全局请求参数
      */
-    public void setGlobalOperationParameters(
-            List<ParameterProperties> globalOperationParameters) {
+    public void setGlobalOperationParameters(List<ParameterProperties> globalOperationParameters) {
         this.globalOperationParameters = globalOperationParameters;
     }
 }

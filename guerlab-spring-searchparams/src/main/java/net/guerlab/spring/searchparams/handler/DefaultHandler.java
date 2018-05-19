@@ -14,10 +14,7 @@ import tk.mybatis.mapper.entity.Example.Criteria;
 public class DefaultHandler implements SearchParamsHandler {
 
     @Override
-    public void setValue(
-            final Example example,
-            final String columnName,
-            final Object value,
+    public void setValue(final Example example, final String columnName, final Object value,
             final SearchModelType searchModelType) {
         Criteria criteria = example.and();
         switch (searchModelType) {

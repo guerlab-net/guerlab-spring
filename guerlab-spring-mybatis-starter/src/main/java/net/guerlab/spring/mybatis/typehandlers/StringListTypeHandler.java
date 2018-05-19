@@ -29,32 +29,23 @@ public class StringListTypeHandler extends BaseTypeHandler<List<String>> {
     };
 
     @Override
-    public void setNonNullParameter(
-            PreparedStatement ps,
-            int i,
-            List<String> parameter,
-            JdbcType jdbcType) throws SQLException {
+    public void setNonNullParameter(PreparedStatement ps, int i, List<String> parameter, JdbcType jdbcType)
+            throws SQLException {
         ps.setString(i, toJson(parameter));
     }
 
     @Override
-    public List<String> getNullableResult(
-            ResultSet rs,
-            String columnName) throws SQLException {
+    public List<String> getNullableResult(ResultSet rs, String columnName) throws SQLException {
         return toObject(rs.getString(columnName));
     }
 
     @Override
-    public List<String> getNullableResult(
-            ResultSet rs,
-            int columnIndex) throws SQLException {
+    public List<String> getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
         return toObject(rs.getString(columnIndex));
     }
 
     @Override
-    public List<String> getNullableResult(
-            CallableStatement cs,
-            int columnIndex) throws SQLException {
+    public List<String> getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
         return toObject(cs.getString(columnIndex));
     }
 
@@ -62,8 +53,7 @@ public class StringListTypeHandler extends BaseTypeHandler<List<String>> {
         return SpringApplicationContextUtil.getContext().getBean(ObjectMapper.class);
     }
 
-    private String toJson(
-            List<String> parameter) {
+    private String toJson(List<String> parameter) {
         try {
             return getMapper().writeValueAsString(parameter);
         } catch (Exception e) {
@@ -71,8 +61,7 @@ public class StringListTypeHandler extends BaseTypeHandler<List<String>> {
         }
     }
 
-    private List<String> toObject(
-            String content) {
+    private List<String> toObject(String content) {
         if (StringUtils.isBlank(content)) {
             return new ArrayList<>();
         }

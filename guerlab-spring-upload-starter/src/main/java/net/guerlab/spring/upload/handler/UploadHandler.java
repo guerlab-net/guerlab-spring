@@ -24,8 +24,7 @@ public interface UploadHandler {
      *            文件信息对象
      * @return 是否进行处理
      */
-    default boolean accept(
-            FileInfo fileInfo) {
+    default boolean accept(FileInfo fileInfo) {
         return fileInfo != null && fileInfo.getFileSize() > 0 && fileInfo.getSaveFile() != null;
     }
 
@@ -45,6 +44,5 @@ public interface UploadHandler {
      * @param fileInfo
      *            文件信息对象
      */
-    void handler(
-            FileInfo fileInfo);
+    void handler(FileInfo fileInfo);
 }

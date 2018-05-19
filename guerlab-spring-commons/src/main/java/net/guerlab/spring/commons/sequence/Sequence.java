@@ -77,8 +77,7 @@ public class Sequence {
      * @param clock
      *            是否使用时钟
      */
-    public void setClock(
-            boolean clock) {
+    public void setClock(boolean clock) {
         isClock = clock;
     }
 
@@ -140,8 +139,7 @@ public class Sequence {
      *            lastTimestamp
      * @return timestamp
      */
-    private long tilNextMillis(
-            long lastTimestamp) {
+    private long tilNextMillis(long lastTimestamp) {
         long timestamp = timeGen();
         while (timestamp <= lastTimestamp) {
             timestamp = timeGen();

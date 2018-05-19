@@ -16,10 +16,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 public class BigDecimalStringSerializer extends JsonSerializer<BigDecimal> {
 
     @Override
-    public void serialize(
-            BigDecimal value,
-            JsonGenerator gen,
-            SerializerProvider serializers) throws IOException {
+    public void serialize(BigDecimal value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         if (value == null) {
             gen.writeNull();
             return;

@@ -19,10 +19,7 @@ public class CollectionHandler implements SearchParamsHandler {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void setValue(
-            final Example example,
-            final String columnName,
-            final Object value,
+    public void setValue(final Example example, final String columnName, final Object value,
             final SearchModelType searchModelType) {
         Collection<Object> collection = (Collection<Object>) value;
 

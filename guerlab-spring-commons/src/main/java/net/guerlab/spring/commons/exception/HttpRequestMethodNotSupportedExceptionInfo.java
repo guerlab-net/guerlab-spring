@@ -1,5 +1,7 @@
 package net.guerlab.spring.commons.exception;
 
+import java.util.Locale;
+
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 /**
@@ -10,11 +12,23 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
  */
 public class HttpRequestMethodNotSupportedExceptionInfo extends AbstractI18nInfo {
 
+    private static final String DEFAULT_MSG;
+
     private String method;
+
+    static {
+        Locale locale = Locale.getDefault();
+
+        if (Locale.CHINA.equals(locale)) {
+            DEFAULT_MSG = "不支持%s请求方式";
+        } else {
+            DEFAULT_MSG = "No support %s request mode";
+        }
+    }
 
     /**
      * 通过HttpRequestMethodNotSupportedException初始化
-     * 
+     *
      * @param cause
      *            HttpRequestMethodNotSupportedException
      */
@@ -37,6 +51,6 @@ public class HttpRequestMethodNotSupportedExceptionInfo extends AbstractI18nInfo
 
     @Override
     protected String getDefaultMessage() {
-        return "不支持" + method + "请求方式";
+        return String.format(DEFAULT_MSG, method);
     }
 }

@@ -35,8 +35,7 @@ public class SwaggerProperties {
      * @param resources
      *            资源列表
      */
-    public void setResources(
-            Map<String, SwaggerResourceBuild> resources) {
+    public void setResources(Map<String, SwaggerResourceBuild> resources) {
         this.resources = resources;
     }
 

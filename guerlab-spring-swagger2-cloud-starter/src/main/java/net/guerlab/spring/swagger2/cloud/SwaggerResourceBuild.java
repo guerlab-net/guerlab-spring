@@ -48,8 +48,7 @@ public class SwaggerResourceBuild {
      * @param name
      *            应用名称
      */
-    public void setName(
-            String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -68,8 +67,7 @@ public class SwaggerResourceBuild {
      * @param path
      *            资源路径
      */
-    public void setPath(
-            String path) {
+    public void setPath(String path) {
         this.path = path;
     }
 
@@ -88,8 +86,7 @@ public class SwaggerResourceBuild {
      * @param group
      *            应用组
      */
-    public void setGroup(
-            String group) {
+    public void setGroup(String group) {
         this.group = group;
     }
 
@@ -108,8 +105,7 @@ public class SwaggerResourceBuild {
      * @param version
      *            swagger版本
      */
-    public void setVersion(
-            String version) {
+    public void setVersion(String version) {
         this.version = version;
     }
 

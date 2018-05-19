@@ -27,8 +27,7 @@ public class SequenceAutoconfigure {
      */
     @Bean
     @RefreshScope
-    public Sequence sequence(
-            SequenceProperties properties) {
+    public Sequence sequence(SequenceProperties properties) {
         return new Sequence(properties.getWorkerId(), properties.getDataCenterId());
     }
 }

@@ -22,16 +22,17 @@ public class RedisTemplateAutoconfigure {
 
     /**
      * create RedisTemplate
-     * 
+     *
      * @param factory
      *            RedisConnectionFactory
      * @return RedisTemplate
      */
     @Bean
-    public RedisTemplate<String, ?> redisTemplate(
-            RedisConnectionFactory factory) {
+    public RedisTemplate<String, ?> redisTemplate(RedisConnectionFactory factory) {
+        ObjectMapper mapper = new ObjectMapper();
 
-        ObjectMapper mapper = new ObjectMapperAutoconfigure().objectMapper();
+        ObjectMapperAutoconfigure.setProperties(mapper);
+
         mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
 
         RedisTemplate<String, ?> template = new RedisTemplate<>();

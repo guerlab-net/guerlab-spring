@@ -28,9 +28,7 @@ public class HostNameProvider {
      *            basePath
      * @return UriComponents
      */
-    public static UriComponents componentsFrom(
-            HttpServletRequest request,
-            String basePath) {
+    public static UriComponents componentsFrom(HttpServletRequest request, String basePath) {
 
         ServletUriComponentsBuilder builder = fromServletMapping(request, basePath);
 
@@ -47,9 +45,7 @@ public class HostNameProvider {
         return builder.build();
     }
 
-    private static ServletUriComponentsBuilder fromServletMapping(
-            HttpServletRequest request,
-            String basePath) {
+    private static ServletUriComponentsBuilder fromServletMapping(HttpServletRequest request, String basePath) {
 
         ServletUriComponentsBuilder builder = fromContextPath(request);
 
@@ -61,9 +57,7 @@ public class HostNameProvider {
         return builder;
     }
 
-    private static String prependForwardedPrefix(
-            HttpServletRequest request,
-            String path) {
+    private static String prependForwardedPrefix(HttpServletRequest request, String path) {
 
         String prefix = request.getHeader("X-Forwarded-Prefix");
         if (prefix != null) {

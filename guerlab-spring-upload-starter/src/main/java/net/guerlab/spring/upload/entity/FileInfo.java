@@ -6,8 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import net.guerlab.spring.commons.sequence.SnHelper;
 import net.guerlab.spring.upload.config.PathInfoConfig;
 
@@ -17,56 +15,47 @@ import net.guerlab.spring.upload.config.PathInfoConfig;
  * @author guer
  *
  */
-@ApiModel("文件信息")
 public class FileInfo {
 
     /**
      * 保存路径
      */
-    @ApiModelProperty(value = "保存路径", readOnly = true)
     private String savePath;
 
     /**
      * 保存文件名
      */
-    @ApiModelProperty(value = "保存文件名", readOnly = true)
     private String saveFileName;
 
     /**
      * 文件名
      */
-    @ApiModelProperty(value = "文件名", readOnly = true)
     private String fileName;
 
     /**
      * 后缀名
      */
-    @ApiModelProperty(value = "后缀名", readOnly = true)
     private String suffix;
 
     /**
      * 文件类型
      */
-    @ApiModelProperty(value = "文件类型", readOnly = true)
     private String contentType;
 
     /**
      * 文件大小
      */
-    @ApiModelProperty(value = "文件大小", readOnly = true)
     private long fileSize;
 
     /**
      * 保存目录
      */
-    @ApiModelProperty(hidden = true)
     @JsonIgnore
     private File saveDir;
 
     /**
      * 保存文件对象
      */
-    @ApiModelProperty(hidden = true)
     @JsonIgnore
     private File saveFile;
 
@@ -235,8 +224,7 @@ public class FileInfo {
         return saveFile;
     }
 
-    private void setPath(
-            String path) {
+    private void setPath(String path) {
         savePath = StringUtils.isBlank(path) ? "" : path + File.separatorChar;
 
         savePath = savePath.replaceAll("\\\\", "/").replaceAll("//", "/");
@@ -252,9 +240,7 @@ public class FileInfo {
         }
     }
 
-    private void setFileName(
-            String fileName,
-            String suffix) {
+    private void setFileName(String fileName, String suffix) {
         this.fileName = fileName == null ? SnHelper.createSn() : fileName;
         this.suffix = suffix;
         saveFileName = this.fileName + suffix;

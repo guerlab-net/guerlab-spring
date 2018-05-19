@@ -64,8 +64,7 @@ public class AliyunOssProperties {
      * @param enable
      *            是否启用
      */
-    public void setEnable(
-            boolean enable) {
+    public void setEnable(boolean enable) {
         this.enable = enable;
     }
 
@@ -84,8 +83,7 @@ public class AliyunOssProperties {
      * @param endpoint
      *            endpoint
      */
-    public void setEndpoint(
-            String endpoint) {
+    public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
     }
 
@@ -104,8 +102,7 @@ public class AliyunOssProperties {
      * @param accessKeyId
      *            accessKeyId
      */
-    public void setAccessKeyId(
-            String accessKeyId) {
+    public void setAccessKeyId(String accessKeyId) {
         this.accessKeyId = accessKeyId;
     }
 
@@ -124,8 +121,7 @@ public class AliyunOssProperties {
      * @param accessKeySecret
      *            accessKeySecret
      */
-    public void setAccessKeySecret(
-            String accessKeySecret) {
+    public void setAccessKeySecret(String accessKeySecret) {
         this.accessKeySecret = accessKeySecret;
     }
 
@@ -144,8 +140,7 @@ public class AliyunOssProperties {
      * @param bucketName
      *            bucketName
      */
-    public void setBucketName(
-            String bucketName) {
+    public void setBucketName(String bucketName) {
         this.bucketName = bucketName;
     }
 
@@ -168,8 +163,7 @@ public class AliyunOssProperties {
      * @param clientConfig
      *            OSSClient配置
      */
-    public void setClientConfig(
-            ClientConfiguration clientConfig) {
+    public void setClientConfig(ClientConfiguration clientConfig) {
         this.clientConfig = clientConfig;
     }
 }

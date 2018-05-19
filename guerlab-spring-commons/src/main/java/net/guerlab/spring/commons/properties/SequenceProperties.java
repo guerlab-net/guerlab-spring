@@ -38,8 +38,7 @@ public class SequenceProperties {
      * @param workerId
      *            工作节点ID
      */
-    public void setWorkerId(
-            long workerId) {
+    public void setWorkerId(long workerId) {
         this.workerId = workerId;
     }
 
@@ -58,8 +57,7 @@ public class SequenceProperties {
      * @param dataCenterId
      *            数据中心ID
      */
-    public void setDataCenterId(
-            long dataCenterId) {
+    public void setDataCenterId(long dataCenterId) {
         this.dataCenterId = dataCenterId;
     }
 }

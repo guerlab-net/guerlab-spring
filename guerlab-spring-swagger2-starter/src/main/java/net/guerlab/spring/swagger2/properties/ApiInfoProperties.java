@@ -44,8 +44,7 @@ public class ApiInfoProperties {
      * @param title
      *            title
      */
-    public void setTitle(
-            String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
@@ -64,8 +63,7 @@ public class ApiInfoProperties {
      * @param description
      *            description
      */
-    public void setDescription(
-            String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -84,8 +82,7 @@ public class ApiInfoProperties {
      * @param termsOfServiceUrl
      *            termsOfServiceUrl
      */
-    public void setTermsOfServiceUrl(
-            String termsOfServiceUrl) {
+    public void setTermsOfServiceUrl(String termsOfServiceUrl) {
         this.termsOfServiceUrl = termsOfServiceUrl;
     }
 
@@ -104,8 +101,7 @@ public class ApiInfoProperties {
      * @param contact
      *            contact
      */
-    public void setContact(
-            Contact contact) {
+    public void setContact(Contact contact) {
         this.contact = contact;
     }
 
@@ -124,8 +120,7 @@ public class ApiInfoProperties {
      * @param license
      *            license
      */
-    public void setLicense(
-            String license) {
+    public void setLicense(String license) {
         this.license = license;
     }
 
@@ -144,8 +139,7 @@ public class ApiInfoProperties {
      * @param licenseUrl
      *            licenseUrl
      */
-    public void setLicenseUrl(
-            String licenseUrl) {
+    public void setLicenseUrl(String licenseUrl) {
         this.licenseUrl = licenseUrl;
     }
 
@@ -164,8 +158,7 @@ public class ApiInfoProperties {
      * @param version
      *            version
      */
-    public void setVersion(
-            String version) {
+    public void setVersion(String version) {
         this.version = version;
     }
 
@@ -184,8 +177,7 @@ public class ApiInfoProperties {
      * @param vendorExtensions
      *            vendorExtensions
      */
-    public void setVendorExtensions(
-            List<VendorExtension<?>> vendorExtensions) {
+    public void setVendorExtensions(List<VendorExtension<?>> vendorExtensions) {
         this.vendorExtensions = vendorExtensions;
     }
 }

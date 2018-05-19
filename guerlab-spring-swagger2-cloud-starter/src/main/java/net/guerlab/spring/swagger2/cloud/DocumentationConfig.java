@@ -3,7 +3,6 @@ package net.guerlab.spring.swagger2.cloud;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import net.guerlab.commons.collection.CollectionUtil;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
@@ -32,12 +32,13 @@ public class DocumentationConfig implements SwaggerResourcesProvider {
     public List<SwaggerResource> get() {
         Map<String, SwaggerResourceBuild> resources = properties.getResources();
 
-        if (resources.isEmpty()) {
+        if (resources == null || resources.isEmpty()) {
             return Collections.emptyList();
         }
 
-        return resources.keySet().stream().map(key -> {
-            SwaggerResourceBuild build = resources.get(key);
+        return CollectionUtil.toList(resources.entrySet(), entry -> {
+            String key = entry.getKey();
+            SwaggerResourceBuild build = entry.getValue();
 
             if (StringUtils.isBlank(build.getName())) {
                 build.setName(key);
@@ -47,7 +48,7 @@ public class DocumentationConfig implements SwaggerResourcesProvider {
             }
 
             return build.build();
-        }).collect(Collectors.toList());
+        });
     }
 
 }

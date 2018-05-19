@@ -1,5 +1,7 @@
 package net.guerlab.spring.commons.exception;
 
+import java.util.Locale;
+
 /**
  * 默认错误
  *
@@ -7,6 +9,18 @@ package net.guerlab.spring.commons.exception;
  *
  */
 public class DefaultEexceptionInfo extends AbstractI18nInfo {
+
+    private static final String DEFAULT_MSG;
+
+    static {
+        Locale locale = Locale.getDefault();
+
+        if (Locale.CHINA.equals(locale)) {
+            DEFAULT_MSG = "系统繁忙,请稍后再试";
+        } else {
+            DEFAULT_MSG = "The system is busy. Please try again later.";
+        }
+    }
 
     /**
      * 通过异常信息初始化
@@ -25,6 +39,6 @@ public class DefaultEexceptionInfo extends AbstractI18nInfo {
 
     @Override
     protected String getDefaultMessage() {
-        return "系统繁忙,请稍后再试";
+        return DEFAULT_MSG;
     }
 }

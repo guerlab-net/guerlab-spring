@@ -21,10 +21,7 @@ public class StringHandler implements SearchParamsHandler {
     private static final char PERCENT = '%';
 
     @Override
-    public void setValue(
-            final Example example,
-            final String columnName,
-            final Object value,
+    public void setValue(final Example example, final String columnName, final Object value,
             final SearchModelType searchModelType) {
         String str = (String) value;
 

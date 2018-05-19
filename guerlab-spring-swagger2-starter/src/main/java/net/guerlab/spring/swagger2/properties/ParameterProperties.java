@@ -39,8 +39,7 @@ public class ParameterProperties {
      * @param name
      *            name
      */
-    public void setName(
-            String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -59,8 +58,7 @@ public class ParameterProperties {
      * @param description
      *            description
      */
-    public void setDescription(
-            String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -79,8 +77,7 @@ public class ParameterProperties {
      * @param defaultValue
      *            defaultValue
      */
-    public void setDefaultValue(
-            String defaultValue) {
+    public void setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
     }
 
@@ -99,8 +96,7 @@ public class ParameterProperties {
      * @param required
      *            required
      */
-    public void setRequired(
-            boolean required) {
+    public void setRequired(boolean required) {
         this.required = required;
     }
 
@@ -119,8 +115,7 @@ public class ParameterProperties {
      * @param allowMultiple
      *            allowMultiple
      */
-    public void setAllowMultiple(
-            boolean allowMultiple) {
+    public void setAllowMultiple(boolean allowMultiple) {
         this.allowMultiple = allowMultiple;
     }
 
@@ -139,8 +134,7 @@ public class ParameterProperties {
      * @param paramType
      *            paramType
      */
-    public void setParamType(
-            String paramType) {
+    public void setParamType(String paramType) {
         this.paramType = paramType;
     }
 
@@ -159,8 +153,7 @@ public class ParameterProperties {
      * @param paramAccess
      *            paramAccess
      */
-    public void setParamAccess(
-            String paramAccess) {
+    public void setParamAccess(String paramAccess) {
         this.paramAccess = paramAccess;
     }
 
@@ -179,8 +172,7 @@ public class ParameterProperties {
      * @param modelRef
      *            modelRef
      */
-    public void setModelRef(
-            String modelRef) {
+    public void setModelRef(String modelRef) {
         this.modelRef = modelRef;
     }
 
@@ -199,8 +191,7 @@ public class ParameterProperties {
      * @param hidden
      *            hidden
      */
-    public void setHidden(
-            boolean hidden) {
+    public void setHidden(boolean hidden) {
         this.hidden = hidden;
     }
 
@@ -219,8 +210,7 @@ public class ParameterProperties {
      * @param pattern
      *            pattern
      */
-    public void setPattern(
-            String pattern) {
+    public void setPattern(String pattern) {
         this.pattern = pattern;
     }
 
@@ -239,8 +229,7 @@ public class ParameterProperties {
      * @param collectionFormat
      *            collectionFormat
      */
-    public void setCollectionFormat(
-            String collectionFormat) {
+    public void setCollectionFormat(String collectionFormat) {
         this.collectionFormat = collectionFormat;
     }
 }

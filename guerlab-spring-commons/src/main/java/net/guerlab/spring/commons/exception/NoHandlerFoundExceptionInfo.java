@@ -1,18 +1,32 @@
 package net.guerlab.spring.commons.exception;
 
+import java.util.Locale;
+
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
  * 未发现处理程序(404)
- * 
+ *
  * @author guer
  *
  */
 public class NoHandlerFoundExceptionInfo extends AbstractI18nInfo {
 
+    private static final String DEFAULT_MSG;
+
     private String method;
 
     private String url;
+
+    static {
+        Locale locale = Locale.getDefault();
+
+        if (Locale.CHINA.equals(locale)) {
+            DEFAULT_MSG = "请求地址无效[%s %s]";
+        } else {
+            DEFAULT_MSG = "Invalid request address[%s %s]";
+        }
+    }
 
     /**
      * 通过NoHandlerFoundException初始化
@@ -40,6 +54,6 @@ public class NoHandlerFoundExceptionInfo extends AbstractI18nInfo {
 
     @Override
     protected String getDefaultMessage() {
-        return "请求地址无效[" + method + " " + url + "]";
+        return String.format(DEFAULT_MSG, method, url);
     }
 }

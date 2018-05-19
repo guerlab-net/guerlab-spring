@@ -47,8 +47,7 @@ public class ResponseAdvisorProperties {
      * @param excluded
      *            排除路径
      */
-    public void setExcluded(
-            List<String> excluded) {
+    public void setExcluded(List<String> excluded) {
         this.excluded = excluded;
     }
 }

@@ -13,9 +13,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 public class SwaggerEnableCondition implements Condition {
 
     @Override
-    public boolean matches(
-            ConditionContext context,
-            AnnotatedTypeMetadata metadata) {
+    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         return context.getEnvironment().getProperty("swagger.enable", Boolean.TYPE, false);
     }
 

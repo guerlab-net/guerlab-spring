@@ -2,29 +2,23 @@ package net.guerlab.spring.searchparams;
 
 import javax.persistence.Transient;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 /**
  * 抽象通用搜索参数对象
  *
  * @author guer
  *
  */
-@ApiModel(value = "抽象通用搜索参数对象")
 public abstract class AbstractSearchParams {
 
     /**
      * 分页ID
      */
-    @ApiModelProperty(value = "分页ID", example = "1", allowableValues = "range[1, infinity]")
     @Transient
     protected transient int pageId = 1;
 
     /**
      * 分页内容数量
      */
-    @ApiModelProperty(value = "分页内容数量", example = "10", allowableValues = "range[1, infinity]")
     @Transient
     protected transient int pageSize = 10;
 
@@ -43,8 +37,7 @@ public abstract class AbstractSearchParams {
      * @param pageId
      *            分页ID
      */
-    public final void setPageId(
-            final int pageId) {
+    public final void setPageId(final int pageId) {
         this.pageId = pageId;
     }
 
@@ -63,8 +56,7 @@ public abstract class AbstractSearchParams {
      * @param pageSize
      *            分页内容数量
      */
-    public final void setPageSize(
-            final int pageSize) {
+    public final void setPageSize(final int pageSize) {
         this.pageSize = pageSize;
     }
 }

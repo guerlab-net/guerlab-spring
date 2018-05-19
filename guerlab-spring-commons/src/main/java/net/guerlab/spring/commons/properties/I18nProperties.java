@@ -41,8 +41,7 @@ public class I18nProperties {
      * @param defaultLocale
      *            默认语言
      */
-    public void setDefaultLocale(
-            Locale defaultLocale) {
+    public void setDefaultLocale(Locale defaultLocale) {
         this.defaultLocale = defaultLocale;
     }
 
@@ -61,8 +60,7 @@ public class I18nProperties {
      * @param localeChangeInterceptor
      *            语言环境改变拦截器
      */
-    public void setLocaleChangeInterceptor(
-            LocaleChangeInterceptor localeChangeInterceptor) {
+    public void setLocaleChangeInterceptor(LocaleChangeInterceptor localeChangeInterceptor) {
         this.localeChangeInterceptor = localeChangeInterceptor;
     }
 

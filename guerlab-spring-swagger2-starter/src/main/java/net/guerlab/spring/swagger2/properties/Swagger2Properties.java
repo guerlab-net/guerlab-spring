@@ -35,8 +35,7 @@ public class Swagger2Properties {
      * @param dockets
      *            Docket配置列表
      */
-    public void setDockets(
-            List<DocketProperties> dockets) {
+    public void setDockets(List<DocketProperties> dockets) {
         this.dockets = dockets;
     }
 

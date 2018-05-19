@@ -15,10 +15,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 public class LongStringSerializer extends JsonSerializer<Long> {
 
     @Override
-    public void serialize(
-            Long value,
-            JsonGenerator gen,
-            SerializerProvider serializers) throws IOException {
+    public void serialize(Long value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         if (value == null) {
             gen.writeNull();
             return;

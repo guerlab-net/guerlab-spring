@@ -15,8 +15,7 @@ import net.guerlab.commons.time.TimeHelper;
 public class LocalDateTimeConverter implements Converter<String, LocalDateTime> {
 
     @Override
-    public LocalDateTime convert(
-            String source) {
+    public LocalDateTime convert(String source) {
         return TimeHelper.parseLocalDateTime(source);
     }
 

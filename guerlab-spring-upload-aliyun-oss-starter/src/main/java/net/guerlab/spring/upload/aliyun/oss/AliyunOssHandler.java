@@ -47,14 +47,12 @@ public class AliyunOssHandler implements UploadHandler {
     }
 
     @Override
-    public boolean accept(
-            FileInfo fileInfo) {
+    public boolean accept(FileInfo fileInfo) {
         return properties.isEnable() && UploadHandler.super.accept(fileInfo);
     }
 
     @Override
-    public void handler(
-            FileInfo fileInfo) {
+    public void handler(FileInfo fileInfo) {
         LOGGER.debug("start put object[{}]", fileInfo);
 
         String path = fileInfo.getWebPath();
@@ -66,8 +64,7 @@ public class AliyunOssHandler implements UploadHandler {
         handler0(request);
     }
 
-    private void handler0(
-            PutObjectRequest request) {
+    private void handler0(PutObjectRequest request) {
         try {
             ossClient.putObject(request);
         } catch (OSSException oe) {

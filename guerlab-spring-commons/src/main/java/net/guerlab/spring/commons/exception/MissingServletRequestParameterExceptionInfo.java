@@ -1,5 +1,7 @@
 package net.guerlab.spring.commons.exception;
 
+import java.util.Locale;
+
 import org.springframework.web.bind.MissingServletRequestParameterException;
 
 /**
@@ -10,11 +12,23 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
  */
 public class MissingServletRequestParameterExceptionInfo extends AbstractI18nInfo {
 
+    private static final String DEFAULT_MSG;
+
     private String parameterName;
+
+    static {
+        Locale locale = Locale.getDefault();
+
+        if (Locale.CHINA.equals(locale)) {
+            DEFAULT_MSG = "请求参数[%s]缺失";
+        } else {
+            DEFAULT_MSG = "Request parameter [%s] missing.";
+        }
+    }
 
     /**
      * 通过MissingServletRequestParameterException初始化
-     * 
+     *
      * @param cause
      *            MissingServletRequestParameterException
      */
@@ -37,6 +51,6 @@ public class MissingServletRequestParameterExceptionInfo extends AbstractI18nInf
 
     @Override
     protected String getDefaultMessage() {
-        return "请求参数[" + parameterName + "]缺失";
+        return String.format(DEFAULT_MSG, parameterName);
     }
 }

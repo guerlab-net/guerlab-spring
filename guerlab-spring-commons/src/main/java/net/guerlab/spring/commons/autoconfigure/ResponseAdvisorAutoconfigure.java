@@ -45,19 +45,13 @@ public class ResponseAdvisorAutoconfigure {
         private ResponseAdvisorProperties properties;
 
         @Override
-        public boolean supports(
-                MethodParameter returnType,
-                Class<? extends HttpMessageConverter<?>> converterType) {
+        public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
             return !hasAnnotation(returnType, IgnoreResponseHandler.class);
         }
 
         @Override
-        public Object beforeBodyWrite(
-                Object body,
-                MethodParameter returnType,
-                MediaType selectedContentType,
-                Class<? extends HttpMessageConverter<?>> selectedConverterType,
-                ServerHttpRequest request,
+        public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
+                Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
                 ServerHttpResponse response) {
             if (matchExcluded(request) || body instanceof Result) {
                 return body;
@@ -75,9 +69,7 @@ public class ResponseAdvisorAutoconfigure {
          *            注解类
          * @return 是否包含注解
          */
-        private boolean hasAnnotation(
-                MethodParameter returnType,
-                Class<? extends Annotation> annotationClass) {
+        private boolean hasAnnotation(MethodParameter returnType, Class<? extends Annotation> annotationClass) {
             return AnnotationUtils.findAnnotation(returnType.getMethod(), annotationClass) != null
                     || AnnotationUtils.findAnnotation(returnType.getContainingClass(), annotationClass) != null;
         }
@@ -89,8 +81,7 @@ public class ResponseAdvisorAutoconfigure {
          *            请求对象
          * @return 是否在排除路径中
          */
-        private boolean matchExcluded(
-                ServerHttpRequest request) {
+        private boolean matchExcluded(ServerHttpRequest request) {
             List<String> excluded = properties.getExcluded();
 
             if (excluded == null || excluded.isEmpty()) {

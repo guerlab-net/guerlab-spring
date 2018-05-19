@@ -37,8 +37,7 @@ public class DockerAutoConfigure {
      *            swagger2配置
      */
     @Autowired
-    public void createDocker(
-            Swagger2Properties swagger2Properties) {
+    public void createDocker(Swagger2Properties swagger2Properties) {
         if (CollectionUtil.isEmpty(swagger2Properties.getDockets())) {
             return;
         }
@@ -73,9 +72,7 @@ public class DockerAutoConfigure {
         return null;
     }
 
-    private static void createDockerOnce(
-            DocketProperties properties,
-            DefaultListableBeanFactory beanFactory) {
+    private static void createDockerOnce(DocketProperties properties, DefaultListableBeanFactory beanFactory) {
         BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(DocketFactory.class, "build");
         builder.addConstructorArgValue(properties);
 
@@ -86,8 +83,7 @@ public class DockerAutoConfigure {
         beanFactory.registerBeanDefinition(beanName, beanDefinition);
     }
 
-    private static String createBeanName(
-            DocketProperties properties) {
+    private static String createBeanName(DocketProperties properties) {
         return "Docket_" + properties;
     }
 }

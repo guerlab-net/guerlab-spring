@@ -102,8 +102,7 @@ public class PathInfoConfig {
      * @param path
      *            基本保存路径
      */
-    public void setPath(
-            String path) {
+    public void setPath(String path) {
         this.path = path;
     }
 
@@ -130,8 +129,7 @@ public class PathInfoConfig {
      * @param dir
      *            基本保存目录
      */
-    public void setDir(
-            String dir) {
+    public void setDir(String dir) {
         this.dir = dir;
     }
 

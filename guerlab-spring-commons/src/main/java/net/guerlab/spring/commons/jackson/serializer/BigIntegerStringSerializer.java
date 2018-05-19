@@ -16,10 +16,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 public class BigIntegerStringSerializer extends JsonSerializer<BigInteger> {
 
     @Override
-    public void serialize(
-            BigInteger value,
-            JsonGenerator gen,
-            SerializerProvider serializers) throws IOException {
+    public void serialize(BigInteger value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         if (value == null) {
             gen.writeNull();
             return;

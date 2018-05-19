@@ -18,15 +18,11 @@ import net.guerlab.spring.searchparams.handler.StringHandler;
  */
 public class SearchParamsParseConfig {
 
-    private static final SearchParamsParseConfig GLOBAL;
+    private static final SearchParamsParseConfig GLOBAL = new SearchParamsParseConfig();
 
     private final Map<Type, SearchParamsHandler> handlers = new HashMap<>();
 
     private SearchParamsHandler defaultHandler = new DefaultHandler();
-
-    static {
-        GLOBAL = new SearchParamsParseConfig();
-    }
 
     /**
      * 实例化SearchParams类解析配置
@@ -52,8 +48,7 @@ public class SearchParamsParseConfig {
      * @param handler
      *            处理器
      */
-    public void setDefaultHandler(
-            SearchParamsHandler handler) {
+    public void setDefaultHandler(SearchParamsHandler handler) {
         defaultHandler = handler;
     }
 
@@ -65,9 +60,7 @@ public class SearchParamsParseConfig {
      * @param handler
      *            处理器
      */
-    public void addHandler(
-            Type type,
-            SearchParamsHandler handler) {
+    public void addHandler(Type type, SearchParamsHandler handler) {
         if (type != null && handler != null) {
             handlers.put(type, handler);
         }
@@ -80,8 +73,7 @@ public class SearchParamsParseConfig {
      *            数据类型
      * @return 处理器对象
      */
-    public SearchParamsHandler getHandler(
-            Type type) {
+    public SearchParamsHandler getHandler(Type type) {
         SearchParamsHandler handler = handlers.get(type);
 
         if (handler != null) {

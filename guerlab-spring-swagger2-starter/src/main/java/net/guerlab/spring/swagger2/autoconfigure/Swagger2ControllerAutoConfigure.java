@@ -67,8 +67,7 @@ public class Swagger2ControllerAutoConfigure implements WebMvcConfigurer {
          * @return swagger
          */
         @GetMapping("/v2/api-docs")
-        public Swagger getDocumentation(
-                @RequestParam(value = "group", required = false) String swaggerGroup,
+        public Swagger getDocumentation(@RequestParam(value = "group", required = false) String swaggerGroup,
                 HttpServletRequest servletRequest) {
             String groupName = Optional.ofNullable(swaggerGroup).orElse(Docket.DEFAULT_GROUP_NAME);
 
@@ -103,8 +102,7 @@ public class Swagger2ControllerAutoConfigure implements WebMvcConfigurer {
             return swagger2;
         }
 
-        private String hostName(
-                UriComponents uriComponents) {
+        private String hostName(UriComponents uriComponents) {
             String host = uriComponents.getHost();
             int port = uriComponents.getPort();
             if (port > -1) {

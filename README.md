@@ -32,6 +32,18 @@ spring 扩展工具集
 
 ## 更新记录
 
+### 20180519 v2.0.0-SNAPSHOT
+
+- 更新依赖guerlab-commons 1.3.0 -> 1.4.0
+- 更新依赖guerlab-web 1.3.0 -> 1.4.0
+- 更新net.guerlab.spring.commons.exception包下的所有异常信息类，增加根据系统语言环境选择默认信息的处理
+- 调整net.guerlab.spring.commons.autoconfigure.ObjectMapperAutoconfigure,删除ObjectMapper的生成方法,调整为对默认ObjectMapper Bean对象直接进行扩展处理
+- 调整net.guerlab.spring.commons.autoconfigure.WebMvcAutoconfigure,修改对HttpMessageConverter列表的处理
+- 调整net.guerlab.spring.redis.autoconfigure.RedisTemplateAutoconfigure以兼容net.guerlab.spring.commons.autoconfigure.ObjectMapperAutoconfigure的修改
+- 修改net.guerlab.spring.searchparams.SearchParamsUtils的方法的命名以符合方法该进行的处理内容
+- 删除guerlab-spring-searchparams包对swagger的依赖
+- 删除net.guerlab.spring.commons.util.TimeUtil
+
 ### 20180518 v2.0.0-SNAPSHOT
 
 - 优化RestControllerAdvice处理

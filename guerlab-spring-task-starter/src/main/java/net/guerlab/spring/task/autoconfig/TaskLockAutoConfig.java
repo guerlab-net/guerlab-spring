@@ -51,8 +51,7 @@ public class TaskLockAutoConfig {
          *             Throws Throwable when running an error.
          */
         @Around("@annotation(net.guerlab.spring.task.annotation.TaskLock)")
-        public Object deBefore(
-                ProceedingJoinPoint point) throws Throwable {
+        public Object deBefore(ProceedingJoinPoint point) throws Throwable {
             Signature signature = point.getSignature();
 
             if (!(signature instanceof MethodSignature)) {
@@ -80,15 +79,12 @@ public class TaskLockAutoConfig {
             return result;
         }
 
-        private Object proceed(
-                ProceedingJoinPoint point) throws Throwable {
+        private Object proceed(ProceedingJoinPoint point) throws Throwable {
             Object[] args = point.getArgs();
             return args != null ? point.proceed(args) : point.proceed();
         }
 
-        private boolean lock(
-                TaskLock lock,
-                String className) {
+        private boolean lock(TaskLock lock, String className) {
             TaskNodeInfo info = new TaskNodeInfo();
 
             info.setClassName(className);
@@ -109,8 +105,7 @@ public class TaskLockAutoConfig {
             }
         }
 
-        private void unlock(
-                String key) {
+        private void unlock(String key) {
             redisTemplate.delete(key);
         }
 

@@ -8,11 +8,8 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.time.Year;
 
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerator.Feature;
@@ -42,7 +39,6 @@ import net.guerlab.spring.commons.jackson.serializer.LongStringSerializer;
  *
  */
 @Configuration
-@AutoConfigureBefore(JacksonAutoConfiguration.class)
 public class ObjectMapperAutoconfigure {
 
     /**
@@ -51,8 +47,7 @@ public class ObjectMapperAutoconfigure {
      * @param objectMapper
      *            objectMapper
      */
-    public static void setProperties(
-            final ObjectMapper objectMapper) {
+    public static void setProperties(final ObjectMapper objectMapper) {
         SimpleModule module = new SimpleModule();
         module.addDeserializer(LocalDate.class, new LocalDateDeserializer());
         module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer());
@@ -86,17 +81,13 @@ public class ObjectMapperAutoconfigure {
     }
 
     /**
-     * create ObjectMapper
-     *
-     * @return ObjectMapper
+     * objectMapper扩展设置
+     * 
+     * @param objectMapper
+     *            objectMapper
      */
-    @Bean
-    @Primary
-    public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-
+    @Autowired
+    public void objectMapperAdvice(ObjectMapper objectMapper) {
         setProperties(objectMapper);
-
-        return objectMapper;
     }
 }
