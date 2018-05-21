@@ -32,6 +32,10 @@ spring 扩展工具集
 
 ## 更新记录
 
+### 20180521 v2.0.0-SNAPSHOT
+
+- 更新net.guerlab.spring.commons.exception.handler.GlobalExceptionHandler,增强对javax.validation系列注解的支持,并增加语言包支持
+
 ### 20180519 v2.0.0-SNAPSHOT
 
 - 更新依赖guerlab-commons 1.3.0 -> 1.4.0

@@ -1,7 +1,9 @@
 package net.guerlab.spring.commons.exception.handler;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.validation.BindingResult;
@@ -64,7 +67,9 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public Fail<Void> methodArgumentTypeMismatchException(HttpServletRequest request, HttpServletResponse response,
+    public Fail<Void> methodArgumentTypeMismatchException(
+            HttpServletRequest request,
+            HttpServletResponse response,
             MethodArgumentTypeMismatchException e) {
         beforeLog(request, e);
 
@@ -83,7 +88,9 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(NoHandlerFoundException.class)
-    public Fail<Void> noHandlerFoundException(HttpServletRequest request, HttpServletResponse response,
+    public Fail<Void> noHandlerFoundException(
+            HttpServletRequest request,
+            HttpServletResponse response,
             NoHandlerFoundException e) {
         beforeLog(request, e);
 
@@ -102,7 +109,9 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public Fail<Void> httpRequestMethodNotSupportedException(HttpServletRequest request, HttpServletResponse response,
+    public Fail<Void> httpRequestMethodNotSupportedException(
+            HttpServletRequest request,
+            HttpServletResponse response,
             HttpRequestMethodNotSupportedException e) {
         beforeLog(request, e);
 
@@ -121,7 +130,9 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public Fail<Void> missingServletRequestParameterException(HttpServletRequest request, HttpServletResponse response,
+    public Fail<Void> missingServletRequestParameterException(
+            HttpServletRequest request,
+            HttpServletResponse response,
             MissingServletRequestParameterException e) {
         beforeLog(request, e);
 
@@ -140,16 +151,37 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Fail<Void> methodArgumentNotValidException(HttpServletRequest request, HttpServletResponse response,
+    public Fail<List<String>> methodArgumentNotValidException(
+            HttpServletRequest request,
+            HttpServletResponse response,
             MethodArgumentNotValidException e) {
         beforeLog(request, e);
 
         BindingResult bindingResult = e.getBindingResult();
 
-        String message = StringUtils.joinWith("\n",
-                bindingResult.getAllErrors().stream().map(ObjectError::getDefaultMessage).toArray());
+        List<String> displayMessageList = bindingResult.getAllErrors().stream()
+                .map(this::getMethodArgumentNotValidExceptionDisplayMessage).collect(Collectors.toList());
 
-        return handler0(new RequestParamsError(message, e));
+        return handler0(new RequestParamsError(e, displayMessageList));
+    }
+
+    private String getMethodArgumentNotValidExceptionDisplayMessage(
+            ObjectError error) {
+        String defaultMessage = error.getDefaultMessage();
+
+        Locale locale = LocaleContextHolder.getLocale();
+
+        try {
+            /*
+             * use custom message
+             */
+            return messageSource.getMessage(defaultMessage, null, locale);
+        } catch (NoSuchMessageException e) {
+            /*
+             * use ObjectError default message
+             */
+            return error.getObjectName() + error.getDefaultMessage();
+        }
     }
 
     /**
@@ -164,16 +196,18 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    public Fail<Void> constraintViolationException(HttpServletRequest request, HttpServletResponse response,
+    public Fail<List<String>> constraintViolationException(
+            HttpServletRequest request,
+            HttpServletResponse response,
             ConstraintViolationException e) {
         beforeLog(request, e);
 
         Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
 
-        String message = StringUtils.joinWith("\n",
-                constraintViolations.stream().map(ConstraintViolation::getMessage).toArray());
+        List<String> displayMessageList = constraintViolations.stream().map(ConstraintViolation::getMessage)
+                .collect(Collectors.toList());
 
-        return handler0(new RequestParamsError(message, e));
+        return handler0(new RequestParamsError(e, displayMessageList));
     }
 
     /**
@@ -188,7 +222,10 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(Exception.class)
-    public Fail<Void> exception(HttpServletRequest request, HttpServletResponse response, Exception e) {
+    public Fail<Void> exception(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Exception e) {
         beforeLog(request, e);
 
         ResponseStatus responseStatus = AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class);
@@ -207,24 +244,39 @@ public class GlobalExceptionHandler {
         }
     }
 
-    private void beforeLog(HttpServletRequest request, Throwable e) {
+    private void beforeLog(
+            HttpServletRequest request,
+            Throwable e) {
         LOGGER.debug("request uri[{} {}]", request.getMethod(), request.getRequestURI());
         LOGGER.debug(e.getLocalizedMessage(), e);
     }
 
-    private Fail<Void> handler0(Throwable ex) {
+    private Fail<Void> handler0(
+            Throwable ex) {
         return new Fail<>(getMessage(ex.getLocalizedMessage()));
     }
 
-    private Fail<Void> handler0(ApplicationException ex) {
+    private Fail<List<String>> handler0(
+            RequestParamsError ex) {
+        Fail<List<String>> fail = new Fail<>(getMessage(ex.getLocalizedMessage()), ex.getErrorCode());
+
+        fail.setData(ex.getErrors());
+
+        return fail;
+    }
+
+    private Fail<Void> handler0(
+            ApplicationException ex) {
         return new Fail<>(getMessage(ex.getLocalizedMessage()), ex.getErrorCode());
     }
 
-    private Fail<Void> handler0(AbstractI18nInfo i18nInfo) {
+    private Fail<Void> handler0(
+            AbstractI18nInfo i18nInfo) {
         return new Fail<>(i18nInfo.getMessage(messageSource), i18nInfo.getErrorCode());
     }
 
-    private String getMessage(String msg) {
+    private String getMessage(
+            String msg) {
         if (StringUtils.isBlank(msg)) {
             return msg;
         }
