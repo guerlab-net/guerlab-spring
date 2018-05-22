@@ -41,7 +41,7 @@ public interface DefaultConvertDTO<D> extends ConvertDTO<D> {
 
             Type rawType = parameterizedType.getRawType();
 
-            if (rawType == DefaultConvertDTO.class) {
+            if (DefaultConvertDTO.class.equals(rawType)) {
                 clazz = (Class<D>) parameterizedType.getActualTypeArguments()[0];
                 break;
             }
