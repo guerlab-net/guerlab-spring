@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -53,11 +54,22 @@ public class ResponseAdvisorAutoconfigure {
         public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
                 Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
                 ServerHttpResponse response) {
-            if (matchExcluded(request) || body instanceof Result) {
+            if (noConvertObject(body) || matchExcluded(request)) {
                 return body;
             }
 
             return body instanceof String ? new Succeed<>(Succeed.MSG, body) : new Succeed<>(body);
+        }
+
+        /**
+         * 判断响应数据是否为不需要转换对象
+         * 
+         * @param body
+         *            响应数据
+         * @return 是否需要转换
+         */
+        private static boolean noConvertObject(Object body) {
+            return body instanceof ResponseEntity || body instanceof Result;
         }
 
         /**
@@ -69,14 +81,14 @@ public class ResponseAdvisorAutoconfigure {
          *            注解类
          * @return 是否包含注解
          */
-        private boolean hasAnnotation(MethodParameter returnType, Class<? extends Annotation> annotationClass) {
+        private static boolean hasAnnotation(MethodParameter returnType, Class<? extends Annotation> annotationClass) {
             return AnnotationUtils.findAnnotation(returnType.getMethod(), annotationClass) != null
                     || AnnotationUtils.findAnnotation(returnType.getContainingClass(), annotationClass) != null;
         }
 
         /**
          * 判断是否在排除路径中
-         * 
+         *
          * @param request
          *            请求对象
          * @return 是否在排除路径中
