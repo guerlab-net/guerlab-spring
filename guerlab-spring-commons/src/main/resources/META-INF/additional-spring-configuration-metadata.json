@@ -29,14 +29,14 @@
 		{
 			"name": "spring.i18n.default-locale",
 			"type": "java.util.Locale",
-			"sourceType": "net.guerlab.spring.commons.properties.SequenceProperties",
+			"sourceType": "net.guerlab.spring.commons.properties.I18nProperties",
 			"description": "默认语言",
 			"defaultValue": "java.util.Locale.getDefault()"
 		},
 		{
 			"name": "spring.i18n.locale-change-interceptor",
 			"type": "org.springframework.web.servlet.i18n.LocaleChangeInterceptor",
-			"sourceType": "net.guerlab.spring.commons.properties.SequenceProperties",
+			"sourceType": "net.guerlab.spring.commons.properties.I18nProperties",
 			"description": "语言环境改变拦截器",
 			"defaultValue": "org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
 		},
