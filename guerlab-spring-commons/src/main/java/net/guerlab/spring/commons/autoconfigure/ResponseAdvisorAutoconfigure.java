@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -63,13 +62,13 @@ public class ResponseAdvisorAutoconfigure {
 
         /**
          * 判断响应数据是否为不需要转换对象
-         * 
+         *
          * @param body
          *            响应数据
          * @return 是否需要转换
          */
         private static boolean noConvertObject(Object body) {
-            return body instanceof ResponseEntity || body instanceof Result;
+            return body instanceof Result;
         }
 
         /**

@@ -45,7 +45,7 @@
 			"type": "java.util.List<java.lang.String>",
 			"sourceType": "net.guerlab.spring.commons.properties.ResponseAdvisorProperties",
 			"description": "排除路径",
-			"defaultValue": "/swagger, /v2, /health, /info, /bus, /service-registry"
+			"defaultValue": "/bus, /service-registry"
 		},
 		{
 			"name": "sequence.worker-id",

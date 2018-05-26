@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 net.guerlab.spring.swagger2.autoconfigure.DockerAutoConfigure,\
+net.guerlab.spring.swagger2.autoconfigure.ResponseAdvisorPropertiesAutoconfigure,\
 net.guerlab.spring.swagger2.autoconfigure.Swagger2ControllerAutoConfigure
