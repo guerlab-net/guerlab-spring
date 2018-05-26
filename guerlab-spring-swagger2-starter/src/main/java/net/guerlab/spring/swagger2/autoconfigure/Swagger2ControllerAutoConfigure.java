@@ -20,6 +20,7 @@ import io.swagger.models.Swagger;
 import net.guerlab.commons.exception.ApplicationException;
 import net.guerlab.spring.commons.annotation.IgnoreResponseHandler;
 import net.guerlab.spring.swagger2.HostNameProvider;
+import springfox.documentation.annotations.ApiIgnore;
 import springfox.documentation.service.Documentation;
 import springfox.documentation.spring.web.DocumentationCache;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -46,6 +47,7 @@ public class Swagger2ControllerAutoConfigure implements WebMvcConfigurer {
      * @author guer
      *
      */
+    @ApiIgnore
     @IgnoreResponseHandler
     @RestController
     @RequestMapping(Swagger2ControllerAutoConfigure.BASE_PATH)

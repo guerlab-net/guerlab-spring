@@ -13,6 +13,8 @@ import springfox.documentation.service.VendorExtension;
  */
 public class ApiInfoProperties {
 
+    private static final String DEFAULT_VERSION = "2.0";
+
     private String title;
 
     private String description;
@@ -25,7 +27,7 @@ public class ApiInfoProperties {
 
     private String licenseUrl;
 
-    private String version;
+    private String version = DEFAULT_VERSION;
 
     private List<VendorExtension<?>> vendorExtensions;
 
