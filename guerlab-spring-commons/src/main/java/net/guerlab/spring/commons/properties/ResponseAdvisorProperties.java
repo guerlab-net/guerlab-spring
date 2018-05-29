@@ -1,6 +1,6 @@
 package net.guerlab.spring.commons.properties;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -24,7 +24,7 @@ public class ResponseAdvisorProperties {
     /**
      * 默认排除路径
      */
-    private static final List<String> DEFAULT_EXCLUDED = Arrays.asList("/bus", "/service-registry");
+    private static final List<String> DEFAULT_EXCLUDED = new ArrayList<>();
 
     /**
      * 排除路径

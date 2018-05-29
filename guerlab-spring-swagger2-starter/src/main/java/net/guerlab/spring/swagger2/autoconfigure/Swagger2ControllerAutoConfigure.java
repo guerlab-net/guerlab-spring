@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ import org.springframework.web.util.UriComponents;
 import io.swagger.models.Swagger;
 import net.guerlab.commons.exception.ApplicationException;
 import net.guerlab.spring.commons.annotation.IgnoreResponseHandler;
+import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
 import net.guerlab.spring.swagger2.HostNameProvider;
 import springfox.documentation.annotations.ApiIgnore;
 import springfox.documentation.service.Documentation;
@@ -87,12 +89,10 @@ public class Swagger2ControllerAutoConfigure implements WebMvcConfigurer {
             UriComponents uriComponents = HostNameProvider.componentsFrom(servletRequest, swagger2.getBasePath());
 
             String forwardedHost = servletRequest.getHeader("x-forwarded-host");
-            String forwardedProto = servletRequest.getHeader("x-forwarded-proto");
-            String forwardedPrefix = servletRequest.getHeader("x-forwarded-prefix");
 
-            if (StringUtils.isNoneBlank(forwardedHost, forwardedProto, forwardedPrefix)) {
+            if (StringUtils.isNotBlank(forwardedHost)) {
                 swagger2.host(forwardedHost);
-                swagger2.setBasePath(forwardedPrefix);
+                setBasePath(swagger2, servletRequest.getHeader("x-forwarded-prefix"));
             } else {
                 swagger2.basePath(StringUtils.isBlank(uriComponents.getPath()) ? "/" : uriComponents.getPath());
 
@@ -102,6 +102,41 @@ public class Swagger2ControllerAutoConfigure implements WebMvcConfigurer {
             }
 
             return swagger2;
+        }
+
+        private void setBasePath(Swagger swagger2, String forwardedPrefix) {
+            if (setBasePathSpringCloudZuulSupport(swagger2, forwardedPrefix)) {
+                return;
+            }
+
+            setBasePathGeneralSupport(swagger2);
+        }
+
+        /**
+         * spring cloud 1.X 下zull的支持,需要在zuul增加zuul.add-host-header=true配置
+         */
+        private boolean setBasePathSpringCloudZuulSupport(Swagger swagger2, String forwardedPrefix) {
+            if (StringUtils.isNotBlank(forwardedPrefix)) {
+                swagger2.setBasePath(forwardedPrefix);
+                return true;
+            }
+            return false;
+        }
+
+        /**
+         * 通用支持,用于支持在服务注册后根据注册名称自动做匹配,适用于1.X的zuul的自动发现和2.X的gateway的自动支持<br>
+         * 2.X gateway的自动发现请参考<a href=
+         * "http://cloud.spring.io/spring-cloud-static/Finchley.RC2/single/spring-cloud.html#_discoveryclient_route_definition_locator">http://cloud.spring.io/spring-cloud-static/Finchley.RC2/single/spring-cloud.html#_discoveryclient_route_definition_locator</a>
+         */
+        private void setBasePathGeneralSupport(Swagger swagger2) {
+            Environment environment = SpringApplicationContextUtil.getContext().getEnvironment();
+
+            String appName = environment.getProperty("eureka.instance.appname",
+                    environment.getProperty("spring.application.name"));
+
+            if (StringUtils.isNotBlank(appName)) {
+                swagger2.setBasePath("/" + appName.toUpperCase());
+            }
         }
 
         private String hostName(UriComponents uriComponents) {
