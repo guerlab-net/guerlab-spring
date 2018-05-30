@@ -25,6 +25,7 @@ public class ResponseAdvisorPropertiesAutoconfigure {
         list.add(Swagger2ControllerAutoConfigure.BASE_PATH);
         list.add("/swagger");
         list.add("/v2");
+        list.add("/webjars/springfox-swagger-ui");
 
         responseAdvisorProperties.setExcluded(list);
     }
