@@ -1,6 +1,8 @@
 package net.guerlab.spring.commons.autoconfigure;
 
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import net.guerlab.commons.collection.CollectionUtil;
 import net.guerlab.spring.commons.annotation.IgnoreResponseHandler;
 import net.guerlab.spring.commons.properties.ResponseAdvisorProperties;
 import net.guerlab.web.result.Result;
@@ -40,6 +43,10 @@ public class ResponseAdvisorAutoconfigure {
      */
     @RestControllerAdvice
     public static class ResponseAdvice implements ResponseBodyAdvice<Object> {
+
+        private static final Class<?>[] NO_CONVERT_CLASS = new Class<?>[] {
+                Result.class, byte[].class, InputStream.class
+        };
 
         @Autowired
         private ResponseAdvisorProperties properties;
@@ -68,7 +75,7 @@ public class ResponseAdvisorAutoconfigure {
          * @return 是否需要转换
          */
         private static boolean noConvertObject(Object body) {
-            return body instanceof Result;
+            return Arrays.stream(NO_CONVERT_CLASS).anyMatch(clazz -> clazz.isInstance(body));
         }
 
         /**
@@ -95,7 +102,7 @@ public class ResponseAdvisorAutoconfigure {
         private boolean matchExcluded(ServerHttpRequest request) {
             List<String> excluded = properties.getExcluded();
 
-            if (excluded == null || excluded.isEmpty()) {
+            if (CollectionUtil.isEmpty(excluded)) {
                 return false;
             }
 
