@@ -22,14 +22,9 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 public class ResponseAdvisorProperties {
 
     /**
-     * 默认排除路径
-     */
-    private static final List<String> DEFAULT_EXCLUDED = new ArrayList<>();
-
-    /**
      * 排除路径
      */
-    private List<String> excluded = DEFAULT_EXCLUDED;
+    private List<String> excluded = new ArrayList<>();
 
     /**
      * 返回排除路径
