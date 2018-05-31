@@ -44,8 +44,7 @@
 			"name": "spring.response-advisor.excluded",
 			"type": "java.util.List<java.lang.String>",
 			"sourceType": "net.guerlab.spring.commons.properties.ResponseAdvisorProperties",
-			"description": "排除路径",
-			"defaultValue": "/bus, /service-registry"
+			"description": "排除路径"
 		},
 		{
 			"name": "sequence.worker-id",
