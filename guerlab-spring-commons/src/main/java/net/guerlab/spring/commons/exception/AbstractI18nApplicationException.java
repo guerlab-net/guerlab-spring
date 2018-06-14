@@ -19,6 +19,129 @@ public abstract class AbstractI18nApplicationException extends ApplicationExcept
     private static final long serialVersionUID = 1L;
 
     /**
+     * 构造一个国际化异常信息
+     */
+    public AbstractI18nApplicationException() {
+        super();
+    }
+
+    /**
+     * 构造一个国际化异常信息
+     *
+     * @param errorCode
+     *            错误码
+     */
+    public AbstractI18nApplicationException(int errorCode) {
+        super(errorCode);
+    }
+
+    /**
+     * 构造一个国际化异常信息
+     *
+     * @param message
+     *            异常信息
+     * @param cause
+     *            导致的原因
+     * @param enableSuppression
+     *            启用抑制
+     * @param writableStackTrace
+     *            写入异常栈
+     */
+    public AbstractI18nApplicationException(String message, Throwable cause, boolean enableSuppression,
+            boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    /**
+     * 构造一个国际化异常信息
+     *
+     * @param message
+     *            异常信息
+     * @param cause
+     *            导致的原因
+     * @param enableSuppression
+     *            启用抑制
+     * @param writableStackTrace
+     *            写入异常栈
+     * @param errorCode
+     *            错误码
+     */
+    public AbstractI18nApplicationException(String message, Throwable cause, boolean enableSuppression,
+            boolean writableStackTrace, int errorCode) {
+        super(message, cause, enableSuppression, writableStackTrace, errorCode);
+    }
+
+    /**
+     * 构造一个国际化异常信息
+     *
+     * @param message
+     *            异常信息
+     * @param cause
+     *            导致的原因
+     */
+    public AbstractI18nApplicationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * 构造一个国际化异常信息
+     *
+     * @param message
+     *            异常信息
+     * @param cause
+     *            导致的原因
+     * @param errorCode
+     *            错误码
+     */
+    public AbstractI18nApplicationException(String message, Throwable cause, int errorCode) {
+        super(message, cause, errorCode);
+    }
+
+    /**
+     * 构造一个国际化异常信息
+     *
+     * @param message
+     *            异常信息
+     */
+    public AbstractI18nApplicationException(String message) {
+        super(message);
+    }
+
+    /**
+     * 构造一个国际化异常信息
+     *
+     * @param message
+     *            异常信息
+     * @param errorCode
+     *            错误码
+     */
+    public AbstractI18nApplicationException(String message, int errorCode) {
+        super(message, errorCode);
+    }
+
+    /**
+     * 构造一个国际化异常信息
+     *
+     * @param cause
+     *            导致的原因
+     */
+    public AbstractI18nApplicationException(Throwable cause) {
+        super(cause);
+    }
+
+    /**
+     * 构造一个国际化异常信息
+     *
+     * @param cause
+     *            导致的原因
+     * @param errorCode
+     *            错误码
+     */
+    public AbstractI18nApplicationException(Throwable cause, int errorCode) {
+        super(cause, errorCode);
+    }
+
+    /**
      * 获取国际化处理后内容
      *
      * @param messageSource
