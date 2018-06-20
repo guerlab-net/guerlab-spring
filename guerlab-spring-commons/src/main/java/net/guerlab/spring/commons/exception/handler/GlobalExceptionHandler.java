@@ -31,6 +31,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import net.guerlab.commons.exception.ApplicationException;
+import net.guerlab.spring.commons.exception.AbstractI18nApplicationException;
 import net.guerlab.spring.commons.exception.AbstractI18nInfo;
 import net.guerlab.spring.commons.exception.DefaultEexceptionInfo;
 import net.guerlab.spring.commons.exception.HttpRequestMethodNotSupportedExceptionInfo;
@@ -67,9 +68,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public Fail<Void> methodArgumentTypeMismatchException(
-            HttpServletRequest request,
-            HttpServletResponse response,
+    public Fail<Void> methodArgumentTypeMismatchException(HttpServletRequest request, HttpServletResponse response,
             MethodArgumentTypeMismatchException e) {
         beforeLog(request, e);
 
@@ -88,9 +87,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(NoHandlerFoundException.class)
-    public Fail<Void> noHandlerFoundException(
-            HttpServletRequest request,
-            HttpServletResponse response,
+    public Fail<Void> noHandlerFoundException(HttpServletRequest request, HttpServletResponse response,
             NoHandlerFoundException e) {
         beforeLog(request, e);
 
@@ -109,9 +106,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public Fail<Void> httpRequestMethodNotSupportedException(
-            HttpServletRequest request,
-            HttpServletResponse response,
+    public Fail<Void> httpRequestMethodNotSupportedException(HttpServletRequest request, HttpServletResponse response,
             HttpRequestMethodNotSupportedException e) {
         beforeLog(request, e);
 
@@ -130,9 +125,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public Fail<Void> missingServletRequestParameterException(
-            HttpServletRequest request,
-            HttpServletResponse response,
+    public Fail<Void> missingServletRequestParameterException(HttpServletRequest request, HttpServletResponse response,
             MissingServletRequestParameterException e) {
         beforeLog(request, e);
 
@@ -151,9 +144,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Fail<List<String>> methodArgumentNotValidException(
-            HttpServletRequest request,
-            HttpServletResponse response,
+    public Fail<List<String>> methodArgumentNotValidException(HttpServletRequest request, HttpServletResponse response,
             MethodArgumentNotValidException e) {
         beforeLog(request, e);
 
@@ -165,8 +156,7 @@ public class GlobalExceptionHandler {
         return handler0(new RequestParamsError(e, displayMessageList));
     }
 
-    private String getMethodArgumentNotValidExceptionDisplayMessage(
-            ObjectError error) {
+    private String getMethodArgumentNotValidExceptionDisplayMessage(ObjectError error) {
         String defaultMessage = error.getDefaultMessage();
 
         Locale locale = LocaleContextHolder.getLocale();
@@ -196,9 +186,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    public Fail<List<String>> constraintViolationException(
-            HttpServletRequest request,
-            HttpServletResponse response,
+    public Fail<List<String>> constraintViolationException(HttpServletRequest request, HttpServletResponse response,
             ConstraintViolationException e) {
         beforeLog(request, e);
 
@@ -222,10 +210,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(Exception.class)
-    public Fail<Void> exception(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Exception e) {
+    public Fail<Void> exception(HttpServletRequest request, HttpServletResponse response, Exception e) {
         beforeLog(request, e);
 
         ResponseStatus responseStatus = AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class);
@@ -235,6 +220,8 @@ public class GlobalExceptionHandler {
             String message = responseStatus.reason();
 
             return new Fail<>(getMessage(message), errorCode);
+        } else if (e instanceof AbstractI18nApplicationException) {
+            return handler0((AbstractI18nApplicationException) e);
         } else if (e instanceof ApplicationException) {
             return handler0((ApplicationException) e);
         } else if (StringUtils.isBlank(e.getMessage())) {
@@ -244,20 +231,16 @@ public class GlobalExceptionHandler {
         }
     }
 
-    private void beforeLog(
-            HttpServletRequest request,
-            Throwable e) {
+    private void beforeLog(HttpServletRequest request, Throwable e) {
         LOGGER.debug("request uri[{} {}]", request.getMethod(), request.getRequestURI());
         LOGGER.debug(e.getLocalizedMessage(), e);
     }
 
-    private Fail<Void> handler0(
-            Throwable ex) {
+    private Fail<Void> handler0(Throwable ex) {
         return new Fail<>(getMessage(ex.getLocalizedMessage()));
     }
 
-    private Fail<List<String>> handler0(
-            RequestParamsError ex) {
+    private Fail<List<String>> handler0(RequestParamsError ex) {
         Fail<List<String>> fail = new Fail<>(getMessage(ex.getLocalizedMessage()), ex.getErrorCode());
 
         fail.setData(ex.getErrors());
@@ -265,18 +248,19 @@ public class GlobalExceptionHandler {
         return fail;
     }
 
-    private Fail<Void> handler0(
-            ApplicationException ex) {
+    private Fail<Void> handler0(AbstractI18nApplicationException ex) {
+        return new Fail<>(ex.getMessage(messageSource), ex.getErrorCode());
+    }
+
+    private Fail<Void> handler0(ApplicationException ex) {
         return new Fail<>(getMessage(ex.getLocalizedMessage()), ex.getErrorCode());
     }
 
-    private Fail<Void> handler0(
-            AbstractI18nInfo i18nInfo) {
+    private Fail<Void> handler0(AbstractI18nInfo i18nInfo) {
         return new Fail<>(i18nInfo.getMessage(messageSource), i18nInfo.getErrorCode());
     }
 
-    private String getMessage(
-            String msg) {
+    private String getMessage(String msg) {
         if (StringUtils.isBlank(msg)) {
             return msg;
         }

@@ -51,8 +51,7 @@ public class RequestParamsError extends ApplicationException {
         errors = displayMessageList;
     }
 
-    private static String getMessage(
-            List<String> displayMessageList) {
+    private static String getMessage(List<String> displayMessageList) {
         if (CollectionUtil.isEmpty(displayMessageList)) {
             return "";
         }
