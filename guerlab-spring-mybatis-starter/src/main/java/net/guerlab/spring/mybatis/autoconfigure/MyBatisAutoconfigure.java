@@ -52,6 +52,7 @@ public class MyBatisAutoconfigure {
      */
     @Bean(DEFAULT_TRANSACTION_MANAGER_BEAN_NAME)
     public PlatformTransactionManager defaultTransactionManager(DataSource dataSource) {
+
         return new DataSourceTransactionManager(dataSource);
     }
 }

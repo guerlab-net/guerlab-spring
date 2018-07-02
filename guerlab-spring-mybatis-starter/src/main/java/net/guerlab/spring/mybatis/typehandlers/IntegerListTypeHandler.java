@@ -8,20 +8,20 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import net.guerlab.spring.mybatis.BaseJsonTypeHandler;
 
 /**
- * String集合处理
+ * Integer集合处理
  *
  * @author guer
  *
  */
-public class StringListTypeHandler extends BaseJsonTypeHandler<List<String>> {
+public class IntegerListTypeHandler extends BaseJsonTypeHandler<List<Integer>> {
 
-    public StringListTypeHandler() {
-        super(new TypeReference<List<String>>() {
+    public IntegerListTypeHandler() {
+        super(new TypeReference<List<Integer>>() {
         });
     }
 
     @Override
-    protected List<String> getDefault() {
+    protected List<Integer> getDefault() {
         return new ArrayList<>();
     }
 }

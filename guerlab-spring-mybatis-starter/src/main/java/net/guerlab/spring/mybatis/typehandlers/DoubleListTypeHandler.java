@@ -8,20 +8,20 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import net.guerlab.spring.mybatis.BaseJsonTypeHandler;
 
 /**
- * String集合处理
+ * Double集合处理
  *
  * @author guer
  *
  */
-public class StringListTypeHandler extends BaseJsonTypeHandler<List<String>> {
+public class DoubleListTypeHandler extends BaseJsonTypeHandler<List<Double>> {
 
-    public StringListTypeHandler() {
-        super(new TypeReference<List<String>>() {
+    public DoubleListTypeHandler() {
+        super(new TypeReference<List<Double>>() {
         });
     }
 
     @Override
-    protected List<String> getDefault() {
+    protected List<Double> getDefault() {
         return new ArrayList<>();
     }
 }

@@ -8,20 +8,20 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import net.guerlab.spring.mybatis.BaseJsonTypeHandler;
 
 /**
- * String集合处理
+ * Float集合处理
  *
  * @author guer
  *
  */
-public class StringListTypeHandler extends BaseJsonTypeHandler<List<String>> {
+public class FloatListTypeHandler extends BaseJsonTypeHandler<List<Float>> {
 
-    public StringListTypeHandler() {
-        super(new TypeReference<List<String>>() {
+    public FloatListTypeHandler() {
+        super(new TypeReference<List<Float>>() {
         });
     }
 
     @Override
-    protected List<String> getDefault() {
+    protected List<Float> getDefault() {
         return new ArrayList<>();
     }
 }

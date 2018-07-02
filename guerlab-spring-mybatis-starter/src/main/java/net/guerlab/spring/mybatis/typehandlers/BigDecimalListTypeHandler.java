@@ -1,5 +1,6 @@
 package net.guerlab.spring.mybatis.typehandlers;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,20 +9,20 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import net.guerlab.spring.mybatis.BaseJsonTypeHandler;
 
 /**
- * String集合处理
+ * BigDecimal集合处理
  *
  * @author guer
  *
  */
-public class StringListTypeHandler extends BaseJsonTypeHandler<List<String>> {
+public class BigDecimalListTypeHandler extends BaseJsonTypeHandler<List<BigDecimal>> {
 
-    public StringListTypeHandler() {
-        super(new TypeReference<List<String>>() {
+    public BigDecimalListTypeHandler() {
+        super(new TypeReference<List<BigDecimal>>() {
         });
     }
 
     @Override
-    protected List<String> getDefault() {
+    protected List<BigDecimal> getDefault() {
         return new ArrayList<>();
     }
 }
