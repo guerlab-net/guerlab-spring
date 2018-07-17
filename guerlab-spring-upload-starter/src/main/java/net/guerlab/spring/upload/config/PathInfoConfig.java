@@ -20,7 +20,7 @@ public class PathInfoConfig {
     /**
      * 目录信息配置实例
      */
-    private static PathInfoConfig instance;
+    private static PathInfoConfig instance = new PathInfoConfig();
 
     /**
      * 基本保存路径

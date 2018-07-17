@@ -19,14 +19,12 @@ public class ResponseAdvisorPropertiesAutoconfigure {
 
     @Autowired
     public void advisor(ResponseAdvisorProperties responseAdvisorProperties) {
-        List<String> excluded = responseAdvisorProperties.getExcluded();
-
-        List<String> list = excluded == null ? new ArrayList<>() : new ArrayList<>(excluded);
+        List<String> list = new ArrayList<>();
         list.add(Swagger2ControllerAutoConfigure.BASE_PATH);
         list.add("/swagger");
         list.add("/v2");
         list.add("/webjars/springfox-swagger-ui");
 
-        responseAdvisorProperties.setExcluded(list);
+        responseAdvisorProperties.addExcluded(list);
     }
 }

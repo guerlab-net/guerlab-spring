@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.Year;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -18,19 +19,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import net.guerlab.commons.time.jackson.deserializer.DateDeserializer;
 import net.guerlab.commons.time.jackson.deserializer.LocalDateDeserializer;
 import net.guerlab.commons.time.jackson.deserializer.LocalDateTimeDeserializer;
 import net.guerlab.commons.time.jackson.deserializer.LocalTimeDeserializer;
 import net.guerlab.commons.time.jackson.deserializer.MonthDeserializer;
 import net.guerlab.commons.time.jackson.deserializer.YearDeserializer;
+import net.guerlab.commons.time.jackson.serializer.DateSerializer;
 import net.guerlab.commons.time.jackson.serializer.LocalDateSerializer;
 import net.guerlab.commons.time.jackson.serializer.LocalDateTimeSerializer;
 import net.guerlab.commons.time.jackson.serializer.LocalTimeSerializer;
 import net.guerlab.commons.time.jackson.serializer.MonthSerializer;
 import net.guerlab.commons.time.jackson.serializer.YearSerializer;
-import net.guerlab.spring.commons.jackson.serializer.BigDecimalStringSerializer;
-import net.guerlab.spring.commons.jackson.serializer.BigIntegerStringSerializer;
-import net.guerlab.spring.commons.jackson.serializer.LongStringSerializer;
+import net.guerlab.spring.commons.jackson.serializer.NumberStringSerializer;
 
 /**
  * ObjectMapper配置
@@ -48,21 +49,26 @@ public class ObjectMapperAutoconfigure {
      *            objectMapper
      */
     public static void setProperties(final ObjectMapper objectMapper) {
+        NumberStringSerializer numberStringSerializer = new NumberStringSerializer();
+
         SimpleModule module = new SimpleModule();
+        module.addDeserializer(Date.class, new DateDeserializer());
         module.addDeserializer(LocalDate.class, new LocalDateDeserializer());
         module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer());
         module.addDeserializer(LocalTime.class, new LocalTimeDeserializer());
         module.addDeserializer(Month.class, new MonthDeserializer());
         module.addDeserializer(Year.class, new YearDeserializer());
 
+        module.addSerializer(Date.class, new DateSerializer());
         module.addSerializer(LocalDate.class, new LocalDateSerializer());
         module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
         module.addSerializer(LocalTime.class, new LocalTimeSerializer());
         module.addSerializer(Month.class, new MonthSerializer());
         module.addSerializer(Year.class, new YearSerializer());
-        module.addSerializer(Long.class, new LongStringSerializer());
-        module.addSerializer(BigInteger.class, new BigIntegerStringSerializer());
-        module.addSerializer(BigDecimal.class, new BigDecimalStringSerializer());
+
+        module.addSerializer(Long.class, numberStringSerializer);
+        module.addSerializer(BigInteger.class, numberStringSerializer);
+        module.addSerializer(BigDecimal.class, numberStringSerializer);
 
         objectMapper.findAndRegisterModules();
         objectMapper.registerModule(module);
@@ -82,7 +88,7 @@ public class ObjectMapperAutoconfigure {
 
     /**
      * objectMapper扩展设置
-     * 
+     *
      * @param objectMapper
      *            objectMapper
      */

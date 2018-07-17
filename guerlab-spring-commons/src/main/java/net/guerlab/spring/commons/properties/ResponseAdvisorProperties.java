@@ -1,6 +1,7 @@
 package net.guerlab.spring.commons.properties;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -42,6 +43,28 @@ public class ResponseAdvisorProperties {
      *            排除路径
      */
     public void setExcluded(List<String> excluded) {
-        this.excluded = excluded;
+        if (excluded != null) {
+            this.excluded = excluded;
+        }
+    }
+
+    /**
+     * 添加排除路径
+     *
+     * @param excluded
+     *            排除路径
+     */
+    public void addExcluded(List<String> excluded) {
+        this.excluded.addAll(excluded);
+    }
+
+    /**
+     * 添加排除路径
+     *
+     * @param excluded
+     *            排除路径
+     */
+    public void addExcluded(String... excluded) {
+        this.excluded.addAll(Arrays.asList(excluded));
     }
 }

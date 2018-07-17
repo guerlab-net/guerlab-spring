@@ -8,7 +8,7 @@ spring 扩展工具集，包含cloud项目常用依赖包、通用工具包与�
 <dependency>
 	<groupId>net.guerlab</groupId>
 	<artifactId>guerlab-spring</artifactId>
-	<version>2.0.0</version>
+	<version>2.1.0</version>
 </dependency>
 ```
 

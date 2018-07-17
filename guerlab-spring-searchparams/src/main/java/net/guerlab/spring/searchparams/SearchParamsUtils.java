@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 
 import org.apache.commons.lang3.StringUtils;
 
+import net.guerlab.commons.collection.CollectionUtil;
 import net.guerlab.commons.reflection.FieldUtil;
 import tk.mybatis.mapper.entity.Example;
 
@@ -59,42 +61,36 @@ public class SearchParamsUtils {
             return;
         }
 
-        getFields(searchParams).stream().forEach(field -> setCriteriaValue(field, example, searchParams, config));
+        Map<Boolean, List<Field>> fieldMap = getFields(searchParams).stream()
+                .collect(Collectors.partitioningBy(field -> OrderByType.class == field.getType()));
+
+        CollectionUtil.forEach(fieldMap.get(false), field -> setCriteriaValue(field, example, searchParams, config));
+
+        List<Field> orderByFields = fieldMap.get(true);
+
+        if (orderByFields == null) {
+            return;
+        }
+
+        orderByFields.stream().sorted((f1, f2) -> getOrderByIndexValue(f1) - getOrderByIndexValue(f2))
+                .forEach(field -> setCriteriaValue(field, example, searchParams, config));
     }
 
     /**
-     * 将searchParams的参数转变为example的查询条件
+     * 获取OrderByIndex注解的参数值
      *
-     * @deprecated 2.1 rename to
-     *             {@link #exampleAdvice(AbstractSearchParams, Example)}
-     *
-     * @param searchParams
-     *            参数列表对象
-     * @param example
-     *            example
+     * @param field
+     *            字段
+     * @return OrderByIndex注解的参数值
      */
-    @Deprecated
-    public static void setCriteria(final AbstractSearchParams searchParams, final Example example) {
-        exampleAdvice(searchParams, example, SearchParamsParseConfig.getGlobalInstance());
-    }
+    private static int getOrderByIndexValue(Field field) {
+        if (field == null) {
+            return 0;
+        }
 
-    /**
-     * 将searchParams的参数转变为example的查询条件
-     *
-     * @deprecated 2.1 rename to
-     *             {@link #exampleAdvice(AbstractSearchParams, Example)}
-     *
-     * @param searchParams
-     *            参数列表对象
-     * @param example
-     *            example
-     * @param config
-     *            SearchParams类解析配置
-     */
-    @Deprecated
-    public static void setCriteria(final AbstractSearchParams searchParams, final Example example,
-            final SearchParamsParseConfig config) {
-        exampleAdvice(searchParams, example, config);
+        OrderByIndex orderByIndex = field.getAnnotation(OrderByIndex.class);
+
+        return orderByIndex == null ? 0 : orderByIndex.value();
     }
 
     /**
@@ -190,12 +186,6 @@ public class SearchParamsUtils {
             final AbstractSearchParams searchParams, final SearchParamsParseConfig config) {
         String name = field.getName();
 
-        Object value = FieldUtil.get(searchParams, name);
-
-        if (value == null) {
-            return;
-        }
-
         SearchModelType searchModelType = getSearchModelType(field);
 
         if (searchModelType == SearchModelType.IGNORE) {
@@ -205,6 +195,12 @@ public class SearchParamsUtils {
         SearchParamsHandler handler = getHandler(field, config);
 
         if (handler == null) {
+            return;
+        }
+
+        Object value = FieldUtil.get(searchParams, name);
+
+        if (value == null) {
             return;
         }
 
@@ -215,9 +211,9 @@ public class SearchParamsUtils {
             final AbstractSearchParams searchParams, final SearchParamsParseConfig config) {
         String name = field.getName();
 
-        Object value = FieldUtil.get(searchParams, name);
+        SearchModelType searchModelType = getSearchModelType(field);
 
-        if (value == null) {
+        if (searchModelType == SearchModelType.IGNORE) {
             return;
         }
 
@@ -227,9 +223,9 @@ public class SearchParamsUtils {
             return;
         }
 
-        SearchModelType searchModelType = getSearchModelType(field);
+        Object value = FieldUtil.get(searchParams, name);
 
-        if (searchModelType == SearchModelType.IGNORE) {
+        if (value == null) {
             return;
         }
 

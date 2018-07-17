@@ -23,9 +23,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -47,14 +45,12 @@ import net.guerlab.web.result.Fail;
  * @author guer
  *
  */
-@ControllerAdvice
-@ResponseBody
 public class GlobalExceptionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @Autowired
-    private MessageSource messageSource;
+    protected MessageSource messageSource;
 
     /**
      * MethodArgumentTypeMismatchException异常处理
@@ -231,16 +227,16 @@ public class GlobalExceptionHandler {
         }
     }
 
-    private void beforeLog(HttpServletRequest request, Throwable e) {
+    protected final void beforeLog(HttpServletRequest request, Throwable e) {
         LOGGER.debug("request uri[{} {}]", request.getMethod(), request.getRequestURI());
         LOGGER.debug(e.getLocalizedMessage(), e);
     }
 
-    private Fail<Void> handler0(Throwable ex) {
+    protected final Fail<Void> handler0(Throwable ex) {
         return new Fail<>(getMessage(ex.getLocalizedMessage()));
     }
 
-    private Fail<List<String>> handler0(RequestParamsError ex) {
+    protected final Fail<List<String>> handler0(RequestParamsError ex) {
         Fail<List<String>> fail = new Fail<>(getMessage(ex.getLocalizedMessage()), ex.getErrorCode());
 
         fail.setData(ex.getErrors());
@@ -248,19 +244,19 @@ public class GlobalExceptionHandler {
         return fail;
     }
 
-    private Fail<Void> handler0(AbstractI18nApplicationException ex) {
+    protected final Fail<Void> handler0(AbstractI18nApplicationException ex) {
         return new Fail<>(ex.getMessage(messageSource), ex.getErrorCode());
     }
 
-    private Fail<Void> handler0(ApplicationException ex) {
+    protected final Fail<Void> handler0(ApplicationException ex) {
         return new Fail<>(getMessage(ex.getLocalizedMessage()), ex.getErrorCode());
     }
 
-    private Fail<Void> handler0(AbstractI18nInfo i18nInfo) {
+    protected final Fail<Void> handler0(AbstractI18nInfo i18nInfo) {
         return new Fail<>(i18nInfo.getMessage(messageSource), i18nInfo.getErrorCode());
     }
 
-    private String getMessage(String msg) {
+    protected final String getMessage(String msg) {
         if (StringUtils.isBlank(msg)) {
             return msg;
         }

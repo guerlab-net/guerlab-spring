@@ -11,6 +11,7 @@ import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
 import org.springframework.web.bind.support.WebBindingInitializer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
+import net.guerlab.spring.commons.converter.DateConverter;
 import net.guerlab.spring.commons.converter.LocalDateConverter;
 import net.guerlab.spring.commons.converter.LocalDateTimeConverter;
 
@@ -52,6 +53,7 @@ public class ConverterConfig {
 
         GenericConversionService service = (GenericConversionService) conversionService;
 
+        service.addConverter(new DateConverter());
         service.addConverter(new LocalDateTimeConverter());
         service.addConverter(new LocalDateConverter());
     }
