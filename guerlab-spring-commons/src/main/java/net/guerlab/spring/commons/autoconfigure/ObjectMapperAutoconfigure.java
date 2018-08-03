@@ -10,6 +10,7 @@ import java.time.Year;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import net.guerlab.commons.collection.CollectionUtil;
 import net.guerlab.commons.time.jackson.deserializer.DateDeserializer;
 import net.guerlab.commons.time.jackson.deserializer.LocalDateDeserializer;
 import net.guerlab.commons.time.jackson.deserializer.LocalDateTimeDeserializer;
@@ -32,6 +34,8 @@ import net.guerlab.commons.time.jackson.serializer.LocalTimeSerializer;
 import net.guerlab.commons.time.jackson.serializer.MonthSerializer;
 import net.guerlab.commons.time.jackson.serializer.YearSerializer;
 import net.guerlab.spring.commons.jackson.serializer.NumberStringSerializer;
+import net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties;
+import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
 
 /**
  * ObjectMapper配置
@@ -47,9 +51,11 @@ public class ObjectMapperAutoconfigure {
      *
      * @param objectMapper
      *            objectMapper
+     * @param numberJsonStringFormatProperties
+     *            数值json格式化配置
      */
-    public static void setProperties(final ObjectMapper objectMapper) {
-        NumberStringSerializer numberStringSerializer = new NumberStringSerializer();
+    public static void setProperties(final ObjectMapper objectMapper,
+            NumberJsonStringFormatProperties numberJsonStringFormatProperties) {
 
         SimpleModule module = new SimpleModule();
         module.addDeserializer(Date.class, new DateDeserializer());
@@ -66,9 +72,7 @@ public class ObjectMapperAutoconfigure {
         module.addSerializer(Month.class, new MonthSerializer());
         module.addSerializer(Year.class, new YearSerializer());
 
-        module.addSerializer(Long.class, numberStringSerializer);
-        module.addSerializer(BigInteger.class, numberStringSerializer);
-        module.addSerializer(BigDecimal.class, numberStringSerializer);
+        moduleAdvice(module, numberJsonStringFormatProperties);
 
         objectMapper.findAndRegisterModules();
         objectMapper.registerModule(module);
@@ -86,14 +90,80 @@ public class ObjectMapperAutoconfigure {
         objectMapper.configure(Feature.WRITE_BIGDECIMAL_AS_PLAIN, true);
     }
 
+    private static void moduleAdvice(SimpleModule module, NumberJsonStringFormatProperties properties) {
+        if (properties == null) {
+            return;
+        }
+
+        NumberStringSerializer numberStringSerializer = new NumberStringSerializer();
+
+        if (properties.isFormatAllNumber()) {
+            module.addSerializer(Number.class, numberStringSerializer);
+        }
+        if (properties.isFormatBigDecimal()) {
+            module.addSerializer(BigDecimal.class, numberStringSerializer);
+        }
+        if (properties.isFormatBigInteger()) {
+            module.addSerializer(BigInteger.class, numberStringSerializer);
+        }
+        if (properties.isFormatByte()) {
+            module.addSerializer(Byte.class, numberStringSerializer);
+            module.addSerializer(Byte.TYPE, numberStringSerializer);
+        }
+        if (properties.isFormatDouble()) {
+            module.addSerializer(Double.class, numberStringSerializer);
+            module.addSerializer(Double.TYPE, numberStringSerializer);
+        }
+        if (properties.isFormatFloat()) {
+            module.addSerializer(Float.class, numberStringSerializer);
+            module.addSerializer(Float.TYPE, numberStringSerializer);
+        }
+        if (properties.isFormatInteger()) {
+            module.addSerializer(Integer.class, numberStringSerializer);
+            module.addSerializer(Integer.TYPE, numberStringSerializer);
+        }
+        if (properties.isFormatLong()) {
+            module.addSerializer(Long.class, numberStringSerializer);
+            module.addSerializer(Long.TYPE, numberStringSerializer);
+        }
+        if (properties.isFormatShort()) {
+            module.addSerializer(Short.class, numberStringSerializer);
+            module.addSerializer(Short.TYPE, numberStringSerializer);
+        }
+
+        CollectionUtil.forEach(properties.getFormatNumberClassList(),
+                clazz -> module.addSerializer(clazz, numberStringSerializer));
+    }
+
+    /**
+     * 设置ObjectMapper属性
+     *
+     * @param objectMapper
+     *            objectMapper
+     */
+    public static void setProperties(final ObjectMapper objectMapper) {
+        ApplicationContext context = SpringApplicationContextUtil.getContext();
+
+        NumberJsonStringFormatProperties numberJsonStringFormatProperties = null;
+
+        if (context != null) {
+            numberJsonStringFormatProperties = context.getBean(NumberJsonStringFormatProperties.class);
+        }
+
+        setProperties(objectMapper, numberJsonStringFormatProperties);
+    }
+
     /**
      * objectMapper扩展设置
      *
      * @param objectMapper
      *            objectMapper
+     * @param numberJsonStringFormatProperties
+     *            数值json格式化配置
      */
     @Autowired
-    public void objectMapperAdvice(ObjectMapper objectMapper) {
+    public void objectMapperAdvice(ObjectMapper objectMapper,
+            NumberJsonStringFormatProperties numberJsonStringFormatProperties) {
         setProperties(objectMapper);
     }
 }

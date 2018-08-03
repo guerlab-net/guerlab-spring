@@ -101,6 +101,75 @@
 			"type": "java.lang.Long",
 			"sourceType": "net.guerlab.spring.commons.properties.CorsProperties",
 			"description": "header indicates how long the results of a preflight request can be cached in a preflight result cache."
-		}
+		},
+        {
+            "name": "spring.jackson.format.format-all-number",
+            "type": "boolean",
+            "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
+            "description": "是否格式化所有数值类型",
+            "defaultValue": "false"
+        },
+        {
+            "name": "spring.jackson.format.format-big-decimal",
+            "type": "boolean",
+            "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
+            "description": "是否格式化BigDecimal",
+            "defaultValue": "false"
+        },
+        {
+            "name": "spring.jackson.format.format-big-integer",
+            "type": "boolean",
+            "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
+            "description": "是否格式化BigInteger",
+            "defaultValue": "false"
+        },
+        {
+            "name": "spring.jackson.format.format-byte",
+            "type": "boolean",
+            "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
+            "description": "是否格式化Byte",
+            "defaultValue": "false"
+        },
+        {
+            "name": "spring.jackson.format.format-short",
+            "type": "boolean",
+            "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
+            "description": "是否格式化Short",
+            "defaultValue": "false"
+        },
+        {
+            "name": "spring.jackson.format.format-integer",
+            "type": "boolean",
+            "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
+            "description": "是否格式化Integer",
+            "defaultValue": "false"
+        },
+        {
+            "name": "spring.jackson.format.format-long",
+            "type": "boolean",
+            "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
+            "description": "是否格式化Long",
+            "defaultValue": "false"
+        },
+        {
+            "name": "spring.jackson.format.format-float",
+            "type": "boolean",
+            "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
+            "description": "是否格式化Float",
+            "defaultValue": "false"
+        },
+        {
+            "name": "spring.jackson.format.format-double",
+            "type": "boolean",
+            "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
+            "description": "是否格式化Double",
+            "defaultValue": "false"
+        },
+        {
+            "name": "spring.jackson.format.format-number-class-list",
+            "type": "java.util.List<java.lang.Class<? extends java.lang.Number>>",
+            "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
+            "description": "待格式化数值类型类"
+        }
 	]
 }

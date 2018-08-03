@@ -52,13 +52,14 @@ public class WebMvcAutoconfigure {
             if (CollectionUtil.isEmpty(converters)) {
                 converters.add(new MappingJackson2HttpMessageConverter(objectMapper));
                 converters.add(new StringHttpMessageConverter());
-            } else {
-                for (HttpMessageConverter<?> httpMessageConverter : converters) {
-                    if (httpMessageConverter instanceof AbstractJackson2HttpMessageConverter) {
-                        AbstractJackson2HttpMessageConverter converter = (AbstractJackson2HttpMessageConverter) httpMessageConverter;
+                return;
+            }
 
-                        converter.setObjectMapper(objectMapper);
-                    }
+            for (HttpMessageConverter<?> httpMessageConverter : converters) {
+                if (httpMessageConverter instanceof AbstractJackson2HttpMessageConverter) {
+                    AbstractJackson2HttpMessageConverter converter = (AbstractJackson2HttpMessageConverter) httpMessageConverter;
+
+                    converter.setObjectMapper(objectMapper);
                 }
             }
         }
