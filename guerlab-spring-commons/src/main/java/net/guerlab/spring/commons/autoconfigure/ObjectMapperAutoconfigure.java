@@ -10,6 +10,7 @@ import java.time.Year;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 
@@ -44,6 +45,7 @@ import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
  *
  */
 @Configuration
+@EnableConfigurationProperties(NumberJsonStringFormatProperties.class)
 public class ObjectMapperAutoconfigure {
 
     /**
