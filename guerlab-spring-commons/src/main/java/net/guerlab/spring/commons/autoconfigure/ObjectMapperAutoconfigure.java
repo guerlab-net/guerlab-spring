@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.time.Year;
 import java.util.Date;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -133,8 +134,11 @@ public class ObjectMapperAutoconfigure {
             module.addSerializer(Short.TYPE, numberStringSerializer);
         }
 
-        CollectionUtil.forEach(properties.getFormatNumberClassList(),
-                clazz -> module.addSerializer(clazz, numberStringSerializer));
+        if (CollectionUtil.isNotEmpty(properties.getFormatNumberClassList())) {
+            properties.getFormatNumberClassList().stream().filter(Objects::nonNull)
+                    .forEach(clazz -> module.addSerializer(clazz, numberStringSerializer));
+        }
+
     }
 
     /**
@@ -166,6 +170,6 @@ public class ObjectMapperAutoconfigure {
     @Autowired
     public void objectMapperAdvice(ObjectMapper objectMapper,
             NumberJsonStringFormatProperties numberJsonStringFormatProperties) {
-        setProperties(objectMapper);
+        setProperties(objectMapper, numberJsonStringFormatProperties);
     }
 }
