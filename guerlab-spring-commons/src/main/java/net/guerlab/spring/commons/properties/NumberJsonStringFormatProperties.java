@@ -31,34 +31,64 @@ public class NumberJsonStringFormatProperties {
     private boolean formatBigInteger;
 
     /**
-     * 是否格式化Byte
+     * 是否格式化Byte包装类
      */
-    private boolean formatByte;
+    private boolean formatByteClass;
 
     /**
-     * 是否格式化Short
+     * 是否格式化Byte基本类型
      */
-    private boolean formatShort;
+    private boolean formatByteType;
 
     /**
-     * 是否格式化Integer
+     * 是否格式化Short包装类
      */
-    private boolean formatInteger;
+    private boolean formatShortClass;
 
     /**
-     * 是否格式化Long
+     * 是否格式化Short基本类型
      */
-    private boolean formatLong;
+    private boolean formatShortType;
 
     /**
-     * 是否格式化Float
+     * 是否格式化Integer包装类
      */
-    private boolean formatFloat;
+    private boolean formatIntegerClass;
 
     /**
-     * 是否格式化Double
+     * 是否格式化Integer基本类型
      */
-    private boolean formatDouble;
+    private boolean formatIntegerType;
+
+    /**
+     * 是否格式化Long包装类
+     */
+    private boolean formatLongClass;
+
+    /**
+     * 是否格式化Long基本类型
+     */
+    private boolean formatLongType;
+
+    /**
+     * 是否格式化Float包装类
+     */
+    private boolean formatFloatClass;
+
+    /**
+     * 是否格式化Float基本类型
+     */
+    private boolean formatFloatType;
+
+    /**
+     * 是否格式化Double包装类
+     */
+    private boolean formatDoubleClass;
+
+    /**
+     * 是否格式化Double基本类型
+     */
+    private boolean formatDoubleType;
 
     /**
      * 待格式化数值类型类
@@ -123,117 +153,231 @@ public class NumberJsonStringFormatProperties {
     }
 
     /**
-     * 返回是否格式化Byte
+     * 返回是否格式化Byte包装类
      *
-     * @return 是否格式化Byte
+     * @return 是否格式化Byte包装类
      */
-    public boolean isFormatByte() {
-        return formatByte;
+    public boolean isFormatByteClass() {
+        return formatByteClass;
     }
 
     /**
-     * 设置是否格式化Byte
+     * 设置是否格式化Byte包装类
      *
-     * @param formatByte
-     *            是否格式化Byte
+     * @param formatByteClass
+     *            是否格式化Byte包装类
      */
-    public void setFormatByte(boolean formatByte) {
-        this.formatByte = formatByte;
+    public void setFormatByteClass(boolean formatByteClass) {
+        this.formatByteClass = formatByteClass;
     }
 
     /**
-     * 返回是否格式化Short
+     * 返回是否格式化Byte基本类型
      *
-     * @return 是否格式化Short
+     * @return 是否格式化Byte基本类型
      */
-    public boolean isFormatShort() {
-        return formatShort;
+    public boolean isFormatByteType() {
+        return formatByteType;
     }
 
     /**
-     * 设置是否格式化Short
+     * 设置是否格式化Byte基本类型
      *
-     * @param formatShort
-     *            是否格式化Short
+     * @param formatByteType
+     *            是否格式化Byte基本类型
      */
-    public void setFormatShort(boolean formatShort) {
-        this.formatShort = formatShort;
+    public void setFormatByteType(boolean formatByteType) {
+        this.formatByteType = formatByteType;
     }
 
     /**
-     * 返回是否格式化Integer
+     * 返回是否格式化Short包装类
      *
-     * @return 是否格式化Integer
+     * @return 是否格式化Short包装类
      */
-    public boolean isFormatInteger() {
-        return formatInteger;
+    public boolean isFormatShortClass() {
+        return formatShortClass;
     }
 
     /**
-     * 设置是否格式化Integer
+     * 设置是否格式化Short包装类
      *
-     * @param formatInteger
-     *            是否格式化Integer
+     * @param formatShortClass
+     *            是否格式化Short包装类
      */
-    public void setFormatInteger(boolean formatInteger) {
-        this.formatInteger = formatInteger;
+    public void setFormatShortClass(boolean formatShortClass) {
+        this.formatShortClass = formatShortClass;
     }
 
     /**
-     * 返回是否格式化Long
+     * 返回是否格式化Short基本类型
      *
-     * @return 是否格式化Long
+     * @return 是否格式化Short基本类型
      */
-    public boolean isFormatLong() {
-        return formatLong;
+    public boolean isFormatShortType() {
+        return formatShortType;
     }
 
     /**
-     * 设置是否格式化Long
+     * 设置是否格式化Short基本类型
      *
-     * @param formatLong
-     *            是否格式化Long
+     * @param formatShortType
+     *            是否格式化Short基本类型
      */
-    public void setFormatLong(boolean formatLong) {
-        this.formatLong = formatLong;
+    public void setFormatShortType(boolean formatShortType) {
+        this.formatShortType = formatShortType;
     }
 
     /**
-     * 返回是否格式化Float
+     * 返回是否格式化Integer包装类
      *
-     * @return 是否格式化Float
+     * @return 是否格式化Integer包装类
      */
-    public boolean isFormatFloat() {
-        return formatFloat;
+    public boolean isFormatIntegerClass() {
+        return formatIntegerClass;
     }
 
     /**
-     * 设置是否格式化Float
+     * 设置是否格式化Integer包装类
      *
-     * @param formatFloat
-     *            是否格式化Float
+     * @param formatIntegerClass
+     *            是否格式化Integer包装类
      */
-    public void setFormatFloat(boolean formatFloat) {
-        this.formatFloat = formatFloat;
+    public void setFormatIntegerClass(boolean formatIntegerClass) {
+        this.formatIntegerClass = formatIntegerClass;
     }
 
     /**
-     * 返回是否格式化Double
+     * 返回是否格式化Integer基本类型
      *
-     * @return 是否格式化Double
+     * @return 是否格式化Integer基本类型
      */
-    public boolean isFormatDouble() {
-        return formatDouble;
+    public boolean isFormatIntegerType() {
+        return formatIntegerType;
     }
 
     /**
-     * 设置是否格式化Double
+     * 设置是否格式化Integer基本类型
      *
-     * @param formatDouble
-     *            是否格式化Double
+     * @param formatIntegerType
+     *            是否格式化Integer基本类型
      */
-    public void setFormatDouble(boolean formatDouble) {
-        this.formatDouble = formatDouble;
+    public void setFormatIntegerType(boolean formatIntegerType) {
+        this.formatIntegerType = formatIntegerType;
+    }
+
+    /**
+     * 返回是否格式化Long包装类
+     *
+     * @return 是否格式化Long包装类
+     */
+    public boolean isFormatLongClass() {
+        return formatLongClass;
+    }
+
+    /**
+     * 设置是否格式化Long包装类
+     *
+     * @param formatLongClass
+     *            是否格式化Long包装类
+     */
+    public void setFormatLongClass(boolean formatLongClass) {
+        this.formatLongClass = formatLongClass;
+    }
+
+    /**
+     * 返回是否格式化Long基本类型
+     *
+     * @return 是否格式化Long基本类型
+     */
+    public boolean isFormatLongType() {
+        return formatLongType;
+    }
+
+    /**
+     * 设置是否格式化Long基本类型
+     *
+     * @param formatLongType
+     *            是否格式化Long基本类型
+     */
+    public void setFormatLongType(boolean formatLongType) {
+        this.formatLongType = formatLongType;
+    }
+
+    /**
+     * 返回是否格式化Float包装类
+     *
+     * @return 是否格式化Float包装类
+     */
+    public boolean isFormatFloatClass() {
+        return formatFloatClass;
+    }
+
+    /**
+     * 设置是否格式化Float包装类
+     *
+     * @param formatFloatClass
+     *            是否格式化Float包装类
+     */
+    public void setFormatFloatClass(boolean formatFloatClass) {
+        this.formatFloatClass = formatFloatClass;
+    }
+
+    /**
+     * 返回是否格式化Float基本类型
+     *
+     * @return 是否格式化Float基本类型
+     */
+    public boolean isFormatFloatType() {
+        return formatFloatType;
+    }
+
+    /**
+     * 设置是否格式化Float基本类型
+     *
+     * @param formatFloatType
+     *            是否格式化Float基本类型
+     */
+    public void setFormatFloatType(boolean formatFloatType) {
+        this.formatFloatType = formatFloatType;
+    }
+
+    /**
+     * 返回是否格式化Double包装类
+     *
+     * @return 是否格式化Double包装类
+     */
+    public boolean isFormatDoubleClass() {
+        return formatDoubleClass;
+    }
+
+    /**
+     * 设置是否格式化Double包装类
+     *
+     * @param formatDoubleClass
+     *            是否格式化Double包装类
+     */
+    public void setFormatDoubleClass(boolean formatDoubleClass) {
+        this.formatDoubleClass = formatDoubleClass;
+    }
+
+    /**
+     * 返回是否格式化Double基本类型
+     *
+     * @return 是否格式化Double基本类型
+     */
+    public boolean isFormatDoubleType() {
+        return formatDoubleType;
+    }
+
+    /**
+     * 设置是否格式化Double基本类型
+     *
+     * @param formatDoubleType
+     *            是否格式化Double基本类型
+     */
+    public void setFormatDoubleType(boolean formatDoubleType) {
+        this.formatDoubleType = formatDoubleType;
     }
 
     /**

@@ -109,28 +109,40 @@ public class ObjectMapperAutoconfigure {
         if (properties.isFormatBigInteger()) {
             module.addSerializer(BigInteger.class, numberStringSerializer);
         }
-        if (properties.isFormatByte()) {
+        if (properties.isFormatByteClass()) {
             module.addSerializer(Byte.class, numberStringSerializer);
+        }
+        if (properties.isFormatByteType()) {
             module.addSerializer(Byte.TYPE, numberStringSerializer);
         }
-        if (properties.isFormatDouble()) {
+        if (properties.isFormatDoubleClass()) {
             module.addSerializer(Double.class, numberStringSerializer);
+        }
+        if (properties.isFormatDoubleType()) {
             module.addSerializer(Double.TYPE, numberStringSerializer);
         }
-        if (properties.isFormatFloat()) {
+        if (properties.isFormatFloatClass()) {
             module.addSerializer(Float.class, numberStringSerializer);
+        }
+        if (properties.isFormatFloatType()) {
             module.addSerializer(Float.TYPE, numberStringSerializer);
         }
-        if (properties.isFormatInteger()) {
+        if (properties.isFormatIntegerClass()) {
             module.addSerializer(Integer.class, numberStringSerializer);
+        }
+        if (properties.isFormatIntegerType()) {
             module.addSerializer(Integer.TYPE, numberStringSerializer);
         }
-        if (properties.isFormatLong()) {
+        if (properties.isFormatLongClass()) {
             module.addSerializer(Long.class, numberStringSerializer);
+        }
+        if (properties.isFormatLongType()) {
             module.addSerializer(Long.TYPE, numberStringSerializer);
         }
-        if (properties.isFormatShort()) {
+        if (properties.isFormatShortClass()) {
             module.addSerializer(Short.class, numberStringSerializer);
+        }
+        if (properties.isFormatShortType()) {
             module.addSerializer(Short.TYPE, numberStringSerializer);
         }
 
