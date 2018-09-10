@@ -66,9 +66,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public Fail<Void> methodArgumentTypeMismatchException(HttpServletRequest request, HttpServletResponse response,
             MethodArgumentTypeMismatchException e) {
-        beforeLog(request, e);
-
-        return handler0(new MethodArgumentTypeMismatchExceptionInfo(e));
+        requestURILog(request);
+        return handler0(new MethodArgumentTypeMismatchExceptionInfo(e), e);
     }
 
     /**
@@ -85,9 +84,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     public Fail<Void> noHandlerFoundException(HttpServletRequest request, HttpServletResponse response,
             NoHandlerFoundException e) {
-        beforeLog(request, e);
-
-        return handler0(new NoHandlerFoundExceptionInfo(e));
+        requestURILog(request);
+        return handler0(new NoHandlerFoundExceptionInfo(e), e);
     }
 
     /**
@@ -104,9 +102,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public Fail<Void> httpRequestMethodNotSupportedException(HttpServletRequest request, HttpServletResponse response,
             HttpRequestMethodNotSupportedException e) {
-        beforeLog(request, e);
-
-        return handler0(new HttpRequestMethodNotSupportedExceptionInfo(e));
+        requestURILog(request);
+        return handler0(new HttpRequestMethodNotSupportedExceptionInfo(e), e);
     }
 
     /**
@@ -123,9 +120,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public Fail<Void> missingServletRequestParameterException(HttpServletRequest request, HttpServletResponse response,
             MissingServletRequestParameterException e) {
-        beforeLog(request, e);
-
-        return handler0(new MissingServletRequestParameterExceptionInfo(e));
+        requestURILog(request);
+        return handler0(new MissingServletRequestParameterExceptionInfo(e), e);
     }
 
     /**
@@ -142,7 +138,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Fail<List<String>> methodArgumentNotValidException(HttpServletRequest request, HttpServletResponse response,
             MethodArgumentNotValidException e) {
-        beforeLog(request, e);
+        requestURILog(request);
 
         BindingResult bindingResult = e.getBindingResult();
 
@@ -184,7 +180,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public Fail<List<String>> constraintViolationException(HttpServletRequest request, HttpServletResponse response,
             ConstraintViolationException e) {
-        beforeLog(request, e);
+        requestURILog(request);
 
         Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
 
@@ -207,7 +203,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public Fail<Void> exception(HttpServletRequest request, HttpServletResponse response, Exception e) {
-        beforeLog(request, e);
+        requestURILog(request);
 
         ResponseStatus responseStatus = AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class);
 
@@ -221,39 +217,54 @@ public class GlobalExceptionHandler {
         } else if (e instanceof ApplicationException) {
             return handler0((ApplicationException) e);
         } else if (StringUtils.isBlank(e.getMessage())) {
-            return handler0(new DefaultEexceptionInfo(e));
+            return handler0(new DefaultEexceptionInfo(e), e);
         } else {
             return handler0(e);
         }
     }
 
-    protected final void beforeLog(HttpServletRequest request, Throwable e) {
+    protected final void requestURILog(HttpServletRequest request) {
         LOGGER.debug("request uri[{} {}]", request.getMethod(), request.getRequestURI());
-        LOGGER.debug(e.getLocalizedMessage(), e);
     }
 
     protected final Fail<Void> handler0(Throwable ex) {
         return new Fail<>(getMessage(ex.getLocalizedMessage()));
     }
 
-    protected final Fail<List<String>> handler0(RequestParamsError ex) {
-        Fail<List<String>> fail = new Fail<>(getMessage(ex.getLocalizedMessage()), ex.getErrorCode());
+    protected final Fail<List<String>> handler0(RequestParamsError e) {
+        String message = getMessage(e.getLocalizedMessage());
 
-        fail.setData(ex.getErrors());
+        LOGGER.debug(message, e);
+
+        Fail<List<String>> fail = new Fail<>(message, e.getErrorCode());
+
+        fail.setData(e.getErrors());
 
         return fail;
     }
 
-    protected final Fail<Void> handler0(AbstractI18nApplicationException ex) {
-        return new Fail<>(ex.getMessage(messageSource), ex.getErrorCode());
+    protected final Fail<Void> handler0(AbstractI18nApplicationException e) {
+        String message = e.getMessage(messageSource);
+
+        LOGGER.debug(message, e);
+
+        return new Fail<>(message, e.getErrorCode());
     }
 
-    protected final Fail<Void> handler0(ApplicationException ex) {
-        return new Fail<>(getMessage(ex.getLocalizedMessage()), ex.getErrorCode());
+    protected final Fail<Void> handler0(ApplicationException e) {
+        String message = getMessage(e.getLocalizedMessage());
+
+        LOGGER.debug(message, e);
+
+        return new Fail<>(message, e.getErrorCode());
     }
 
-    protected final Fail<Void> handler0(AbstractI18nInfo i18nInfo) {
-        return new Fail<>(i18nInfo.getMessage(messageSource), i18nInfo.getErrorCode());
+    protected final Fail<Void> handler0(AbstractI18nInfo i18nInfo, Throwable e) {
+        String message = i18nInfo.getMessage(messageSource);
+
+        LOGGER.debug(message, e);
+
+        return new Fail<>(message, i18nInfo.getErrorCode());
     }
 
     protected final String getMessage(String msg) {
