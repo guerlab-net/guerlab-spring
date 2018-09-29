@@ -191,6 +191,52 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * AbstractI18nApplicationException异常处理
+     *
+     * @param request
+     *            请求
+     * @param response
+     *            响应
+     * @param e
+     *            异常
+     * @return 响应数据
+     */
+    @ExceptionHandler(AbstractI18nApplicationException.class)
+    public Fail<Void> abstractI18nApplicationException(HttpServletRequest request, HttpServletResponse response,
+            AbstractI18nApplicationException e) {
+        requestURILog(request);
+
+        String message = e.getMessage(messageSource);
+
+        LOGGER.debug(message, e);
+
+        return new Fail<>(message, e.getErrorCode());
+    }
+
+    /**
+     * ApplicationException异常处理
+     *
+     * @param request
+     *            请求
+     * @param response
+     *            响应
+     * @param e
+     *            异常
+     * @return 响应数据
+     */
+    @ExceptionHandler(ApplicationException.class)
+    public Fail<Void> applicationException(HttpServletRequest request, HttpServletResponse response,
+            ApplicationException e) {
+        requestURILog(request);
+
+        String message = getMessage(e.getLocalizedMessage());
+
+        LOGGER.debug(message, e);
+
+        return new Fail<>(message, e.getErrorCode());
+    }
+
+    /**
      * 通用异常处理
      *
      * @param request
@@ -212,23 +258,15 @@ public class GlobalExceptionHandler {
             String message = responseStatus.reason();
 
             return new Fail<>(getMessage(message), errorCode);
-        } else if (e instanceof AbstractI18nApplicationException) {
-            return handler0((AbstractI18nApplicationException) e);
-        } else if (e instanceof ApplicationException) {
-            return handler0((ApplicationException) e);
         } else if (StringUtils.isBlank(e.getMessage())) {
             return handler0(new DefaultEexceptionInfo(e), e);
         } else {
-            return handler0(e);
+            return new Fail<>(getMessage(e.getLocalizedMessage()));
         }
     }
 
     protected final void requestURILog(HttpServletRequest request) {
         LOGGER.debug("request uri[{} {}]", request.getMethod(), request.getRequestURI());
-    }
-
-    protected final Fail<Void> handler0(Throwable ex) {
-        return new Fail<>(getMessage(ex.getLocalizedMessage()));
     }
 
     protected final Fail<List<String>> handler0(RequestParamsError e) {
@@ -241,22 +279,6 @@ public class GlobalExceptionHandler {
         fail.setData(e.getErrors());
 
         return fail;
-    }
-
-    protected final Fail<Void> handler0(AbstractI18nApplicationException e) {
-        String message = e.getMessage(messageSource);
-
-        LOGGER.debug(message, e);
-
-        return new Fail<>(message, e.getErrorCode());
-    }
-
-    protected final Fail<Void> handler0(ApplicationException e) {
-        String message = getMessage(e.getLocalizedMessage());
-
-        LOGGER.debug(message, e);
-
-        return new Fail<>(message, e.getErrorCode());
     }
 
     protected final Fail<Void> handler0(AbstractI18nInfo i18nInfo, Throwable e) {
