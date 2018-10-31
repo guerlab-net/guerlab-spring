@@ -16,9 +16,33 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 public class Swagger2Properties {
 
     /**
+     * 是否启用swagger
+     */
+    private boolean enable;
+
+    /**
      * Docket配置列表
      */
     private List<DocketProperties> dockets;
+
+    /**
+     * 返回是否启用swagger
+     *
+     * @return 是否启用swagger
+     */
+    public boolean isEnable() {
+        return enable;
+    }
+
+    /**
+     * 设置是否启用swagger
+     *
+     * @param enable
+     *            是否启用swagger
+     */
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
 
     /**
      * 返回Docket配置列表

@@ -45,7 +45,7 @@ public class ResponseAdvisorAutoconfigure {
     public static class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
         private static final Class<?>[] NO_CONVERT_CLASS = new Class<?>[] {
-                Result.class, byte[].class, InputStream.class
+                String.class, Result.class, byte[].class, InputStream.class
         };
 
         @Autowired
@@ -64,7 +64,7 @@ public class ResponseAdvisorAutoconfigure {
                 return body;
             }
 
-            return body instanceof String ? new Succeed<>(Succeed.MSG, body) : new Succeed<>(body);
+            return new Succeed<>(body);
         }
 
         /**

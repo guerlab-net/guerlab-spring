@@ -1,8 +1,7 @@
 package net.guerlab.spring.commons.exception.handler;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Locale;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -136,13 +135,13 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Fail<List<String>> methodArgumentNotValidException(HttpServletRequest request, HttpServletResponse response,
-            MethodArgumentNotValidException e) {
+    public Fail<Collection<String>> methodArgumentNotValidException(HttpServletRequest request,
+            HttpServletResponse response, MethodArgumentNotValidException e) {
         requestURILog(request);
 
         BindingResult bindingResult = e.getBindingResult();
 
-        List<String> displayMessageList = bindingResult.getAllErrors().stream()
+        Collection<String> displayMessageList = bindingResult.getAllErrors().stream()
                 .map(this::getMethodArgumentNotValidExceptionDisplayMessage).collect(Collectors.toList());
 
         return handler0(new RequestParamsError(e, displayMessageList));
@@ -178,13 +177,13 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    public Fail<List<String>> constraintViolationException(HttpServletRequest request, HttpServletResponse response,
-            ConstraintViolationException e) {
+    public Fail<Collection<String>> constraintViolationException(HttpServletRequest request,
+            HttpServletResponse response, ConstraintViolationException e) {
         requestURILog(request);
 
-        Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
+        Collection<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
 
-        List<String> displayMessageList = constraintViolations.stream().map(ConstraintViolation::getMessage)
+        Collection<String> displayMessageList = constraintViolations.stream().map(ConstraintViolation::getMessage)
                 .collect(Collectors.toList());
 
         return handler0(new RequestParamsError(e, displayMessageList));
@@ -249,6 +248,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public Fail<Void> exception(HttpServletRequest request, HttpServletResponse response, Exception e) {
+        e.printStackTrace();
         requestURILog(request);
 
         ResponseStatus responseStatus = AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class);
@@ -269,12 +269,12 @@ public class GlobalExceptionHandler {
         LOGGER.debug("request uri[{} {}]", request.getMethod(), request.getRequestURI());
     }
 
-    protected final Fail<List<String>> handler0(RequestParamsError e) {
+    protected final Fail<Collection<String>> handler0(RequestParamsError e) {
         String message = getMessage(e.getLocalizedMessage());
 
         LOGGER.debug(message, e);
 
-        Fail<List<String>> fail = new Fail<>(message, e.getErrorCode());
+        Fail<Collection<String>> fail = new Fail<>(message, e.getErrorCode());
 
         fail.setData(e.getErrors());
 

@@ -5,9 +5,9 @@
     <artifactId>guerlab-spring-mapper-starter</artifactId>
 
     <parent>
-        <groupId>net.guerlab</groupId>
+        <groupId>net.guerlab.spring</groupId>
         <artifactId>guerlab-spring</artifactId>
-        <version>2.2.0-11</version>
+        <version>2.2.0</version>
         <relativePath>../</relativePath>
     </parent>
 

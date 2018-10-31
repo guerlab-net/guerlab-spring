@@ -9,8 +9,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.guerlab.spring.commons.autoconfigure.ObjectMapperAutoconfigure;
-
 /**
  * RedisTemplate自动配置
  *
@@ -25,13 +23,13 @@ public class RedisTemplateAutoconfigure {
      *
      * @param factory
      *            RedisConnectionFactory
+     * @param objectMapper
+     *            objectMapper
      * @return RedisTemplate
      */
     @Bean
-    public RedisTemplate<String, ?> redisTemplate(RedisConnectionFactory factory) {
-        ObjectMapper mapper = new ObjectMapper();
-
-        ObjectMapperAutoconfigure.setProperties(mapper);
+    public RedisTemplate<String, ?> redisTemplate(RedisConnectionFactory factory, ObjectMapper objectMapper) {
+        ObjectMapper mapper = objectMapper.copy();
 
         mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
 

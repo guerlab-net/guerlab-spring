@@ -15,12 +15,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonGenerator.Feature;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import net.guerlab.commons.collection.CollectionUtil;
 import net.guerlab.commons.time.jackson.deserializer.DateDeserializer;
@@ -35,7 +32,6 @@ import net.guerlab.commons.time.jackson.serializer.LocalDateTimeSerializer;
 import net.guerlab.commons.time.jackson.serializer.LocalTimeSerializer;
 import net.guerlab.commons.time.jackson.serializer.MonthSerializer;
 import net.guerlab.commons.time.jackson.serializer.YearSerializer;
-import net.guerlab.spring.commons.jackson.serializer.NumberStringSerializer;
 import net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties;
 import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
 
@@ -79,18 +75,6 @@ public class ObjectMapperAutoconfigure {
 
         objectMapper.findAndRegisterModules();
         objectMapper.registerModule(module);
-
-        objectMapper.setSerializationInclusion(Include.NON_NULL);
-
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
-        objectMapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
-        objectMapper.configure(SerializationFeature.WRITE_CHAR_ARRAYS_AS_JSON_ARRAYS, true);
-
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        objectMapper.configure(Feature.WRITE_BIGDECIMAL_AS_PLAIN, true);
     }
 
     private static void moduleAdvice(SimpleModule module, NumberJsonStringFormatProperties properties) {
@@ -98,57 +82,57 @@ public class ObjectMapperAutoconfigure {
             return;
         }
 
-        NumberStringSerializer numberStringSerializer = new NumberStringSerializer();
+        ToStringSerializer serializer = ToStringSerializer.instance;
 
         if (properties.isFormatAllNumber()) {
-            module.addSerializer(Number.class, numberStringSerializer);
+            module.addSerializer(Number.class, serializer);
         }
         if (properties.isFormatBigDecimal()) {
-            module.addSerializer(BigDecimal.class, numberStringSerializer);
+            module.addSerializer(BigDecimal.class, serializer);
         }
         if (properties.isFormatBigInteger()) {
-            module.addSerializer(BigInteger.class, numberStringSerializer);
+            module.addSerializer(BigInteger.class, serializer);
         }
         if (properties.isFormatByteClass()) {
-            module.addSerializer(Byte.class, numberStringSerializer);
+            module.addSerializer(Byte.class, serializer);
         }
         if (properties.isFormatByteType()) {
-            module.addSerializer(Byte.TYPE, numberStringSerializer);
+            module.addSerializer(Byte.TYPE, serializer);
         }
         if (properties.isFormatDoubleClass()) {
-            module.addSerializer(Double.class, numberStringSerializer);
+            module.addSerializer(Double.class, serializer);
         }
         if (properties.isFormatDoubleType()) {
-            module.addSerializer(Double.TYPE, numberStringSerializer);
+            module.addSerializer(Double.TYPE, serializer);
         }
         if (properties.isFormatFloatClass()) {
-            module.addSerializer(Float.class, numberStringSerializer);
+            module.addSerializer(Float.class, serializer);
         }
         if (properties.isFormatFloatType()) {
-            module.addSerializer(Float.TYPE, numberStringSerializer);
+            module.addSerializer(Float.TYPE, serializer);
         }
         if (properties.isFormatIntegerClass()) {
-            module.addSerializer(Integer.class, numberStringSerializer);
+            module.addSerializer(Integer.class, serializer);
         }
         if (properties.isFormatIntegerType()) {
-            module.addSerializer(Integer.TYPE, numberStringSerializer);
+            module.addSerializer(Integer.TYPE, serializer);
         }
         if (properties.isFormatLongClass()) {
-            module.addSerializer(Long.class, numberStringSerializer);
+            module.addSerializer(Long.class, serializer);
         }
         if (properties.isFormatLongType()) {
-            module.addSerializer(Long.TYPE, numberStringSerializer);
+            module.addSerializer(Long.TYPE, serializer);
         }
         if (properties.isFormatShortClass()) {
-            module.addSerializer(Short.class, numberStringSerializer);
+            module.addSerializer(Short.class, serializer);
         }
         if (properties.isFormatShortType()) {
-            module.addSerializer(Short.TYPE, numberStringSerializer);
+            module.addSerializer(Short.TYPE, serializer);
         }
 
         if (CollectionUtil.isNotEmpty(properties.getFormatNumberClassList())) {
             properties.getFormatNumberClassList().stream().filter(Objects::nonNull)
-                    .forEach(clazz -> module.addSerializer(clazz, numberStringSerializer));
+                    .forEach(clazz -> module.addSerializer(clazz, serializer));
         }
 
     }

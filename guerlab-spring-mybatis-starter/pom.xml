@@ -5,22 +5,18 @@
     <artifactId>guerlab-spring-mybatis-starter</artifactId>
     
     <parent>
-        <groupId>net.guerlab</groupId>
+        <groupId>net.guerlab.spring</groupId>
         <artifactId>guerlab-spring</artifactId>
-        <version>2.2.0-11</version>
+        <version>2.2.0</version>
         <relativePath>../</relativePath>
     </parent>
     
     <dependencies>
         <dependency>
-            <groupId>net.guerlab</groupId>
+            <groupId>net.guerlab.spring</groupId>
             <artifactId>guerlab-spring-commons</artifactId>
         </dependency>
         
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>

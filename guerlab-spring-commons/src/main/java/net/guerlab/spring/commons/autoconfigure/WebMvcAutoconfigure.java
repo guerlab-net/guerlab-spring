@@ -2,18 +2,14 @@ package net.guerlab.spring.commons.autoconfigure;
 
 import java.util.List;
 
-import javax.validation.executable.ExecutableValidator;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -63,16 +59,5 @@ public class WebMvcAutoconfigure {
                 }
             }
         }
-    }
-
-    /**
-     * create MethodValidationPostProcessor
-     *
-     * @return MethodValidationPostProcessor
-     */
-    @Bean
-    @ConditionalOnClass(ExecutableValidator.class)
-    public MethodValidationPostProcessor methodValidationPostProcessor() {
-        return new MethodValidationPostProcessor();
     }
 }

@@ -50,7 +50,7 @@ public interface DefaultConvertDTO<D> extends ConvertDTO<D> {
         D dto;
 
         try {
-            dto = clazz.newInstance();
+            dto = clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new ApplicationException(e.getLocalizedMessage(), e);
         }

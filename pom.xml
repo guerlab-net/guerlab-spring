@@ -2,9 +2,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>net.guerlab</groupId>
+    <groupId>net.guerlab.spring</groupId>
     <artifactId>guerlab-spring</artifactId>
-    <version>2.2.0-11</version>
+    <version>2.2.0</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -46,7 +46,7 @@
     </issueManagement>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>1.8</java.version>
         <project.encoding>UTF-8</project.encoding>
         
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
@@ -57,28 +57,107 @@
 
         <guerlab-commons.version>1.4.2</guerlab-commons.version>
         <guerlab-web.version>1.4.0</guerlab-web.version>
-        <guerlab-spring.version>2.2.0-11</guerlab-spring.version>
+        <guerlab-spring.version>2.2.0</guerlab-spring.version>
 
         <spring-cloud.version>Finchley.SR2</spring-cloud.version>
-        <spring-boot.version>2.0.6.RELEASE</spring-boot.version>
+        <spring-boot.version>2.1.0.RELEASE</spring-boot.version>
 
         <swagger.version>1.5.21</swagger.version>
-        <springfox.version>2.8.0</springfox.version>
+        <springfox.version>2.9.2</springfox.version>
 
-        <druid.version>1.1.9</druid.version>
+        <druid.version>1.1.10</druid.version>
         <mybatis-starter.version>1.3.2</mybatis-starter.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
 
         <persistence-api.version>1.0.2</persistence-api.version>
 
-        <pagehelper-spring-boot-starter.version>1.2.5</pagehelper-spring-boot-starter.version>
-        <pagehelper.version>5.1.4</pagehelper.version>
+        <pagehelper-spring-boot-starter.version>1.2.9</pagehelper-spring-boot-starter.version>
+        <pagehelper.version>5.1.7</pagehelper.version>
 
-        <mapper-spring-boot-starter.version>2.0.2</mapper-spring-boot-starter.version>
-        <mapper.version>1.0.2</mapper.version>
+        <mapper-spring-boot-starter.version>2.0.4</mapper-spring-boot-starter.version>
+        <mapper.version>1.0.5</mapper.version>
 
-        <jjwt.version>0.9.0</jjwt.version>
+        <jjwt.version>0.9.1</jjwt.version>
     </properties>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Nexus Release Repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${maven-gpg-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <encoding>${project.encoding}</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <configuration>
+                        <encoding>${project.encoding}</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <configuration>
+                        <encoding>${project.encoding}</encoding>
+                        <aggregate>true</aggregate>
+                        <charset>${project.encoding}</charset>
+                        <docencoding>${project.encoding}</docencoding>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencyManagement>
         <dependencies>
@@ -109,67 +188,57 @@
             </dependency>
 
             <dependency>
-                <groupId>net.guerlab</groupId>
+                <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-commons</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.guerlab</groupId>
-                <artifactId>guerlab-spring-cloud-starter</artifactId>
-                <version>${guerlab-spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.guerlab</groupId>
+                <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-mapper-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.guerlab</groupId>
+                <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-mybatis-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.guerlab</groupId>
-                <artifactId>guerlab-spring-mysql-starter</artifactId>
-                <version>${guerlab-spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.guerlab</groupId>
+                <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-redis-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.guerlab</groupId>
+                <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-searchparams</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.guerlab</groupId>
+                <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-swagger2-cloud-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.guerlab</groupId>
+                <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-swagger2-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.guerlab</groupId>
+                <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-swagger2-ui-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.guerlab</groupId>
+                <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-task-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.guerlab</groupId>
+                <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-upload-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.guerlab</groupId>
+                <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-upload-aliyun-oss-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
@@ -245,91 +314,11 @@
         </dependencies>
     </dependencyManagement>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Nexus Release Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>${maven-gpg-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>integration-test</goal>
-                                <goal>verify</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
-                        <encoding>${project.encoding}</encoding>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <configuration>
-                        <encoding>${project.encoding}</encoding>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <configuration>
-                        <encoding>${project.encoding}</encoding>
-                        <aggregate>true</aggregate>
-                        <charset>${project.encoding}</charset>
-                        <docencoding>${project.encoding}</docencoding>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
     <modules>
         <module>guerlab-spring-commons</module>
-        <module>guerlab-spring-cloud-starter</module>
         <module>guerlab-spring-task-starter</module>
         <module>guerlab-spring-mapper-starter</module>
         <module>guerlab-spring-mybatis-starter</module>
-        <module>guerlab-spring-mysql-starter</module>
         <module>guerlab-spring-redis-starter</module>
         <module>guerlab-spring-searchparams</module>
         <module>guerlab-spring-swagger2-cloud-starter</module>

@@ -1,6 +1,6 @@
 package net.guerlab.spring.commons.exception;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.validation.ConstraintViolationException;
 
@@ -23,7 +23,7 @@ public class RequestParamsError extends ApplicationException {
     /**
      * 错误消息列表
      */
-    private List<String> errors;
+    private Collection<String> errors;
 
     /**
      * 通过消息内容和ConstraintViolationException初始化
@@ -33,7 +33,7 @@ public class RequestParamsError extends ApplicationException {
      * @param displayMessageList
      *            错误消息列表
      */
-    public RequestParamsError(ConstraintViolationException cause, List<String> displayMessageList) {
+    public RequestParamsError(ConstraintViolationException cause, Collection<String> displayMessageList) {
         super(getMessage(displayMessageList), cause, 400);
         errors = displayMessageList;
     }
@@ -46,12 +46,12 @@ public class RequestParamsError extends ApplicationException {
      * @param displayMessageList
      *            错误消息列表
      */
-    public RequestParamsError(MethodArgumentNotValidException cause, List<String> displayMessageList) {
+    public RequestParamsError(MethodArgumentNotValidException cause, Collection<String> displayMessageList) {
         super(getMessage(displayMessageList), cause, 400);
         errors = displayMessageList;
     }
 
-    private static String getMessage(List<String> displayMessageList) {
+    private static String getMessage(Collection<String> displayMessageList) {
         if (CollectionUtil.isEmpty(displayMessageList)) {
             return "";
         }
@@ -63,7 +63,7 @@ public class RequestParamsError extends ApplicationException {
      *
      * @return 错误消息列表
      */
-    public List<String> getErrors() {
+    public Collection<String> getErrors() {
         return errors;
     }
 }
