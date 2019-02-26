@@ -32,7 +32,7 @@ public class ConverterConfig {
      * 增加字符串转日期的功能
      */
     @PostConstruct
-    public void initEditableValidation() {
+    public void addDateTimeConverter() {
         WebBindingInitializer webBindingInitializer = handlerAdapter.getWebBindingInitializer();
 
         if (!(webBindingInitializer instanceof ConfigurableWebBindingInitializer)) {
@@ -41,13 +41,9 @@ public class ConverterConfig {
 
         ConfigurableWebBindingInitializer initializer = (ConfigurableWebBindingInitializer) webBindingInitializer;
 
-        if (initializer.getConversionService() == null) {
-            return;
-        }
-
         ConversionService conversionService = initializer.getConversionService();
 
-        if (!(conversionService instanceof GenericConversionService)) {
+        if (initializer.getConversionService() == null || !(conversionService instanceof GenericConversionService)) {
             return;
         }
 
