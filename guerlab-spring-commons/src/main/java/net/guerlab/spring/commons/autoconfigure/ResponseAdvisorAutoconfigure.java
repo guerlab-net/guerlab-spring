@@ -1,10 +1,10 @@
 package net.guerlab.spring.commons.autoconfigure;
 
-import java.io.InputStream;
-import java.lang.annotation.Annotation;
-import java.util.Arrays;
-import java.util.List;
-
+import net.guerlab.commons.collection.CollectionUtil;
+import net.guerlab.spring.commons.annotation.IgnoreResponseHandler;
+import net.guerlab.spring.commons.properties.ResponseAdvisorProperties;
+import net.guerlab.web.result.Result;
+import net.guerlab.web.result.Succeed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -18,11 +18,10 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import net.guerlab.commons.collection.CollectionUtil;
-import net.guerlab.spring.commons.annotation.IgnoreResponseHandler;
-import net.guerlab.spring.commons.properties.ResponseAdvisorProperties;
-import net.guerlab.web.result.Result;
-import net.guerlab.web.result.Succeed;
+import java.io.InputStream;
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 响应数据处理自动配置
@@ -48,8 +47,12 @@ public class ResponseAdvisorAutoconfigure {
                 String.class, Result.class, byte[].class, InputStream.class
         };
 
-        @Autowired
         private ResponseAdvisorProperties properties;
+
+        @Autowired
+        public void setProperties(ResponseAdvisorProperties properties) {
+            this.properties = properties;
+        }
 
         @Override
         public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {

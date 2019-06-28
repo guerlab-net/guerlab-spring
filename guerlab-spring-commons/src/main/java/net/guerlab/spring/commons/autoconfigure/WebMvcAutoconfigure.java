@@ -1,7 +1,7 @@
 package net.guerlab.spring.commons.autoconfigure;
 
-import java.util.List;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import net.guerlab.commons.collection.CollectionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -14,9 +14,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import net.guerlab.commons.collection.CollectionUtil;
+import java.util.List;
 
 /**
  * web mvc配置
@@ -32,11 +30,19 @@ public class WebMvcAutoconfigure {
     @ConditionalOnClass(WebMvcConfigurer.class)
     public static class MvcAutoconfigure implements WebMvcConfigurer {
 
-        @Autowired
         private ObjectMapper objectMapper;
 
-        @Autowired
         private LocaleChangeInterceptor localeChangeInterceptor;
+
+        @Autowired
+        public void setObjectMapper(ObjectMapper objectMapper) {
+            this.objectMapper = objectMapper;
+        }
+
+        @Autowired
+        public void setLocaleChangeInterceptor(LocaleChangeInterceptor localeChangeInterceptor) {
+            this.localeChangeInterceptor = localeChangeInterceptor;
+        }
 
         @Override
         public void addInterceptors(InterceptorRegistry registry) {

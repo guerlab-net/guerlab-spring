@@ -1,8 +1,6 @@
 package net.guerlab.spring.commons.autoconfigure;
 
-import java.util.Arrays;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -15,7 +13,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Arrays;
 
 /**
  * RestTemplate自动配置
@@ -27,11 +25,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @AutoConfigureAfter(ObjectMapperAutoconfigure.class)
 public class RestTemplateAutoconfigure {
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     /**
      * 初始化LoadBalancedRestTemplate
+     *
+     * @param objectMapper objectMapper
      *
      * @return LoadBalancedRestTemplate
      */
@@ -41,12 +38,14 @@ public class RestTemplateAutoconfigure {
             LoadBalanced.class, RestTemplate.class
     })
     @ConditionalOnMissingBean(value = RestTemplate.class, annotation = LoadBalanced.class)
-    public RestTemplate loadBalancedRestTemplate() {
-        return createRestTemplate();
+    public RestTemplate loadBalancedRestTemplate(ObjectMapper objectMapper) {
+        return createRestTemplate(objectMapper);
     }
 
     /**
      * 初始化RestTemplate
+     *
+     * @param objectMapper objectMapper
      *
      * @return RestTemplate
      */
@@ -54,11 +53,11 @@ public class RestTemplateAutoconfigure {
     @Primary
     @ConditionalOnClass(RestTemplate.class)
     @ConditionalOnMissingBean(value = RestTemplate.class)
-    public RestTemplate restTemplate() {
-        return createRestTemplate();
+    public RestTemplate restTemplate(ObjectMapper objectMapper) {
+        return createRestTemplate(objectMapper);
     }
 
-    private RestTemplate createRestTemplate() {
+    private RestTemplate createRestTemplate(ObjectMapper objectMapper) {
         RestTemplate restTemplate = new RestTemplate();
 
         restTemplate.setMessageConverters(Arrays.asList(new MappingJackson2HttpMessageConverter(objectMapper),

@@ -16,5 +16,4 @@ public enum OrderByType {
     /**
      * 倒序
      */
-    DESC;
-}
+    DESC}

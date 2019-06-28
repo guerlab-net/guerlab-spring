@@ -21,7 +21,7 @@ import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
  * @author guer
  *
  */
-public class BaseJsonTypeHandler<T extends Object> extends BaseTypeHandler<T> {
+public class BaseJsonTypeHandler<T> extends BaseTypeHandler<T> {
 
     private Class<T> clazz;
 

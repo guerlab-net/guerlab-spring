@@ -31,7 +31,7 @@ public class TaskNodeInfo {
             InetAddress localHost = InetAddress.getLocalHost();
             return localHost.getHostName();
         } catch (Exception e) {
-            return "unknow";
+            return "unKnow";
         }
     }
 

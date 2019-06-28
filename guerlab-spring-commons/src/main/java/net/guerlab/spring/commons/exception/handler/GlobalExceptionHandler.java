@@ -1,14 +1,8 @@
 package net.guerlab.spring.commons.exception.handler;
 
-import java.util.Collection;
-import java.util.Locale;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-
+import net.guerlab.commons.exception.ApplicationException;
+import net.guerlab.spring.commons.exception.*;
+import net.guerlab.web.result.Fail;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,16 +21,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import net.guerlab.commons.exception.ApplicationException;
-import net.guerlab.spring.commons.exception.AbstractI18nApplicationException;
-import net.guerlab.spring.commons.exception.AbstractI18nInfo;
-import net.guerlab.spring.commons.exception.DefaultEexceptionInfo;
-import net.guerlab.spring.commons.exception.HttpRequestMethodNotSupportedExceptionInfo;
-import net.guerlab.spring.commons.exception.MethodArgumentTypeMismatchExceptionInfo;
-import net.guerlab.spring.commons.exception.MissingServletRequestParameterExceptionInfo;
-import net.guerlab.spring.commons.exception.NoHandlerFoundExceptionInfo;
-import net.guerlab.spring.commons.exception.RequestParamsError;
-import net.guerlab.web.result.Fail;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.Collection;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * 异常统一处理配置
@@ -48,8 +39,12 @@ public class GlobalExceptionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @Autowired
     protected MessageSource messageSource;
+
+    @Autowired
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
     /**
      * MethodArgumentTypeMismatchException异常处理
@@ -259,7 +254,7 @@ public class GlobalExceptionHandler {
 
             return new Fail<>(getMessage(message), errorCode);
         } else if (StringUtils.isBlank(e.getMessage())) {
-            return handler0(new DefaultEexceptionInfo(e), e);
+            return handler0(new DefaultExceptionInfo(e), e);
         } else {
             return new Fail<>(getMessage(e.getLocalizedMessage()));
         }

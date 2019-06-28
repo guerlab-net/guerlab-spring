@@ -1,9 +1,10 @@
 package net.guerlab.spring.swagger2.autoconfigure;
 
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-
+import io.swagger.models.Swagger;
+import net.guerlab.commons.exception.ApplicationException;
+import net.guerlab.spring.commons.annotation.IgnoreResponseHandler;
+import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
+import net.guerlab.spring.swagger2.HostNameProvider;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.util.UriComponents;
-
-import io.swagger.models.Swagger;
-import net.guerlab.commons.exception.ApplicationException;
-import net.guerlab.spring.commons.annotation.IgnoreResponseHandler;
-import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
-import net.guerlab.spring.swagger2.HostNameProvider;
 import springfox.documentation.annotations.ApiIgnore;
 import springfox.documentation.service.Documentation;
 import springfox.documentation.spring.web.DocumentationCache;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.mappers.ServiceModelToSwagger2Mapper;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 /**
  * swagger2 controller with spring cloud
@@ -55,11 +53,19 @@ public class Swagger2ControllerAutoConfigure implements WebMvcConfigurer {
     @RequestMapping(Swagger2ControllerAutoConfigure.BASE_PATH)
     public static class Swagger2Controller {
 
-        @Autowired
         private DocumentationCache documentationCache;
 
-        @Autowired
         private ServiceModelToSwagger2Mapper mapper;
+
+        @Autowired
+        public void setDocumentationCache(DocumentationCache documentationCache) {
+            this.documentationCache = documentationCache;
+        }
+
+        @Autowired
+        public void setMapper(ServiceModelToSwagger2Mapper mapper) {
+            this.mapper = mapper;
+        }
 
         /**
          * get Documentation

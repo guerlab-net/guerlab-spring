@@ -4,21 +4,21 @@
 			"name": "swagger",
 			"type": "net.guerlab.spring.swagger2.properties.Swagger2Properties",
 			"sourceType": "net.guerlab.spring.swagger2.properties.Swagger2Properties",
-			"description": "swagger配置"
+			"description": "swagger配置."
 		}
 	],
 	"properties": [
 		{
 			"name": "swagger.enable",
-			"type": "boolean",
+			"type": "java.lang.Boolean",
 			"sourceType": "net.guerlab.spring.swagger2.properties.Swagger2Properties",
-			"description": "启用swagger"
+			"description": "启用swagger."
 		},
 		{
 			"name": "swagger.dockets",
 			"type": "java.util.List<net.guerlab.spring.swagger2.properties.DocketProperties>",
 			"sourceType": "net.guerlab.spring.swagger2.properties.Swagger2Properties",
-			"description": "Docket配置列表"
+			"description": "Docket配置列表."
 		}
 	]
 }

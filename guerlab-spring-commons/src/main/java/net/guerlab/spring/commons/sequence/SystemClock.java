@@ -14,19 +14,16 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class SystemClock {
 
-    private final long period;
-
     private final AtomicLong now;
 
-    private SystemClock(long period) {
-        this.period = period;
+    private SystemClock() {
         now = new AtomicLong(System.currentTimeMillis());
         scheduleClockUpdating();
     }
 
     private static class InstanceHolder {
 
-        public static final SystemClock INSTANCE = new SystemClock(1);
+        public static final SystemClock INSTANCE = new SystemClock();
 
         private InstanceHolder() {
         }
@@ -42,7 +39,7 @@ public class SystemClock {
             thread.setDaemon(true);
             return thread;
         });
-        scheduler.scheduleAtFixedRate(() -> now.set(System.currentTimeMillis()), period, period, TimeUnit.MILLISECONDS);
+        scheduler.scheduleAtFixedRate(() -> now.set(System.currentTimeMillis()), 1L, 1L, TimeUnit.MILLISECONDS);
     }
 
     private long currentTimeMillis() {

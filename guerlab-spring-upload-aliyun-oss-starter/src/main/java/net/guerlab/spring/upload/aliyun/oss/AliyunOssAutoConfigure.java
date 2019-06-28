@@ -1,15 +1,13 @@
 package net.guerlab.spring.upload.aliyun.oss;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 import com.aliyun.oss.ClientConfiguration;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * 阿里云Oss自动配置
@@ -21,9 +19,6 @@ import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 @EnableConfigurationProperties(AliyunOssProperties.class)
 public class AliyunOssAutoConfigure {
 
-    @Autowired
-    private AliyunOssProperties properties;
-
     /**
      * create OSS client
      *
@@ -31,20 +26,20 @@ public class AliyunOssAutoConfigure {
      */
     @RefreshScope
     @Bean
-    public OSS ossClient() {
+    public OSS ossClient(AliyunOssProperties properties) {
         ClientConfiguration config = properties.getClientConfig();
 
         String endpoint = properties.getEndpoint();
         String accessKeyId = properties.getAccessKeyId();
         String accessKeySecret = properties.getAccessKeySecret();
 
-        DefaultCredentialProvider credsProvider = new DefaultCredentialProvider(accessKeyId, accessKeySecret);
+        DefaultCredentialProvider credentialProvider = new DefaultCredentialProvider(accessKeyId, accessKeySecret);
 
         if (config == null) {
             config = new ClientConfiguration();
         }
 
-        return new OSSClient(endpoint, credsProvider, config);
+        return new OSSClient(endpoint, credentialProvider, config);
     }
 
     /**

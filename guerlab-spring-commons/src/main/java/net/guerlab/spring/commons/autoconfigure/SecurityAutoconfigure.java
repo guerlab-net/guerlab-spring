@@ -6,6 +6,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.cors.CorsConfiguration;
 
+import java.util.Collections;
+
 /**
  * @author guer
  *
@@ -13,15 +15,19 @@ import org.springframework.web.cors.CorsConfiguration;
 @Configuration
 public class SecurityAutoconfigure extends WebSecurityConfigurerAdapter {
 
-    @Autowired(required = false)
-    private CorsConfiguration config;
-
     private static final CorsConfiguration DEFAULT_CONFIG = new CorsConfiguration();
 
+    private CorsConfiguration config;
+
+    @Autowired(required = false)
+    public void setConfig(CorsConfiguration config) {
+        this.config = config;
+    }
+
     static {
-        DEFAULT_CONFIG.addAllowedHeader(CorsConfiguration.ALL);
-        DEFAULT_CONFIG.addAllowedMethod(CorsConfiguration.ALL);
-        DEFAULT_CONFIG.addAllowedOrigin(CorsConfiguration.ALL);
+        DEFAULT_CONFIG.setAllowedHeaders(Collections.singletonList(CorsConfiguration.ALL));
+        DEFAULT_CONFIG.setAllowedMethods(Collections.singletonList(CorsConfiguration.ALL));
+        DEFAULT_CONFIG.setAllowedOrigins(Collections.singletonList(CorsConfiguration.ALL));
         DEFAULT_CONFIG.setMaxAge(1800L);
         DEFAULT_CONFIG.setAllowCredentials(true);
     }

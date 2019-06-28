@@ -40,12 +40,12 @@ public class FileInfo {
     /**
      * 文件类型
      */
-    private String contentType;
+    private final String contentType;
 
     /**
      * 文件大小
      */
-    private long fileSize;
+    private final long fileSize;
 
     /**
      * 保存目录
@@ -224,6 +224,7 @@ public class FileInfo {
         return saveFile;
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void setPath(String path) {
         savePath = StringUtils.isBlank(path) ? "" : path + File.separatorChar;
 
@@ -248,10 +249,6 @@ public class FileInfo {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("PathInfo [path=");
-        builder.append(getWebPath());
-        builder.append("]");
-        return builder.toString();
+        return "PathInfo [path=" + getWebPath() + "]";
     }
 }

@@ -23,7 +23,7 @@ public class RequestParamsError extends ApplicationException {
     /**
      * 错误消息列表
      */
-    private Collection<String> errors;
+    private final Collection<String> errors;
 
     /**
      * 通过消息内容和ConstraintViolationException初始化

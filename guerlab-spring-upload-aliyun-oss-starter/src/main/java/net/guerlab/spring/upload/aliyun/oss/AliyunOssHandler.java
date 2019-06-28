@@ -21,17 +21,17 @@ public class AliyunOssHandler implements UploadHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AliyunOssHandler.class);
 
-    private static final String OSSEXCEPTION_MESSAGE = "Caught an OSSException, which means your request made it to OSS, "
+    private static final String OSS_EXCEPTION_MESSAGE = "Caught an OSSException, which means your request made it to OSS, "
             + "but was rejected with an error response for some reason." + "\nError Message: {}" + "\nError Code:    {}"
             + "\nRequest ID:    {}" + "\nHost ID:       {}";
 
-    private static final String CLIENTEXCEPTION_MESSAGE = "Caught an ClientException, which means the client encountered "
+    private static final String CLIENT_EXCEPTION_MESSAGE = "Caught an ClientException, which means the client encountered "
             + "a serious internal problem while trying to communicate with OSS, "
             + "such as not being able to access the network." + "\nError Message: {}";
 
-    private OSS ossClient;
+    private final OSS ossClient;
 
-    private AliyunOssProperties properties;
+    private final AliyunOssProperties properties;
 
     /**
      * create AliyunOssHandler by oss client and oss properties
@@ -68,9 +68,9 @@ public class AliyunOssHandler implements UploadHandler {
         try {
             ossClient.putObject(request);
         } catch (OSSException oe) {
-            LOGGER.debug(OSSEXCEPTION_MESSAGE, oe.getErrorCode(), oe.getErrorCode(), oe.getRequestId(), oe.getHostId());
+            LOGGER.debug(OSS_EXCEPTION_MESSAGE, oe.getErrorCode(), oe.getErrorCode(), oe.getRequestId(), oe.getHostId());
         } catch (ClientException ce) {
-            LOGGER.debug(CLIENTEXCEPTION_MESSAGE, ce.getMessage());
+            LOGGER.debug(CLIENT_EXCEPTION_MESSAGE, ce.getMessage());
         } catch (Exception e) {
             LOGGER.debug(e.getMessage(), e);
         }

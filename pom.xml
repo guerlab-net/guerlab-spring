@@ -48,7 +48,7 @@
     <properties>
         <java.version>1.8</java.version>
         <project.encoding>UTF-8</project.encoding>
-        
+
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
@@ -59,8 +59,8 @@
         <guerlab-web.version>1.4.1</guerlab-web.version>
         <guerlab-spring.version>2.3.0</guerlab-spring.version>
 
-        <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
-        <spring-boot.version>2.1.3.RELEASE</spring-boot.version>
+        <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
+        <spring-boot.version>2.1.6.RELEASE</spring-boot.version>
 
         <swagger.version>1.5.21</swagger.version>
         <springfox.version>2.9.2</springfox.version>
@@ -133,7 +133,6 @@
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <configuration>
                         <encoding>${project.encoding}</encoding>
-                        <aggregate>true</aggregate>
                         <charset>${project.encoding}</charset>
                         <docencoding>${project.encoding}</docencoding>
                     </configuration>
@@ -312,8 +311,6 @@
         <module>guerlab-spring-mybatis-starter</module>
         <module>guerlab-spring-redis-starter</module>
         <module>guerlab-spring-searchparams</module>
-        <module>guerlab-spring-searchparams-mybatisplus</module>
-        <module>guerlab-spring-searchparams-tkmapper</module>
         <module>guerlab-spring-swagger2-cloud-starter</module>
         <module>guerlab-spring-swagger2-starter</module>
         <module>guerlab-spring-swagger2-ui-starter</module>

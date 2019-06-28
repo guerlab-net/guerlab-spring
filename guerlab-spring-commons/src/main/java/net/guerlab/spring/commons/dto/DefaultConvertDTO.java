@@ -1,13 +1,11 @@
 package net.guerlab.spring.commons.dto;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import net.guerlab.commons.exception.ApplicationException;
 import org.springframework.beans.BeanUtils;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import net.guerlab.commons.exception.ApplicationException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * 转换为DTO对象
@@ -45,6 +43,10 @@ public interface DefaultConvertDTO<D> extends ConvertDTO<D> {
                 clazz = (Class<D>) parameterizedType.getActualTypeArguments()[0];
                 break;
             }
+        }
+
+        if (clazz == null) {
+            return null;
         }
 
         D dto;

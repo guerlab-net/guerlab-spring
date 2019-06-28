@@ -1,5 +1,8 @@
 package net.guerlab.spring.task.autoconfig;
 
+import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
+import net.guerlab.spring.task.annotation.TaskLock;
+import net.guerlab.spring.task.entity.TaskNodeInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -12,10 +15,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
-
-import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
-import net.guerlab.spring.task.annotation.TaskLock;
-import net.guerlab.spring.task.entity.TaskNodeInfo;
 
 /**
  * 抽象任务
@@ -38,8 +37,12 @@ public class TaskLockAutoConfig {
     @Component
     public static class TaskLockAop {
 
-        @Autowired
         private RedisTemplate<String, Object> redisTemplate;
+
+        @Autowired
+        public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
+            this.redisTemplate = redisTemplate;
+        }
 
         /**
          * task run before aop

@@ -8,7 +8,7 @@ import java.util.Locale;
  * @author guer
  *
  */
-public class DefaultEexceptionInfo extends AbstractI18nInfo {
+public class DefaultExceptionInfo extends AbstractI18nInfo {
 
     private static final String DEFAULT_MSG;
 
@@ -28,7 +28,7 @@ public class DefaultEexceptionInfo extends AbstractI18nInfo {
      * @param cause
      *            Throwable
      */
-    public DefaultEexceptionInfo(Throwable cause) {
+    public DefaultExceptionInfo(Throwable cause) {
         super(cause, 500);
     }
 

@@ -1,18 +1,17 @@
 package net.guerlab.spring.swagger2.cloud;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
+import net.guerlab.commons.collection.CollectionUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-
-import net.guerlab.commons.collection.CollectionUtil;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 文档配置
@@ -25,8 +24,12 @@ import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 @EnableConfigurationProperties(SwaggerProperties.class)
 public class DocumentationConfig implements SwaggerResourcesProvider {
 
-    @Autowired
     private SwaggerProperties properties;
+
+    @Autowired
+    public void setProperties(SwaggerProperties properties) {
+        this.properties = properties;
+    }
 
     @Override
     public List<SwaggerResource> get() {

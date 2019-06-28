@@ -4,7 +4,7 @@
 			"name": "swagger",
 			"type": "net.guerlab.spring.swagger2.cloud.DocumentationConfig",
 			"sourceType": "net.guerlab.spring.swagger2.cloud.DocumentationConfig",
-			"description": "swagger配置"
+			"description": "swagger配置."
 		}
 	],
 	"properties": [
@@ -12,7 +12,7 @@
 			"name": "swagger.resources",
 			"type": "java.util.Map<java.lang.String, net.guerlab.spring.swagger2.cloud.SwaggerResourceBuild>",
 			"sourceType": "net.guerlab.spring.swagger2.cloud.DocumentationConfig",
-			"description": "资源语言"
+			"description": "资源语言."
 		}
 	]
 }

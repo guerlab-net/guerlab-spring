@@ -91,5 +91,4 @@ public enum SearchModelType {
     /**
      * 忽略
      */
-    IGNORE;
-}
+    IGNORE}

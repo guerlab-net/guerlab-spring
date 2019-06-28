@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -38,6 +39,7 @@ public class MyBatisAutoconfigure {
      * @return 会话模板
      */
     @ConditionalOnMissingBean(SqlSessionTemplate.class)
+    @ConditionalOnBean(SqlSessionFactory.class)
     @Bean
     public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
@@ -50,6 +52,7 @@ public class MyBatisAutoconfigure {
      *            数据源
      * @return 事务管理器
      */
+    @ConditionalOnBean(DataSource.class)
     @Bean(DEFAULT_TRANSACTION_MANAGER_BEAN_NAME)
     public PlatformTransactionManager defaultTransactionManager(DataSource dataSource) {
 

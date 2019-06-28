@@ -23,10 +23,10 @@ public class Sequence {
     private static final long SEQUENCE_BITS = 12L;
 
     /** workerId可以使用的最大数值：31 **/
-    private static final long MAX_WORKER_ID = -1L ^ -1L << WORKER_ID_BITS;
+    private static final long MAX_WORKER_ID = ~(-1L << WORKER_ID_BITS);
 
     /** dataCenterId可以使用的最大数值：31 **/
-    private static final long MAX_DATA_CENTER_ID = -1L ^ -1L << DATA_CENTER_ID_BITS;
+    private static final long MAX_DATA_CENTER_ID = ~(-1L << DATA_CENTER_ID_BITS);
 
     private static final long WORKER_ID_SHIFT = SEQUENCE_BITS;
 
@@ -35,7 +35,7 @@ public class Sequence {
     private static final long TIMESTAMP_LEFT_SHIFT = SEQUENCE_BITS + WORKER_ID_BITS + DATA_CENTER_ID_BITS;
 
     /** 用mask防止溢出:位与运算保证计算的结果范围始终是 0-4095 **/
-    private static final long SEQUENCE_MASK = -1L ^ -1L << SEQUENCE_BITS;
+    private static final long SEQUENCE_MASK = ~(-1L << SEQUENCE_BITS);
 
     private long workerId;
 

@@ -53,7 +53,6 @@ public class DockerAutoConfigure {
         }
     }
 
-    @SuppressWarnings("resource")
     private static DefaultListableBeanFactory getBeanFactory() {
         ApplicationContext context = SpringApplicationContextUtil.getContext();
 

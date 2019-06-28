@@ -4,140 +4,140 @@
 			"name": "upload.aliyun.oss",
 			"type": "net.guerlab.spring.upload.aliyun.oss.AliyunOssProperties",
 			"sourceType": "net.guerlab.spring.upload.aliyun.oss.AliyunOssProperties",
-			"description": "阿里云Oss配置"
+			"description": "阿里云Oss配置."
 		}
 	],
 	"properties": [
 		{
 			"name": "upload.aliyun.oss.enable",
-			"type": "boolean",
+			"type": "java.lang.Boolean",
 			"sourceType": "net.guerlab.spring.upload.aliyun.oss.AliyunOssProperties",
-			"description": "是否启用",
+			"description": "是否启用.",
 			"defaultValue": "true"
 		},
 		{
 			"name": "upload.aliyun.oss.endpoint",
-			"type": "string",
+			"type": "java.lang.String",
 			"sourceType": "net.guerlab.spring.upload.aliyun.oss.AliyunOssProperties",
-			"description": "endpoint"
+			"description": "endpoint."
 		},
 		{
 			"name": "upload.aliyun.oss.access-key-id",
-			"type": "string",
+			"type": "java.lang.String",
 			"sourceType": "net.guerlab.spring.upload.aliyun.oss.AliyunOssProperties",
-			"description": "accessKeyId"
+			"description": "accessKeyId."
 		},
 		{
 			"name": "upload.aliyun.oss.access-key-secret",
-			"type": "string",
+			"type": "java.lang.String",
 			"sourceType": "net.guerlab.spring.upload.aliyun.oss.AliyunOssProperties",
-			"description": "accessKeySecret"
+			"description": "accessKeySecret."
 		},
 		{
 			"name": "upload.aliyun.oss.bucket-name",
-			"type": "string",
+			"type": "java.lang.String",
 			"sourceType": "net.guerlab.spring.upload.aliyun.oss.AliyunOssProperties",
-			"description": "bucketName"
+			"description": "bucketName."
 		},
 		{
 			"name": "upload.aliyun.oss.client-config",
 			"type": "com.aliyun.oss.ClientConfiguration",
 			"sourceType": "net.guerlab.spring.upload.aliyun.oss.AliyunOssProperties",
-			"description": "oss客户端配置"
+			"description": "oss客户端配置."
 		},
 		{
 			"name": "upload.aliyun.oss.client-config.max-connections",
-			"type": "int",
+			"type": "java.lang.Integer",
 			"sourceType": "com.aliyun.oss.ClientConfiguration",
-			"description": "允许打开的最大HTTP连接数",
+			"description": "允许打开的最大HTTP连接数.",
 			"defaultValue": "1024"
 		},
 		{
 			"name": "upload.aliyun.oss.client-config.socket-timeout",
-			"type": "int",
+			"type": "java.lang.Integer",
 			"sourceType": "com.aliyun.oss.ClientConfiguration",
-			"description": "Socket层传输数据的超时时间（单位：毫秒）",
+			"description": "Socket层传输数据的超时时间（单位：毫秒）.",
 			"defaultValue": "50000"
 		},
 		{
 			"name": "upload.aliyun.oss.client-config.connection-timeout",
-			"type": "int",
+			"type": "java.lang.Integer",
 			"sourceType": "com.aliyun.oss.ClientConfiguration",
-			"description": "建立连接的超时时间（单位：毫秒）",
+			"description": "建立连接的超时时间（单位：毫秒）.",
 			"defaultValue": "50000"
 		},
 		{
 			"name": "upload.aliyun.oss.client-config.connection-request-timeout",
-			"type": "int",
+			"type": "java.lang.Integer",
 			"sourceType": "com.aliyun.oss.ClientConfiguration",
-			"description": "从连接池中获取连接的超时时间（单位：毫秒）",
+			"description": "从连接池中获取连接的超时时间（单位：毫秒）.",
 			"defaultValue": "-1"
 		},
 		{
 			"name": "upload.aliyun.oss.client-config.idle-connection-time",
-			"type": "int",
+			"type": "java.lang.Integer",
 			"sourceType": "com.aliyun.oss.ClientConfiguration",
-			"description": "如果空闲时间超过此参数的设定值，则关闭连接（单位：毫秒）",
+			"description": "如果空闲时间超过此参数的设定值，则关闭连接（单位：毫秒）.",
 			"defaultValue": "60000"
 		},
 		{
 			"name": "upload.aliyun.oss.client-config.max-error-retry",
-			"type": "int",
+			"type": "java.lang.Integer",
 			"sourceType": "com.aliyun.oss.ClientConfiguration",
-			"description": "请求失败后最大的重试次数",
+			"description": "请求失败后最大的重试次数.",
 			"defaultValue": "3"
 		},
 		{
 			"name": "upload.aliyun.oss.client-config.support-cname",
-			"type": "boolean",
+			"type": "java.lang.Boolean",
 			"sourceType": "com.aliyun.oss.ClientConfiguration",
-			"description": "是否支持CNAME作为Endpoint",
+			"description": "是否支持CNAME作为Endpoint.",
 			"defaultValue": "true"
 		},
 		{
 			"name": "upload.aliyun.oss.client-config.s-l-d-enabled",
-			"type": "boolean",
+			"type": "java.lang.Boolean",
 			"sourceType": "com.aliyun.oss.ClientConfiguration",
-			"description": "是否开启二级域名（Second Level Domain）的访问方式",
+			"description": "是否开启二级域名（Second Level Domain）的访问方式.",
 			"defaultValue": "false"
 		},
 		{
 			"name": "upload.aliyun.oss.client-config.protocol",
 			"type": "com.aliyun.oss.common.comm.Protocol",
 			"sourceType": "com.aliyun.oss.ClientConfiguration",
-			"description": "连接OSS所采用的协议（HTTP/HTTPS）",
+			"description": "连接OSS所采用的协议（HTTP/HTTPS）.",
 			"defaultValue": "HTTP"
 		},
 		{
 			"name": "upload.aliyun.oss.client-config.user-agent",
-			"type": "string",
+			"type": "java.lang.String",
 			"sourceType": "com.aliyun.oss.ClientConfiguration",
-			"description": "用户代理，指HTTP的User-Agent头",
+			"description": "用户代理，指HTTP的User-Agent头.",
 			"defaultValue": "aliyun-sdk-java"
 		},
 		{
 			"name": "upload.aliyun.oss.client-config.proxy-host",
-			"type": "string",
+			"type": "java.lang.String",
 			"sourceType": "com.aliyun.oss.ClientConfiguration",
-			"description": "代理服务器主机地址"
+			"description": "代理服务器主机地址."
 		},
 		{
 			"name": "upload.aliyun.oss.client-config.proxy-port",
-			"type": "int",
+			"type": "java.lang.Integer",
 			"sourceType": "com.aliyun.oss.ClientConfiguration",
-			"description": "代理服务器端口"
+			"description": "代理服务器端口."
 		},
 		{
 			"name": "upload.aliyun.oss.client-config.proxy-username",
-			"type": "string",
+			"type": "java.lang.String",
 			"sourceType": "com.aliyun.oss.ClientConfiguration",
-			"description": "代理服务器验证的用户名"
+			"description": "代理服务器验证的用户名."
 		},
 		{
 			"name": "upload.aliyun.oss.client-config.proxy-password",
-			"type": "string",
+			"type": "java.lang.String",
 			"sourceType": "com.aliyun.oss.ClientConfiguration",
-			"description": "代理服务器验证的密码"
+			"description": "代理服务器验证的密码."
 		}
 	]
 }

@@ -2,10 +2,7 @@ package net.guerlab.spring.searchparams;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -72,7 +69,7 @@ public class SearchParamsUtils {
             return;
         }
 
-        orderByFields.stream().sorted((f1, f2) -> getOrderByIndexValue(f1) - getOrderByIndexValue(f2))
+        orderByFields.stream().sorted(Comparator.comparingInt(SearchParamsUtils::getOrderByIndexValue))
                 .forEach(field -> setCriteriaValue(field, example, searchParams, config));
     }
 
@@ -115,13 +112,7 @@ public class SearchParamsUtils {
      */
     public static Map<String, Object> toAllMap(final AbstractSearchParams searchParams,
             final SearchParamsParseConfig config) {
-        if (searchParams == null) {
-            return Collections.emptyMap();
-        }
-
-        Map<String, Object> map = new HashMap<>();
-
-        getFields(searchParams).stream().forEach(field -> setMapValue(field, map, searchParams, config));
+        Map<String, Object> map = toMap(searchParams, config);
 
         map.put("pageId", searchParams.getPageId());
         map.put("pageSize", searchParams.getPageSize());
@@ -152,12 +143,12 @@ public class SearchParamsUtils {
     public static Map<String, Object> toMap(final AbstractSearchParams searchParams,
             final SearchParamsParseConfig config) {
         if (searchParams == null) {
-            return Collections.emptyMap();
+            return new HashMap<>();
         }
 
         Map<String, Object> map = new HashMap<>();
 
-        getFields(searchParams).stream().forEach(field -> setMapValue(field, map, searchParams, config));
+        getFields(searchParams).forEach(field -> setMapValue(field, map, searchParams, config));
 
         return map;
     }

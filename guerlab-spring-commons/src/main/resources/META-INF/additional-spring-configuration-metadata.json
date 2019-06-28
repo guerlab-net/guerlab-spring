@@ -4,25 +4,25 @@
 			"name": "spring.i18n",
 			"type": "net.guerlab.spring.commons.properties.I18nProperties",
 			"sourceType": "net.guerlab.spring.commons.properties.I18nProperties",
-			"description": "国际化配置"
+			"description": "国际化配置."
 		},
 		{
 			"name": "spring.response-advisor",
 			"type": "net.guerlab.spring.commons.properties.ResponseAdvisorProperties",
 			"sourceType": "net.guerlab.spring.commons.properties.ResponseAdvisorProperties",
-			"description": "响应数据处理配置"
+			"description": "响应数据处理配置."
 		},
 		{
 			"name": "sequence",
 			"type": "net.guerlab.spring.commons.properties.SequenceProperties",
 			"sourceType": "net.guerlab.spring.commons.properties.SequenceProperties",
-			"description": "分布式序列配置"
+			"description": "分布式序列配置."
 		},
 		{
 			"name": "web.cors",
 			"type": "net.guerlab.spring.commons.properties.CorsProperties",
 			"sourceType": "net.guerlab.spring.commons.properties.CorsProperties",
-			"description": "CORS配置"
+			"description": "CORS配置."
 		}
 	],
 	"properties": [
@@ -30,45 +30,45 @@
 			"name": "spring.i18n.default-locale",
 			"type": "java.util.Locale",
 			"sourceType": "net.guerlab.spring.commons.properties.I18nProperties",
-			"description": "默认语言",
+			"description": "默认语言.",
 			"defaultValue": "java.util.Locale.getDefault()"
 		},
 		{
 			"name": "spring.i18n.locale-change-interceptor",
 			"type": "org.springframework.web.servlet.i18n.LocaleChangeInterceptor",
 			"sourceType": "net.guerlab.spring.commons.properties.I18nProperties",
-			"description": "语言环境改变拦截器",
+			"description": "语言环境改变拦截器.",
 			"defaultValue": "org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
 		},
 		{
 			"name": "spring.response-advisor.excluded",
 			"type": "java.util.List<java.lang.String>",
 			"sourceType": "net.guerlab.spring.commons.properties.ResponseAdvisorProperties",
-			"description": "排除路径"
+			"description": "排除路径."
 		},
 		{
 			"name": "sequence.worker-id",
-			"type": "long",
+			"type": "java.lang.Long",
 			"sourceType": "net.guerlab.spring.commons.properties.SequenceProperties",
-			"description": "工作节点ID",
+			"description": "工作节点ID.",
 			"defaultValue": "0"
 		},
 		{
 			"name": "sequence.data-center-id",
-			"type": "long",
+			"type": "java.lang.Long",
 			"sourceType": "net.guerlab.spring.commons.properties.SequenceProperties",
-			"description": "数据中心ID",
+			"description": "数据中心ID.",
 			"defaultValue": "0"
 		},
 		{
 			"name": "web.cors.enable",
-			"type": "boolean",
+			"type": "java.lang.Boolean",
 			"sourceType": "net.guerlab.spring.commons.properties.CorsProperties",
-			"description": "enable cors properties"
+			"description": "enable cors properties."
 		},
 		{
 			"name": "web.cors.allow-credentials",
-			"type": "boolean",
+			"type": "java.lang.Boolean",
 			"sourceType": "net.guerlab.spring.commons.properties.CorsProperties",
 			"description": "header indicates whether the response to request can be exposed when the omit credentials flag is unset."
 		},
@@ -104,114 +104,114 @@
 		},
         {
             "name": "spring.jackson.format.format-all-number",
-            "type": "boolean",
+            "type": "java.lang.Boolean",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "是否格式化所有数值类型",
+            "description": "是否格式化所有数值类型.",
             "defaultValue": "false"
         },
         {
             "name": "spring.jackson.format.format-big-decimal",
-            "type": "boolean",
+            "type": "java.lang.Boolean",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "是否格式化BigDecimal",
+            "description": "是否格式化BigDecimal.",
             "defaultValue": "false"
         },
         {
             "name": "spring.jackson.format.format-big-integer",
-            "type": "boolean",
+            "type": "java.lang.Boolean",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "是否格式化BigInteger",
+            "description": "是否格式化BigInteger.",
             "defaultValue": "false"
         },
         {
             "name": "spring.jackson.format.format-byte-class",
-            "type": "boolean",
+            "type": "java.lang.Boolean",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "是否格式化Byte包装类",
+            "description": "是否格式化Byte包装类.",
             "defaultValue": "false"
         },
         {
             "name": "spring.jackson.format.format-short-class",
-            "type": "boolean",
+            "type": "java.lang.Boolean",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "是否格式化Short包装类",
+            "description": "是否格式化Short包装类.",
             "defaultValue": "false"
         },
         {
             "name": "spring.jackson.format.format-integer-class",
-            "type": "boolean",
+            "type": "java.lang.Boolean",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "是否格式化Integer包装类",
+            "description": "是否格式化Integer包装类.",
             "defaultValue": "false"
         },
         {
             "name": "spring.jackson.format.format-long-class",
-            "type": "boolean",
+            "type": "java.lang.Boolean",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "是否格式化Long包装类",
+            "description": "是否格式化Long包装类.",
             "defaultValue": "false"
         },
         {
             "name": "spring.jackson.format.format-float-class",
-            "type": "boolean",
+            "type": "java.lang.Boolean",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "是否格式化Float包装类",
+            "description": "是否格式化Float包装类.",
             "defaultValue": "false"
         },
         {
             "name": "spring.jackson.format.format-double-class",
-            "type": "boolean",
+            "type": "java.lang.Boolean",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "是否格式化Double包装类",
+            "description": "是否格式化Double包装类.",
             "defaultValue": "false"
         },
         {
             "name": "spring.jackson.format.format-byte-type",
-            "type": "boolean",
+            "type": "java.lang.Boolean",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "是否格式化Byte基本类型",
+            "description": "是否格式化Byte基本类型.",
             "defaultValue": "false"
         },
         {
             "name": "spring.jackson.format.format-short-type",
-            "type": "boolean",
+            "type": "java.lang.Boolean",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "是否格式化Short基本类型",
+            "description": "是否格式化Short基本类型.",
             "defaultValue": "false"
         },
         {
             "name": "spring.jackson.format.format-integer-type",
-            "type": "boolean",
+            "type": "java.lang.Boolean",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "是否格式化Integer基本类型",
+            "description": "是否格式化Integer基本类型.",
             "defaultValue": "false"
         },
         {
             "name": "spring.jackson.format.format-long-type",
-            "type": "boolean",
+            "type": "java.lang.Boolean",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "是否格式化Long基本类型",
+            "description": "是否格式化Long基本类型.",
             "defaultValue": "false"
         },
         {
             "name": "spring.jackson.format.format-float-type",
-            "type": "boolean",
+            "type": "java.lang.Boolean",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "是否格式化Float基本类型",
+            "description": "是否格式化Float基本类型.",
             "defaultValue": "false"
         },
         {
             "name": "spring.jackson.format.format-double-type",
-            "type": "boolean",
+            "type": "java.lang.Boolean",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "是否格式化Double基本类型",
+            "description": "是否格式化Double基本类型.",
             "defaultValue": "false"
         },
         {
             "name": "spring.jackson.format.format-number-class-list",
-            "type": "java.util.List<java.lang.Class<? extends java.lang.Number>>",
+            "type": "java.util.List<java.lang.Class<java.lang.Number>>",
             "sourceType": "net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties",
-            "description": "待格式化数值类型类"
+            "description": "待格式化数值类型类."
         }
 	]
 }

@@ -11,9 +11,9 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
  */
 public class MethodArgumentTypeMismatchExceptionInfo extends AbstractI18nInfo {
 
-    private Object value;
+    private final Object value;
 
-    private Class<?> requiredType;
+    private final Class<?> requiredType;
 
     /**
      * 通过MethodArgumentTypeMismatchException初始化
