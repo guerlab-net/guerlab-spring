@@ -3,20 +3,20 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>guerlab-spring-swagger2-starter</artifactId>
-    
+
     <parent>
         <groupId>net.guerlab.spring</groupId>
         <artifactId>guerlab-spring</artifactId>
         <version>2.3.0</version>
         <relativePath>../</relativePath>
     </parent>
-    
+
     <dependencies>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>net.guerlab.spring</groupId>
             <artifactId>guerlab-spring-commons</artifactId>
@@ -24,8 +24,14 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>

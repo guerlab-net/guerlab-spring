@@ -3,14 +3,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>guerlab-spring-swagger2-ui-starter</artifactId>
-	
+
 	<parent>
 		<groupId>net.guerlab.spring</groupId>
 		<artifactId>guerlab-spring</artifactId>
 		<version>2.3.0</version>
 		<relativePath>../</relativePath>
 	</parent>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>net.guerlab.spring</groupId>

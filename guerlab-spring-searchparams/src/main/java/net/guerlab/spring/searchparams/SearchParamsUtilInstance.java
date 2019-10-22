@@ -5,48 +5,32 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.guerlab.spring.searchparams.handler.CollectionHandler;
-import net.guerlab.spring.searchparams.handler.DefaultHandler;
-import net.guerlab.spring.searchparams.handler.OrderByHandler;
-import net.guerlab.spring.searchparams.handler.StringHandler;
-
 /**
- * SearchParams解析配置
+ * 搜索参数工具实例
  *
  * @author guer
  *
  */
-public class SearchParamsParseConfig {
-
-    private static final SearchParamsParseConfig GLOBAL = new SearchParamsParseConfig();
+public abstract class SearchParamsUtilInstance {
 
     private final Map<Type, SearchParamsHandler> handlers = new HashMap<>();
 
-    private SearchParamsHandler defaultHandler = new DefaultHandler();
+    private SearchParamsHandler defaultHandler;
 
     /**
-     * 实例化SearchParams类解析配置
-     */
-    public SearchParamsParseConfig() {
-        handlers.put(String.class, new StringHandler());
-        handlers.put(Collection.class, new CollectionHandler());
-        handlers.put(OrderByType.class, new OrderByHandler());
-    }
-
-    /**
-     * 获取全局实例
+     * 判断是否允许
      *
-     * @return 全局实例
+     * @param object
+     *         输出对象
+     * @return 返回true表示进行处理，否则不进行处理
      */
-    public static SearchParamsParseConfig getGlobalInstance() {
-        return GLOBAL;
-    }
+    public abstract boolean accept(Object object);
 
     /**
      * 设置默认处理器对象
      *
      * @param handler
-     *            处理器
+     *         处理器
      */
     public void setDefaultHandler(SearchParamsHandler handler) {
         defaultHandler = handler;
@@ -56,9 +40,9 @@ public class SearchParamsParseConfig {
      * 添加处理器对象
      *
      * @param type
-     *            数据类型
+     *         数据类型
      * @param handler
-     *            处理器
+     *         处理器
      */
     public void addHandler(Type type, SearchParamsHandler handler) {
         if (type != null && handler != null) {
@@ -70,7 +54,7 @@ public class SearchParamsParseConfig {
      * 获取处理器对象
      *
      * @param type
-     *            数据类型
+     *         数据类型
      * @return 处理器对象
      */
     public SearchParamsHandler getHandler(Type type) {
@@ -94,4 +78,17 @@ public class SearchParamsParseConfig {
 
         return handler == null ? defaultHandler : handler;
     }
+
+    /**
+     * 后置处理
+     *
+     * @param searchParams
+     *         搜索参数
+     * @param object
+     *         输出对象
+     */
+    public void afterHandler(final AbstractSearchParams searchParams, final Object object) {
+
+    }
+
 }

@@ -22,6 +22,8 @@ public class AliyunOssAutoConfigure {
     /**
      * create OSS client
      *
+     * @param properties
+     *            OSS properties
      * @return OSS client
      */
     @RefreshScope

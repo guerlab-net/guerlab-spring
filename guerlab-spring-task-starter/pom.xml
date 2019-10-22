@@ -10,13 +10,13 @@
         <version>2.3.0</version>
         <relativePath>../</relativePath>
     </parent>
-    
+
     <dependencies>
-        <dependency> 
+        <dependency>
             <groupId>net.guerlab.spring</groupId>
             <artifactId>guerlab-spring-redis-starter</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>

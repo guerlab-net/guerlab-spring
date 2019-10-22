@@ -1,5 +1,16 @@
 package net.guerlab.spring.upload.helper;
 
+import net.guerlab.commons.exception.ApplicationException;
+import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
+import net.guerlab.spring.upload.entity.FileInfo;
+import net.guerlab.spring.upload.handler.UploadHandler;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.MimeType;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,18 +22,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.MimeType;
-import org.springframework.web.multipart.MultipartFile;
-
-import net.guerlab.commons.exception.ApplicationException;
-import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
-import net.guerlab.spring.upload.entity.FileInfo;
-import net.guerlab.spring.upload.handler.UploadHandler;
 
 /**
  * 上传处理
@@ -243,9 +242,9 @@ public class UploadFileHelper {
     }
 
     private static void write(final MultipartFile fileItem, final FileInfo fileInfo) throws IOException {
-        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(fileInfo.getSaveFile()));
-        stream.write(fileItem.getBytes());
-        stream.close();
+        try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(fileInfo.getSaveFile()))) {
+            stream.write(fileItem.getBytes());
+        }
     }
 
 }

@@ -1,18 +1,16 @@
 package net.guerlab.spring.searchparams;
 
+import net.guerlab.commons.reflection.FieldUtil;
+import org.apache.commons.lang3.StringUtils;
+
+import javax.persistence.Column;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import javax.persistence.Column;
-
-import org.apache.commons.lang3.StringUtils;
-
-import net.guerlab.commons.collection.CollectionUtil;
-import net.guerlab.commons.reflection.FieldUtil;
-import tk.mybatis.mapper.entity.Example;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * SearchParams工具类
@@ -31,46 +29,38 @@ public class SearchParamsUtils {
     }
 
     /**
-     * 将searchParams的参数转变为example的查询条件
+     * 对searchParams进行处理
      *
      * @param searchParams
-     *            参数列表对象
-     * @param example
-     *            example
+     *         参数列表对象
+     * @param object
+     *         输出对象
      */
-    public static void exampleAdvice(final AbstractSearchParams searchParams, final Example example) {
-        exampleAdvice(searchParams, example, SearchParamsParseConfig.getGlobalInstance());
-    }
-
-    /**
-     * 将searchParams的参数转变为example的查询条件
-     *
-     * @param searchParams
-     *            参数列表对象
-     * @param example
-     *            example
-     * @param config
-     *            SearchParams类解析配置
-     */
-    public static void exampleAdvice(final AbstractSearchParams searchParams, final Example example,
-            final SearchParamsParseConfig config) {
-        if (searchParams == null || example == null) {
+    public static void handler(final AbstractSearchParams searchParams, final Object object) {
+        if (searchParams == null || object == null) {
             return;
         }
+
+        ServiceLoader<SearchParamsUtilInstance> serviceLoader = ServiceLoader.load(SearchParamsUtilInstance.class);
+        Stream<SearchParamsUtilInstance> stream = StreamSupport.stream(serviceLoader.spliterator(), false);
+        Optional<SearchParamsUtilInstance> instanceOptional = stream.filter(instance -> instance.accept(object))
+                .findFirst();
+
+        if (!instanceOptional.isPresent()) {
+            return;
+        }
+
+        SearchParamsUtilInstance instance = instanceOptional.get();
 
         Map<Boolean, List<Field>> fieldMap = getFields(searchParams).stream()
-                .collect(Collectors.partitioningBy(field -> OrderByType.class == field.getType()));
+                .collect(Collectors.partitioningBy(field -> Objects.equals(OrderByType.class, field.getType())));
 
-        CollectionUtil.forEach(fieldMap.get(false), field -> setCriteriaValue(field, example, searchParams, config));
-
-        List<Field> orderByFields = fieldMap.get(true);
-
-        if (orderByFields == null) {
-            return;
-        }
-
-        orderByFields.stream().sorted(Comparator.comparingInt(SearchParamsUtils::getOrderByIndexValue))
-                .forEach(field -> setCriteriaValue(field, example, searchParams, config));
+        fieldMap.getOrDefault(false, Collections.emptyList())
+                .forEach(field -> setValue(field, object, searchParams, instance));
+        fieldMap.getOrDefault(true, Collections.emptyList()).stream()
+                .sorted(Comparator.comparingInt(SearchParamsUtils::getOrderByIndexValue))
+                .forEach(field -> setValue(field, object, searchParams, instance));
+        instance.afterHandler(searchParams, object);
     }
 
     /**
@@ -86,95 +76,46 @@ public class SearchParamsUtils {
         }
 
         OrderByIndex orderByIndex = field.getAnnotation(OrderByIndex.class);
-
         return orderByIndex == null ? 0 : orderByIndex.value();
     }
 
     /**
-     * 将参数列表对象转换为map对象,包含pageId/pageSize字段
+     * 获取类字段列表
      *
      * @param searchParams
-     *            参数列表对象
-     * @return 参数表
+     *         搜索参数对象
+     * @return 类字段列表
      */
-    public static Map<String, Object> toAllMap(final AbstractSearchParams searchParams) {
-        return toAllMap(searchParams, SearchParamsParseConfig.getGlobalInstance());
-    }
-
-    /**
-     * 将参数列表对象转换为map对象,包含pageId/pageSize字段
-     *
-     * @param searchParams
-     *            参数列表对象
-     * @param config
-     *            SearchParams类解析配置
-     * @return 参数表
-     */
-    public static Map<String, Object> toAllMap(final AbstractSearchParams searchParams,
-            final SearchParamsParseConfig config) {
-        Map<String, Object> map = toMap(searchParams, config);
-
-        map.put("pageId", searchParams.getPageId());
-        map.put("pageSize", searchParams.getPageSize());
-
-        return map;
-    }
-
-    /**
-     * 将参数列表对象转换为map对象
-     *
-     * @param searchParams
-     *            参数列表对象
-     * @return 参数表
-     */
-    public static Map<String, Object> toMap(final AbstractSearchParams searchParams) {
-        return toMap(searchParams, SearchParamsParseConfig.getGlobalInstance());
-    }
-
-    /**
-     * 将参数列表对象转换为map对象
-     *
-     * @param searchParams
-     *            参数列表对象
-     * @param config
-     *            SearchParams类解析配置
-     * @return 参数表
-     */
-    public static Map<String, Object> toMap(final AbstractSearchParams searchParams,
-            final SearchParamsParseConfig config) {
-        if (searchParams == null) {
-            return new HashMap<>();
-        }
-
-        Map<String, Object> map = new HashMap<>();
-
-        getFields(searchParams).forEach(field -> setMapValue(field, map, searchParams, config));
-
-        return map;
-    }
-
     private static List<Field> getFields(final AbstractSearchParams searchParams) {
         return FieldUtil.getFiledsWithFilter(searchParams.getClass(), STATIC_FILTER, PAGE_PARAMS_FILTER);
     }
 
-    private static SearchParamsHandler getHandler(final Field field, final SearchParamsParseConfig config) {
-        SearchParamsParseConfig useConfig = config == null ? SearchParamsParseConfig.getGlobalInstance() : config;
-
-        return useConfig.getHandler(field.getType());
-    }
-
+    /**
+     * 获取类字段对应的搜索方式
+     *
+     * @param field
+     *         类字段
+     * @return 搜索方式
+     */
     private static SearchModelType getSearchModelType(final Field field) {
         SearchModel searchModel = field.getAnnotation(SearchModel.class);
-        return searchModel == null || searchModel.value() == null ? SearchModelType.EQUAL_TO : searchModel.value();
+        return searchModel == null ? SearchModelType.EQUAL_TO : searchModel.value();
     }
 
-    private static String getColumnName(final Field field, final String name) {
+    /**
+     * 获取类字段对应的数据库字段名称
+     *
+     * @param field
+     *         类字段
+     * @return 数据库字段名称
+     */
+    private static String getColumnName(final Field field) {
         Column column = field.getAnnotation(Column.class);
-        return column != null && StringUtils.isNotBlank(column.name()) ? column.name() : name;
+        return column != null && StringUtils.isNotBlank(column.name()) ? column.name() : field.getName();
     }
 
-    private static void setCriteriaValue(final Field field, final Example example,
-            final AbstractSearchParams searchParams, final SearchParamsParseConfig config) {
+    private static void setValue(final Field field, final Object object, final AbstractSearchParams searchParams,
+            final SearchParamsUtilInstance instance) {
         String name = field.getName();
 
         SearchModelType searchModelType = getSearchModelType(field);
@@ -183,7 +124,7 @@ public class SearchParamsUtils {
             return;
         }
 
-        SearchParamsHandler handler = getHandler(field, config);
+        SearchParamsHandler handler = instance.getHandler(field.getType());
 
         if (handler == null) {
             return;
@@ -195,31 +136,6 @@ public class SearchParamsUtils {
             return;
         }
 
-        handler.setValue(example, getColumnName(field, name), value, searchModelType);
-    }
-
-    private static void setMapValue(final Field field, final Map<String, Object> map,
-            final AbstractSearchParams searchParams, final SearchParamsParseConfig config) {
-        String name = field.getName();
-
-        SearchModelType searchModelType = getSearchModelType(field);
-
-        if (searchModelType == SearchModelType.IGNORE) {
-            return;
-        }
-
-        SearchParamsHandler handler = getHandler(field, config);
-
-        if (handler == null) {
-            return;
-        }
-
-        Object value = FieldUtil.get(searchParams, name);
-
-        if (value == null) {
-            return;
-        }
-
-        handler.setValue(map, name, value, searchModelType);
+        handler.setValue(object, name, getColumnName(field), value, searchModelType);
     }
 }

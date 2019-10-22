@@ -49,33 +49,40 @@
         <java.version>1.8</java.version>
         <project.encoding>UTF-8</project.encoding>
 
+        <!-- maven -->
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 
+        <!-- guerlab -->
         <guerlab-commons.version>1.4.2</guerlab-commons.version>
         <guerlab-web.version>1.4.1</guerlab-web.version>
         <guerlab-spring.version>2.3.0</guerlab-spring.version>
 
-        <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
-        <spring-boot.version>2.1.6.RELEASE</spring-boot.version>
+        <!-- spring -->
+        <spring-cloud.version>Greenwich.SR3</spring-cloud.version>
+        <spring-boot.version>2.1.9.RELEASE</spring-boot.version>
 
+        <!-- swagger -->
         <swagger.version>1.5.21</swagger.version>
         <springfox.version>2.9.2</springfox.version>
 
-        <druid.version>1.1.13</druid.version>
-        <mybatis-starter.version>2.0.0</mybatis-starter.version>
+        <!-- mybatis -->
+        <mybatis-starter.version>2.1.1</mybatis-starter.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
 
+        <!-- searchparams -->
         <persistence-api.version>1.0.2</persistence-api.version>
 
-        <pagehelper-spring-boot-starter.version>1.2.10</pagehelper-spring-boot-starter.version>
-        <pagehelper.version>5.1.8</pagehelper.version>
+        <!-- tk mapper -->
+        <tk-mapper-spring-boot-starter.version>2.1.5</tk-mapper-spring-boot-starter.version>
+        <tk-mapper.version>1.1.5</tk-mapper.version>
 
-        <mapper-spring-boot-starter.version>2.1.5</mapper-spring-boot-starter.version>
-        <mapper.version>1.1.5</mapper.version>
+        <!-- mybatis plus -->
+        <mybatis-plus.version>3.2.0</mybatis-plus.version>
+        <mybatis-plus-boot-starter.version>3.2.0</mybatis-plus-boot-starter.version>
     </properties>
 
     <distributionManagement>
@@ -191,11 +198,6 @@
             </dependency>
             <dependency>
                 <groupId>net.guerlab.spring</groupId>
-                <artifactId>guerlab-spring-mapper-starter</artifactId>
-                <version>${guerlab-spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-mybatis-starter</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
@@ -207,6 +209,16 @@
             <dependency>
                 <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-searchparams</artifactId>
+                <version>${guerlab-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.guerlab.spring</groupId>
+                <artifactId>guerlab-spring-searchparams-mybatisplus</artifactId>
+                <version>${guerlab-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.guerlab.spring</groupId>
+                <artifactId>guerlab-spring-searchparams-tkmapper</artifactId>
                 <version>${guerlab-spring.version}</version>
             </dependency>
             <dependency>
@@ -257,12 +269,7 @@
                 <version>${springfox.version}</version>
             </dependency>
 
-            <!-- db -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid.version}</version>
-            </dependency>
+            <!-- mybatis -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -274,46 +281,50 @@
                 <version>${mybatis-typehandlers-jsr310.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-spring-boot-starter</artifactId>
-                <version>${mapper-spring-boot-starter.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-core</artifactId>
-                <version>${mapper.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>${pagehelper-spring-boot-starter.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper</artifactId>
-                <version>${pagehelper.version}</version>
-            </dependency>
-
+            <!-- searchparams -->
             <dependency>
                 <groupId>javax.persistence</groupId>
                 <artifactId>persistence-api</artifactId>
                 <version>${persistence-api.version}</version>
+            </dependency>
+
+            <!-- tk.mapper -->
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper-core</artifactId>
+                <version>${tk-mapper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper-spring-boot-starter</artifactId>
+                <version>${tk-mapper-spring-boot-starter.version}</version>
+            </dependency>
+
+            <!-- mybatis plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-core</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-boot-starter.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
     <modules>
         <module>guerlab-spring-commons</module>
-        <module>guerlab-spring-task-starter</module>
-        <module>guerlab-spring-mapper-starter</module>
         <module>guerlab-spring-mybatis-starter</module>
         <module>guerlab-spring-redis-starter</module>
         <module>guerlab-spring-searchparams</module>
+        <module>guerlab-spring-searchparams-mybatisplus</module>
+        <module>guerlab-spring-searchparams-tkmapper</module>
         <module>guerlab-spring-swagger2-cloud-starter</module>
         <module>guerlab-spring-swagger2-starter</module>
         <module>guerlab-spring-swagger2-ui-starter</module>
+        <module>guerlab-spring-task-starter</module>
         <module>guerlab-spring-upload-starter</module>
         <module>guerlab-spring-upload-aliyun-oss-starter</module>
     </modules>
