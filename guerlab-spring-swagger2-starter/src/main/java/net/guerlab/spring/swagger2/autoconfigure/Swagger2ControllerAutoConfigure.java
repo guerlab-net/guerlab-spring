@@ -1,13 +1,13 @@
 package net.guerlab.spring.swagger2.autoconfigure;
 
 import io.swagger.models.Swagger;
-import net.guerlab.commons.exception.ApplicationException;
-import net.guerlab.spring.commons.annotation.IgnoreResponseHandler;
-import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
 import net.guerlab.spring.swagger2.HostNameProvider;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -34,12 +34,21 @@ import java.util.Optional;
  */
 @Configuration
 @Conditional(SwaggerEnableCondition.class)
-public class Swagger2ControllerAutoConfigure implements WebMvcConfigurer {
+public class Swagger2ControllerAutoConfigure implements WebMvcConfigurer, ApplicationContextAware {
 
     /**
      * 基础路径
      */
-    public static final String BASE_PATH = "/swagger-cloud";
+    static final String BASE_PATH = "/swagger-cloud";
+
+    private String appName;
+
+    @Override
+    public void setApplicationContext(ApplicationContext context) throws BeansException {
+        Environment environment = context.getEnvironment();
+        appName = environment
+                .getProperty("eureka.instance.appname", environment.getProperty("spring.application.name"));
+    }
 
     /**
      * swagger2 controller with spring cloud
@@ -48,10 +57,9 @@ public class Swagger2ControllerAutoConfigure implements WebMvcConfigurer {
      *
      */
     @ApiIgnore
-    @IgnoreResponseHandler
     @RestController
     @RequestMapping(Swagger2ControllerAutoConfigure.BASE_PATH)
-    public static class Swagger2Controller {
+    public class Swagger2Controller {
 
         private DocumentationCache documentationCache;
 
@@ -84,30 +92,30 @@ public class Swagger2ControllerAutoConfigure implements WebMvcConfigurer {
             Documentation documentation = documentationCache.documentationByGroup(groupName);
 
             if (documentation == null) {
-                throw new ApplicationException("not find group[group=" + groupName + "]");
+                throw new RuntimeException("not find group[group=" + groupName + "]");
             }
 
-            Swagger swagger = mapper.mapDocumentation(documentation);
-            Swagger swagger2 = new Swagger();
+            Swagger originSwagger = mapper.mapDocumentation(documentation);
+            Swagger cloudSwagger = new Swagger();
 
-            BeanUtils.copyProperties(swagger, swagger2);
+            BeanUtils.copyProperties(originSwagger, cloudSwagger);
 
-            UriComponents uriComponents = HostNameProvider.componentsFrom(servletRequest, swagger2.getBasePath());
+            UriComponents uriComponents = HostNameProvider.componentsFrom(servletRequest, cloudSwagger.getBasePath());
 
             String forwardedHost = servletRequest.getHeader("x-forwarded-host");
 
             if (StringUtils.isNotBlank(forwardedHost)) {
-                swagger2.host(forwardedHost);
-                setBasePath(swagger2, servletRequest.getHeader("x-forwarded-prefix"));
+                cloudSwagger.host(forwardedHost);
+                setBasePath(cloudSwagger, servletRequest.getHeader("x-forwarded-prefix"));
             } else {
-                swagger2.basePath(StringUtils.isBlank(uriComponents.getPath()) ? "/" : uriComponents.getPath());
+                cloudSwagger.basePath(StringUtils.isBlank(uriComponents.getPath()) ? "/" : uriComponents.getPath());
 
-                if (StringUtils.isBlank(swagger2.getHost())) {
-                    swagger2.host(hostName(uriComponents));
+                if (StringUtils.isBlank(cloudSwagger.getHost())) {
+                    cloudSwagger.host(hostName(uriComponents));
                 }
             }
 
-            return swagger2;
+            return cloudSwagger;
         }
 
         private void setBasePath(Swagger swagger2, String forwardedPrefix) {
@@ -135,11 +143,6 @@ public class Swagger2ControllerAutoConfigure implements WebMvcConfigurer {
          * "http://cloud.spring.io/spring-cloud-static/Finchley.RC2/single/spring-cloud.html#_discoveryclient_route_definition_locator">http://cloud.spring.io/spring-cloud-static/Finchley.RC2/single/spring-cloud.html#_discoveryclient_route_definition_locator</a>
          */
         private void setBasePathGeneralSupport(Swagger swagger2) {
-            Environment environment = SpringApplicationContextUtil.getContext().getEnvironment();
-
-            String appName = environment.getProperty("eureka.instance.appname",
-                    environment.getProperty("spring.application.name"));
-
             if (StringUtils.isNotBlank(appName)) {
                 swagger2.setBasePath("/" + appName.toUpperCase());
             }
@@ -148,10 +151,7 @@ public class Swagger2ControllerAutoConfigure implements WebMvcConfigurer {
         private String hostName(UriComponents uriComponents) {
             String host = uriComponents.getHost();
             int port = uriComponents.getPort();
-            if (port > -1) {
-                return String.format("%s:%d", host, port);
-            }
-            return host;
+            return port > -1 ? String.format("%s:%d", host, port) : host;
         }
     }
 }

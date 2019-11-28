@@ -1,5 +1,10 @@
 package net.guerlab.spring.swagger2.properties;
 
+/**
+ * swagger参数配置
+ *
+ * @author guerlab
+ */
 public class ParameterProperties {
 
     private String name;

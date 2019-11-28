@@ -1,9 +1,9 @@
 package net.guerlab.spring.swagger2.properties;
 
-import java.util.List;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+
+import java.util.List;
 
 /**
  * swagger2配置

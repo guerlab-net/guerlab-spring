@@ -1,14 +1,10 @@
 package net.guerlab.spring.swagger2;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.StringUtils;
-
 import net.guerlab.commons.collection.CollectionUtil;
 import net.guerlab.spring.swagger2.properties.ApiInfoProperties;
 import net.guerlab.spring.swagger2.properties.DocketProperties;
 import net.guerlab.spring.swagger2.properties.ParameterProperties;
+import org.apache.commons.lang3.StringUtils;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -20,6 +16,14 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * Docket构造工厂
+ *
+ * @author guerlab
+ */
 public class DocketFactory {
 
     public static Docket build(DocketProperties properties) {
@@ -68,8 +72,7 @@ public class DocketFactory {
     }
 
     private static void setGlobalOperationParameters(Docket docket, List<ParameterProperties> propertiesList) {
-        List<Parameter> operationParameters = propertiesList.stream().map(DocketFactory::createParameter)
-                .collect(Collectors.toList());
+        List<Parameter> operationParameters = propertiesList.stream().map(DocketFactory::createParameter).collect(Collectors.toList());
 
         docket.globalOperationParameters(operationParameters);
     }

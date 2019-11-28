@@ -6,7 +6,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
  * swagger启用判断
- * 
+ *
  * @author guer
  *
  */
