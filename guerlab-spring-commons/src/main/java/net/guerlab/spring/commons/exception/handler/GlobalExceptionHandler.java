@@ -22,7 +22,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.Collection;
@@ -51,16 +50,14 @@ public class GlobalExceptionHandler {
      *
      * @param request
      *            请求
-     * @param response
-     *            响应
      * @param e
      *            异常
      * @return 响应数据
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public Fail<Void> methodArgumentTypeMismatchException(HttpServletRequest request, HttpServletResponse response,
+    public Fail<Void> methodArgumentTypeMismatchException(HttpServletRequest request,
             MethodArgumentTypeMismatchException e) {
-        requestURILog(request);
+        debug(request, e);
         return handler0(new MethodArgumentTypeMismatchExceptionInfo(e), e);
     }
 
@@ -69,16 +66,14 @@ public class GlobalExceptionHandler {
      *
      * @param request
      *            请求
-     * @param response
-     *            响应
      * @param e
      *            异常
      * @return 响应数据
      */
     @ExceptionHandler(NoHandlerFoundException.class)
-    public Fail<Void> noHandlerFoundException(HttpServletRequest request, HttpServletResponse response,
+    public Fail<Void> noHandlerFoundException(HttpServletRequest request,
             NoHandlerFoundException e) {
-        requestURILog(request);
+        debug(request, e);
         return handler0(new NoHandlerFoundExceptionInfo(e), e);
     }
 
@@ -87,16 +82,14 @@ public class GlobalExceptionHandler {
      *
      * @param request
      *            请求
-     * @param response
-     *            响应
      * @param e
      *            异常
      * @return 响应数据
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public Fail<Void> httpRequestMethodNotSupportedException(HttpServletRequest request, HttpServletResponse response,
+    public Fail<Void> httpRequestMethodNotSupportedException(HttpServletRequest request,
             HttpRequestMethodNotSupportedException e) {
-        requestURILog(request);
+        debug(request, e);
         return handler0(new HttpRequestMethodNotSupportedExceptionInfo(e), e);
     }
 
@@ -105,16 +98,14 @@ public class GlobalExceptionHandler {
      *
      * @param request
      *            请求
-     * @param response
-     *            响应
      * @param e
      *            异常
      * @return 响应数据
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public Fail<Void> missingServletRequestParameterException(HttpServletRequest request, HttpServletResponse response,
+    public Fail<Void> missingServletRequestParameterException(HttpServletRequest request,
             MissingServletRequestParameterException e) {
-        requestURILog(request);
+        debug(request, e);
         return handler0(new MissingServletRequestParameterExceptionInfo(e), e);
     }
 
@@ -123,16 +114,14 @@ public class GlobalExceptionHandler {
      *
      * @param request
      *            请求
-     * @param response
-     *            响应
      * @param e
      *            异常
      * @return 响应数据
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Fail<Collection<String>> methodArgumentNotValidException(HttpServletRequest request,
-            HttpServletResponse response, MethodArgumentNotValidException e) {
-        requestURILog(request);
+            MethodArgumentNotValidException e) {
+        debug(request, e);
 
         BindingResult bindingResult = e.getBindingResult();
 
@@ -148,14 +137,8 @@ public class GlobalExceptionHandler {
         Locale locale = LocaleContextHolder.getLocale();
 
         try {
-            /*
-             * use custom message
-             */
             return messageSource.getMessage(defaultMessage, null, locale);
         } catch (NoSuchMessageException e) {
-            /*
-             * use ObjectError default message
-             */
             return error.getObjectName() + error.getDefaultMessage();
         }
     }
@@ -165,16 +148,14 @@ public class GlobalExceptionHandler {
      *
      * @param request
      *            请求
-     * @param response
-     *            响应
      * @param e
      *            异常
      * @return 响应数据
      */
     @ExceptionHandler(ConstraintViolationException.class)
     public Fail<Collection<String>> constraintViolationException(HttpServletRequest request,
-            HttpServletResponse response, ConstraintViolationException e) {
-        requestURILog(request);
+            ConstraintViolationException e) {
+        debug(request, e);
 
         Collection<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
 
@@ -188,22 +169,16 @@ public class GlobalExceptionHandler {
      * AbstractI18nApplicationException异常处理
      *
      * @param request
-     *            请求
-     * @param response
-     *            响应
+     *            请求\
      * @param e
      *            异常
      * @return 响应数据
      */
     @ExceptionHandler(AbstractI18nApplicationException.class)
-    public Fail<Void> abstractI18nApplicationException(HttpServletRequest request, HttpServletResponse response,
+    public Fail<Void> abstractI18nApplicationException(HttpServletRequest request,
             AbstractI18nApplicationException e) {
-        requestURILog(request);
-
+        debug(request, e);
         String message = e.getMessage(messageSource);
-
-        LOGGER.debug(message, e);
-
         return new Fail<>(message, e.getErrorCode());
     }
 
@@ -212,21 +187,15 @@ public class GlobalExceptionHandler {
      *
      * @param request
      *            请求
-     * @param response
-     *            响应
      * @param e
      *            异常
      * @return 响应数据
      */
     @ExceptionHandler(ApplicationException.class)
-    public Fail<Void> applicationException(HttpServletRequest request, HttpServletResponse response,
+    public Fail<Void> applicationException(HttpServletRequest request,
             ApplicationException e) {
-        requestURILog(request);
-
+        debug(request, e);
         String message = getMessage(e.getLocalizedMessage());
-
-        LOGGER.debug(message, e);
-
         return new Fail<>(message, e.getErrorCode());
     }
 
@@ -235,16 +204,13 @@ public class GlobalExceptionHandler {
      *
      * @param request
      *            请求
-     * @param response
-     *            响应
      * @param e
      *            异常
      * @return 响应数据
      */
     @ExceptionHandler(Exception.class)
-    public Fail<Void> exception(HttpServletRequest request, HttpServletResponse response, Exception e) {
-        e.printStackTrace();
-        requestURILog(request);
+    public Fail<Void> exception(HttpServletRequest request, Exception e) {
+        debug(request, e);
 
         ResponseStatus responseStatus = AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class);
 
@@ -260,31 +226,23 @@ public class GlobalExceptionHandler {
         }
     }
 
-    protected final void requestURILog(HttpServletRequest request) {
-        LOGGER.debug("request uri[{} {}]", request.getMethod(), request.getRequestURI());
+    private void debug(HttpServletRequest request, Throwable e) {
+        LOGGER.debug(String.format("request uri[%s %s]", request.getMethod(), request.getRequestURI()), e);
     }
 
-    protected final Fail<Collection<String>> handler0(RequestParamsError e) {
+    private Fail<Collection<String>> handler0(RequestParamsError e) {
         String message = getMessage(e.getLocalizedMessage());
-
-        LOGGER.debug(message, e);
-
         Fail<Collection<String>> fail = new Fail<>(message, e.getErrorCode());
-
         fail.setData(e.getErrors());
-
         return fail;
     }
 
-    protected final Fail<Void> handler0(AbstractI18nInfo i18nInfo, Throwable e) {
+    private Fail<Void> handler0(AbstractI18nInfo i18nInfo, Throwable e) {
         String message = i18nInfo.getMessage(messageSource);
-
-        LOGGER.debug(message, e);
-
         return new Fail<>(message, i18nInfo.getErrorCode());
     }
 
-    protected final String getMessage(String msg) {
+    private String getMessage(String msg) {
         if (StringUtils.isBlank(msg)) {
             return msg;
         }
