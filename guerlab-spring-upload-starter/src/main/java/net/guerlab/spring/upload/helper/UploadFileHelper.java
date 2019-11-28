@@ -14,12 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -33,12 +32,15 @@ public class UploadFileHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UploadFileHelper.class);
 
-    private static final Executor HANDLER_POOL = Executors.newCachedThreadPool(r -> {
+    private static final int AVAILABLE_PROCESSORS = Runtime.getRuntime().availableProcessors();
+
+    private static final Executor HANDLER_POOL = new ThreadPoolExecutor(0, AVAILABLE_PROCESSORS, 60L, TimeUnit.SECONDS,
+            new SynchronousQueue<>(), r -> {
         Thread thread = new Thread(r);
         thread.setDaemon(true);
         thread.setName("upload-handler");
         return thread;
-    });
+    }, new ThreadPoolExecutor.CallerRunsPolicy());
 
     private UploadFileHelper() {
     }
@@ -88,7 +90,7 @@ public class UploadFileHelper {
             return false;
         }
 
-        return mimeType.includes(MimeType.valueOf(fileItem.getContentType()));
+        return mimeType.includes(MimeType.valueOf(Objects.requireNonNull(fileItem.getContentType())));
     }
 
     /**

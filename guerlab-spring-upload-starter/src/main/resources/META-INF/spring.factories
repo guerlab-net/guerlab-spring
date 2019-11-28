@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-net.guerlab.spring.upload.config.PathInfoConfig
+net.guerlab.spring.upload.autoconfigure.PathInfoConfigAutoconfigure

@@ -1,10 +1,9 @@
 package net.guerlab.spring.upload.config;
 
-import java.io.File;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.context.annotation.Configuration;
+
+import java.io.File;
 
 /**
  * 上传文件目录配置
@@ -12,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
  * @author guer
  *
  */
-@Configuration
 @RefreshScope
 @ConfigurationProperties(prefix = "upload")
 public class PathInfoConfig {
