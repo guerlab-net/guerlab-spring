@@ -7,12 +7,12 @@
 	<parent>
 		<groupId>net.guerlab.spring</groupId>
 		<artifactId>guerlab-spring</artifactId>
-		<version>2.3.0</version>
-		<relativePath>../</relativePath>
+		<version>${revision}</version>
 	</parent>
 
 	<properties>
-		<aliyun-sdk-oss.version>3.5.0</aliyun-sdk-oss.version>
+		<main.basedir>${basedir}/..</main.basedir>
+		<aliyun-sdk-oss.version>3.8.0</aliyun-sdk-oss.version>
 	</properties>
 
 	<dependencies>

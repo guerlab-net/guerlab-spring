@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.guerlab.spring</groupId>
     <artifactId>guerlab-spring</artifactId>
-    <version>2.3.0</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -46,6 +46,9 @@
     </issueManagement>
 
     <properties>
+        <revision>2.3.1</revision>
+        <main.basedir>${basedir}</main.basedir>
+
         <java.version>1.8</java.version>
         <project.encoding>UTF-8</project.encoding>
 
@@ -59,7 +62,6 @@
         <!-- guerlab -->
         <guerlab-commons.version>1.4.2</guerlab-commons.version>
         <guerlab-web.version>1.4.1</guerlab-web.version>
-        <guerlab-spring.version>2.3.0</guerlab-spring.version>
 
         <!-- spring -->
         <spring-cloud.version>Greenwich.SR3</spring-cloud.version>
@@ -194,62 +196,62 @@
             <dependency>
                 <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-commons</artifactId>
-                <version>${guerlab-spring.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-mybatis-starter</artifactId>
-                <version>${guerlab-spring.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-redis-starter</artifactId>
-                <version>${guerlab-spring.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-searchparams</artifactId>
-                <version>${guerlab-spring.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-searchparams-mybatisplus</artifactId>
-                <version>${guerlab-spring.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-searchparams-tkmapper</artifactId>
-                <version>${guerlab-spring.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-swagger2-cloud-starter</artifactId>
-                <version>${guerlab-spring.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-swagger2-starter</artifactId>
-                <version>${guerlab-spring.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-swagger2-ui-starter</artifactId>
-                <version>${guerlab-spring.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-task-starter</artifactId>
-                <version>${guerlab-spring.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-upload-starter</artifactId>
-                <version>${guerlab-spring.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-upload-aliyun-oss-starter</artifactId>
-                <version>${guerlab-spring.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- swagger -->
