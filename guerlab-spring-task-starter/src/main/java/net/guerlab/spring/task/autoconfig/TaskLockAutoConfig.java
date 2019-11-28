@@ -72,9 +72,7 @@ public class TaskLockAutoConfig {
 
             Object result = null;
 
-            boolean locked = lock(lock, methodSignature.getDeclaringTypeName());
-
-            if (locked) {
+            if (lock(lock, methodSignature.getDeclaringTypeName())) {
                 result = proceed(point);
                 unlock(key);
             }
@@ -94,18 +92,20 @@ public class TaskLockAutoConfig {
             info.setApplicationName(getApplicationName());
 
             String key = lock.key();
+            Boolean hasKey = redisTemplate.hasKey(key);
 
-            if (!redisTemplate.opsForValue().setIfAbsent(key, info)) {
+            if (hasKey != null && hasKey) {
                 return false;
             }
 
             long timeout = lock.timeOut();
 
             if (timeout < 0) {
-                return true;
+                redisTemplate.opsForValue().set(key, info);
             } else {
-                return redisTemplate.expire(key, timeout, lock.timeUnit());
+                redisTemplate.opsForValue().set(key, info, timeout, lock.timeUnit());
             }
+            return true;
         }
 
         private void unlock(String key) {
