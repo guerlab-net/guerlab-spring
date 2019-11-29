@@ -1,6 +1,5 @@
 package net.guerlab.spring.swagger2;
 
-import net.guerlab.commons.collection.CollectionUtil;
 import net.guerlab.spring.swagger2.properties.ApiInfoProperties;
 import net.guerlab.spring.swagger2.properties.DocketProperties;
 import net.guerlab.spring.swagger2.properties.ParameterProperties;
@@ -17,6 +16,7 @@ import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -41,8 +41,15 @@ public class DocketFactory {
 
         docket.useDefaultResponseMessages(properties.isApplyDefaultResponseMessages());
 
-        if (CollectionUtil.isNotEmpty(properties.getGlobalOperationParameters())) {
-            setGlobalOperationParameters(docket, properties.getGlobalOperationParameters());
+        List<ParameterProperties> globalOperationParameters = properties.getGlobalOperationParameters();
+
+        if (globalOperationParameters != null && !globalOperationParameters.isEmpty()) {
+            List<Parameter> operationParameters = globalOperationParameters.stream().filter(Objects::nonNull)
+                    .map(DocketFactory::createParameter).collect(Collectors.toList());
+
+            if (!operationParameters.isEmpty()) {
+                docket.globalOperationParameters(operationParameters);
+            }
         }
 
         setApiSelectorBuilder(docket, properties);
@@ -69,12 +76,6 @@ public class DocketFactory {
         }
 
         apiSelectorBuilder.build();
-    }
-
-    private static void setGlobalOperationParameters(Docket docket, List<ParameterProperties> propertiesList) {
-        List<Parameter> operationParameters = propertiesList.stream().map(DocketFactory::createParameter).collect(Collectors.toList());
-
-        docket.globalOperationParameters(operationParameters);
     }
 
     private static Parameter createParameter(ParameterProperties properties) {
