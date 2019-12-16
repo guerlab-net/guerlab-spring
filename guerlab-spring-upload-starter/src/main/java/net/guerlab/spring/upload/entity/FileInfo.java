@@ -1,21 +1,25 @@
 package net.guerlab.spring.upload.entity;
 
-import java.io.File;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import net.guerlab.spring.commons.sequence.SnHelper;
 import net.guerlab.spring.upload.config.PathInfoConfig;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
 
 /**
  * 文件信息
  *
  * @author guer
- *
  */
 public class FileInfo {
+
+    private static final String ROOT_PATH = "/";
+
+    /**
+     * 原始文件名
+     */
+    private String originalFilename;
 
     /**
      * 保存路径
@@ -62,77 +66,108 @@ public class FileInfo {
     /**
      * 通过保存路径和文件名后缀初始化路径信息
      *
+     * @param originalFilename
+     *         原始文件名
      * @param path
-     *            保存路径
+     *         保存路径
      * @param suffix
-     *            后缀
+     *         后缀
      * @param contentType
-     *            文件类型
+     *         文件类型
      * @param fileSize
-     *            文件大小
+     *         文件大小
      */
-    public FileInfo(String path, String suffix, String contentType, long fileSize) {
+    public FileInfo(String originalFilename, String path, String suffix, String contentType, long fileSize) {
         setFileName(SnHelper.createSn(), suffix);
         setPath(path);
         this.fileSize = fileSize;
         this.contentType = contentType;
+        this.originalFilename = originalFilename;
     }
 
     /**
      * 通过保存路径和文件名后缀初始化路径信息
      *
+     * @param originalFilename
+     *         原始文件名
      * @param path
-     *            保存路径
+     *         保存路径
      * @param fileName
-     *            文件名
+     *         文件名
      * @param suffix
-     *            后缀
+     *         后缀
      * @param contentType
-     *            文件类型
+     *         文件类型
      * @param fileSize
-     *            文件大小
+     *         文件大小
      */
-    public FileInfo(String path, String fileName, String suffix, String contentType, long fileSize) {
+    public FileInfo(String originalFilename, String path, String fileName, String suffix, String contentType,
+            long fileSize) {
         setFileName(fileName, suffix);
         setPath(path);
         this.fileSize = fileSize;
         this.contentType = contentType;
+        this.originalFilename = originalFilename;
     }
 
     /**
      * 通过路径信息和文件名后缀初始化路径信息
      *
+     * @param originalFilename
+     *         原始文件名
      * @param pathInfo
-     *            路径信息
+     *         路径信息
      * @param suffix
-     *            后缀
+     *         后缀
      * @param contentType
-     *            文件类型
+     *         文件类型
      */
-    public FileInfo(FileInfo pathInfo, String suffix, String contentType) {
+    public FileInfo(String originalFilename, FileInfo pathInfo, String suffix, String contentType) {
         setFileName(SnHelper.createSn(), suffix);
         setPath(pathInfo == null ? "" : pathInfo.getSavePath());
         fileSize = pathInfo == null ? 0 : pathInfo.fileSize;
         this.contentType = contentType;
+        this.originalFilename = originalFilename;
     }
 
     /**
      * 通过路径信息和文件名后缀初始化路径信息
      *
+     * @param originalFilename
+     *         原始文件名
      * @param pathInfo
-     *            路径信息
+     *         路径信息
      * @param fileName
-     *            文件名
+     *         文件名
      * @param suffix
-     *            后缀
+     *         后缀
      * @param contentType
-     *            文件类型
+     *         文件类型
      */
-    public FileInfo(FileInfo pathInfo, String fileName, String suffix, String contentType) {
+    public FileInfo(String originalFilename, FileInfo pathInfo, String fileName, String suffix, String contentType) {
         setFileName(fileName, suffix);
         setPath(pathInfo == null ? "" : pathInfo.getSavePath());
         fileSize = pathInfo == null ? 0 : pathInfo.fileSize;
         this.contentType = contentType;
+        this.originalFilename = originalFilename;
+    }
+
+    /**
+     * 获取原始文件名
+     *
+     * @return 原始文件名
+     */
+    public String getOriginalFilename() {
+        return originalFilename;
+    }
+
+    /**
+     * 设置原始文件名
+     *
+     * @return 原始文件名
+     */
+    public void setOriginalFilename(String originalFilename) {
+        this.originalFilename = originalFilename;
     }
 
     /**
@@ -230,7 +265,7 @@ public class FileInfo {
 
         savePath = savePath.replaceAll("\\\\", "/").replaceAll("//", "/");
 
-        if ("/".equals(savePath)) {
+        if (ROOT_PATH.equals(savePath)) {
             savePath = "";
         }
 

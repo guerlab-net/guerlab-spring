@@ -4,7 +4,6 @@ import net.guerlab.commons.exception.ApplicationException;
 import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
 import net.guerlab.spring.upload.entity.FileInfo;
 import net.guerlab.spring.upload.handler.UploadHandler;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -57,7 +56,21 @@ public class UploadFileHelper {
             return null;
         }
 
+        String suffix = getSuffixByOriginalFilename(fileItem);
+
+        if (suffix == null) {
+            suffix = getSuffixByContentType(fileItem);
+        }
+
+        return suffix;
+    }
+
+    private static String getSuffixByOriginalFilename(final MultipartFile fileItem) {
         String fileName = fileItem.getOriginalFilename();
+
+        if (fileName == null) {
+            fileName = "";
+        }
 
         int index = fileName.lastIndexOf('.');
 
@@ -65,27 +78,35 @@ public class UploadFileHelper {
             return fileName.substring(index);
         }
 
+        return null;
+    }
+
+    private static String getSuffixByContentType(final MultipartFile fileItem) {
         String contentType = fileItem.getContentType();
 
-        int contentTypeIndex = contentType.lastIndexOf('/');
+        if (contentType == null) {
+            contentType = "";
+        }
 
-        if (contentTypeIndex == -1) {
+        int index = contentType.lastIndexOf('/');
+
+        if (index == -1) {
             return contentType;
         }
 
-        return "." + contentType.substring(contentTypeIndex + 1);
+        return "." + contentType.substring(index + 1);
     }
 
     /**
      * 判断文件格式是否为指定的格式
      *
      * @param fileItem
-     *            文件对象
+     *         文件对象
      * @param mimeType
-     *            mime格式
+     *         mime格式
      * @return 是否为指定的格式
      */
-    public static boolean includes(final MultipartFile fileItem, final MimeType mimeType) {
+    public static boolean match(final MultipartFile fileItem, final MimeType mimeType) {
         if (fileItem == null || mimeType == null) {
             return false;
         }
@@ -101,7 +122,7 @@ public class UploadFileHelper {
      * @return 保存路径
      */
     public static FileInfo upload(final MultipartFile fileItem) {
-        return toUpload(fileItem, null);
+        return upload0(fileItem, null, null);
     }
 
     /**
@@ -114,7 +135,7 @@ public class UploadFileHelper {
      * @return 保存路径
      */
     public static FileInfo upload(final MultipartFile fileItem, final String path) {
-        return toUpload(fileItem, path);
+        return upload0(fileItem, path, null);
     }
 
     /**
@@ -129,7 +150,7 @@ public class UploadFileHelper {
      * @return 保存路径
      */
     public static FileInfo upload(final MultipartFile fileItem, final String path, final String fileName) {
-        return toUpload(fileItem, path, fileName, null);
+        return upload0(fileItem, path, fileName);
     }
 
     /**
@@ -140,7 +161,7 @@ public class UploadFileHelper {
      * @return 文件信息列表
      */
     public static List<FileInfo> multiUpload(final List<MultipartFile> fileItemList) {
-        return toMultiUpload(fileItemList, UploadFileHelper::upload);
+        return multiUpload0(fileItemList, UploadFileHelper::upload);
     }
 
     /**
@@ -153,7 +174,7 @@ public class UploadFileHelper {
      * @return 文件信息列表
      */
     public static List<FileInfo> multiUpload(final List<MultipartFile> fileItemList, final String savePath) {
-        return toMultiUpload(fileItemList, fileItem -> upload(fileItem, savePath));
+        return multiUpload0(fileItemList, fileItem -> upload(fileItem, savePath));
     }
 
     /**
@@ -189,7 +210,7 @@ public class UploadFileHelper {
         return list;
     }
 
-    private static List<FileInfo> toMultiUpload(final List<MultipartFile> fileItemList,
+    private static List<FileInfo> multiUpload0(final List<MultipartFile> fileItemList,
             Function<MultipartFile, FileInfo> mapper) {
         if (CollectionUtils.isEmpty(fileItemList)) {
             LOGGER.debug("fileItemList is null or is empty");
@@ -200,14 +221,9 @@ public class UploadFileHelper {
                 .collect(Collectors.toList());
     }
 
-    private static FileInfo toUpload(final MultipartFile fileItem, final String path) {
-        return toUpload(fileItem, path, null, null);
-    }
-
-    private static FileInfo toUpload(final MultipartFile fileItem, final String path, final String fileName,
-            final String suffix) {
-        FileInfo fileInfo = new FileInfo(path, fileName, getSuffix(suffix, fileItem), fileItem.getContentType(),
-                fileItem.getSize());
+    private static FileInfo upload0(final MultipartFile fileItem, final String path, final String fileName) {
+        FileInfo fileInfo = new FileInfo(fileItem.getOriginalFilename(), path, fileName, getSuffix(fileItem),
+                fileItem.getContentType(), fileItem.getSize());
 
         try {
             write(fileItem, fileInfo);
@@ -229,18 +245,8 @@ public class UploadFileHelper {
             return;
         }
 
-        HANDLER_POOL.execute(() -> handlerMap.values().stream().filter(e -> e != null && e.accept(fileInfo))
+        HANDLER_POOL.execute(() -> handlerMap.values().stream().filter(Objects::nonNull).filter(e -> e.accept(fileInfo))
                 .sorted((o1, o2) -> o2.order() - o1.order()).forEach(e -> e.handler(fileInfo)));
-    }
-
-    private static String getSuffix(final String suffix, final MultipartFile fileItem) {
-        String value = suffix;
-
-        if (value == null) {
-            value = getSuffix(fileItem);
-        }
-
-        return StringUtils.isBlank(value) ? "" : value;
     }
 
     private static void write(final MultipartFile fileItem, final FileInfo fileInfo) throws IOException {
