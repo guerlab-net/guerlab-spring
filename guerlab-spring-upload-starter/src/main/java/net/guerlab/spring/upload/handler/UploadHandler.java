@@ -1,6 +1,6 @@
 package net.guerlab.spring.upload.handler;
 
-import net.guerlab.spring.upload.entity.FileInfo;
+import net.guerlab.spring.upload.entity.UploadFileInfo;
 
 /**
  * 上传支持接口<br>
@@ -21,10 +21,10 @@ public interface UploadHandler {
      * 是否进行处理
      *
      * @param fileInfo
-     *            文件信息对象
+     *         文件信息对象
      * @return 是否进行处理
      */
-    default boolean accept(FileInfo fileInfo) {
+    default boolean accept(UploadFileInfo fileInfo) {
         return fileInfo != null && fileInfo.getFileSize() > 0 && fileInfo.getSaveFile() != null;
     }
 
@@ -42,7 +42,7 @@ public interface UploadHandler {
      * 处理
      *
      * @param fileInfo
-     *            文件信息对象
+     *         文件信息对象
      */
-    void handler(FileInfo fileInfo);
+    void handler(UploadFileInfo fileInfo);
 }

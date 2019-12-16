@@ -270,6 +270,11 @@
             </dependency>
             <dependency>
                 <groupId>net.guerlab.spring</groupId>
+                <artifactId>guerlab-spring-upload-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.guerlab.spring</groupId>
                 <artifactId>guerlab-spring-upload-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
@@ -352,6 +357,7 @@
         <module>guerlab-spring-swagger2-starter</module>
         <module>guerlab-spring-swagger2-ui-starter</module>
         <module>guerlab-spring-task-starter</module>
+        <module>guerlab-spring-upload-core</module>
         <module>guerlab-spring-upload-starter</module>
         <module>guerlab-spring-upload-aliyun-oss-starter</module>
     </modules>

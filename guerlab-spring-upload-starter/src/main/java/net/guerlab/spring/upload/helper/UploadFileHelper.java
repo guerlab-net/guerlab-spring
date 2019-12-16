@@ -3,6 +3,7 @@ package net.guerlab.spring.upload.helper;
 import net.guerlab.commons.exception.ApplicationException;
 import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
 import net.guerlab.spring.upload.entity.FileInfo;
+import net.guerlab.spring.upload.entity.UploadFileInfo;
 import net.guerlab.spring.upload.handler.UploadHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -222,22 +223,22 @@ public class UploadFileHelper {
     }
 
     private static FileInfo upload0(final MultipartFile fileItem, final String path, final String fileName) {
-        FileInfo fileInfo = new FileInfo(fileItem.getOriginalFilename(), path, fileName, getSuffix(fileItem),
-                fileItem.getContentType(), fileItem.getSize());
+        UploadFileInfo fileInfo = new UploadFileInfo(fileItem.getOriginalFilename(), path, fileName,
+                getSuffix(fileItem), fileItem.getContentType(), fileItem.getSize());
 
         try {
             write(fileItem, fileInfo);
 
             handler0(fileInfo);
 
-            return fileInfo;
+            return fileInfo.convertToFileInfo();
         } catch (Exception e) {
             LOGGER.debug(e.getMessage(), e);
             throw new ApplicationException(e.getMessage(), e);
         }
     }
 
-    private static void handler0(FileInfo fileInfo) {
+    private static void handler0(UploadFileInfo fileInfo) {
         Map<String, UploadHandler> handlerMap = SpringApplicationContextUtil.getContext()
                 .getBeansOfType(UploadHandler.class);
 
@@ -249,7 +250,7 @@ public class UploadFileHelper {
                 .sorted((o1, o2) -> o2.order() - o1.order()).forEach(e -> e.handler(fileInfo)));
     }
 
-    private static void write(final MultipartFile fileItem, final FileInfo fileInfo) throws IOException {
+    private static void write(final MultipartFile fileItem, final UploadFileInfo fileInfo) throws IOException {
         try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(fileInfo.getSaveFile()))) {
             stream.write(fileItem.getBytes());
         }

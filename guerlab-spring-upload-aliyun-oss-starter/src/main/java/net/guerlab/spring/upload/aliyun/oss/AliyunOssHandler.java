@@ -1,15 +1,13 @@
 package net.guerlab.spring.upload.aliyun.oss;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.PutObjectRequest;
-
-import net.guerlab.spring.upload.entity.FileInfo;
+import net.guerlab.spring.upload.entity.UploadFileInfo;
 import net.guerlab.spring.upload.handler.UploadHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 阿里云oss上传处理
@@ -47,12 +45,12 @@ public class AliyunOssHandler implements UploadHandler {
     }
 
     @Override
-    public boolean accept(FileInfo fileInfo) {
+    public boolean accept(UploadFileInfo fileInfo) {
         return properties.isEnable() && UploadHandler.super.accept(fileInfo);
     }
 
     @Override
-    public void handler(FileInfo fileInfo) {
+    public void handler(UploadFileInfo fileInfo) {
         LOGGER.debug("start put object[{}]", fileInfo);
 
         String path = fileInfo.getWebPath();

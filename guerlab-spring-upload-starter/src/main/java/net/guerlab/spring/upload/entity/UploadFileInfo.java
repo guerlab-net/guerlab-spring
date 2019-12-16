@@ -8,11 +8,11 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 
 /**
- * 文件信息
+ * 上传文件信息
  *
  * @author guer
  */
-public class FileInfo {
+public class UploadFileInfo {
 
     private static final String ROOT_PATH = "/";
 
@@ -77,7 +77,7 @@ public class FileInfo {
      * @param fileSize
      *         文件大小
      */
-    public FileInfo(String originalFilename, String path, String suffix, String contentType, long fileSize) {
+    public UploadFileInfo(String originalFilename, String path, String suffix, String contentType, long fileSize) {
         setFileName(SnHelper.createSn(), suffix);
         setPath(path);
         this.fileSize = fileSize;
@@ -101,7 +101,7 @@ public class FileInfo {
      * @param fileSize
      *         文件大小
      */
-    public FileInfo(String originalFilename, String path, String fileName, String suffix, String contentType,
+    public UploadFileInfo(String originalFilename, String path, String fileName, String suffix, String contentType,
             long fileSize) {
         setFileName(fileName, suffix);
         setPath(path);
@@ -122,7 +122,7 @@ public class FileInfo {
      * @param contentType
      *         文件类型
      */
-    public FileInfo(String originalFilename, FileInfo pathInfo, String suffix, String contentType) {
+    public UploadFileInfo(String originalFilename, UploadFileInfo pathInfo, String suffix, String contentType) {
         setFileName(SnHelper.createSn(), suffix);
         setPath(pathInfo == null ? "" : pathInfo.getSavePath());
         fileSize = pathInfo == null ? 0 : pathInfo.fileSize;
@@ -144,7 +144,8 @@ public class FileInfo {
      * @param contentType
      *         文件类型
      */
-    public FileInfo(String originalFilename, FileInfo pathInfo, String fileName, String suffix, String contentType) {
+    public UploadFileInfo(String originalFilename, UploadFileInfo pathInfo, String fileName, String suffix,
+            String contentType) {
         setFileName(fileName, suffix);
         setPath(pathInfo == null ? "" : pathInfo.getSavePath());
         fileSize = pathInfo == null ? 0 : pathInfo.fileSize;
@@ -164,7 +165,8 @@ public class FileInfo {
     /**
      * 设置原始文件名
      *
-     * @return 原始文件名
+     * @param originalFilename
+     *         原始文件名
      */
     public void setOriginalFilename(String originalFilename) {
         this.originalFilename = originalFilename;
@@ -257,6 +259,25 @@ public class FileInfo {
         }
 
         return saveFile;
+    }
+
+    /**
+     * 转换为FileInfo
+     *
+     * @return FileInfo
+     */
+    public FileInfo convertToFileInfo() {
+        FileInfo fileInfo = new FileInfo();
+        fileInfo.setContentType(contentType);
+        fileInfo.setFileName(fileName);
+        fileInfo.setFileSize(fileSize);
+        fileInfo.setOriginalFilename(originalFilename);
+        fileInfo.setSaveFileName(saveFileName);
+        fileInfo.setSavePath(savePath);
+        fileInfo.setSuffix(suffix);
+        fileInfo.setWebPath(getWebPath());
+
+        return fileInfo;
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
