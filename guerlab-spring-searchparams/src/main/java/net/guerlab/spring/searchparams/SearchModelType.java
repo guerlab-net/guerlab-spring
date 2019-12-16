@@ -91,4 +91,10 @@ public enum SearchModelType {
     /**
      * 忽略
      */
-    IGNORE}
+    IGNORE,
+
+    /**
+     * 自定义SQL
+     */
+    CUSTOM_SQL,
+}

@@ -53,7 +53,7 @@ public class MapSearchParamsUtilInstance extends SearchParamsUtilInstance {
 
         @Override
         public void setValue(Object object, String fieldName, String columnName, Object value,
-                SearchModelType searchModelType) {
+                SearchModelType searchModelType, String customSql) {
             ((Map) object).put(fieldName, value);
         }
     }

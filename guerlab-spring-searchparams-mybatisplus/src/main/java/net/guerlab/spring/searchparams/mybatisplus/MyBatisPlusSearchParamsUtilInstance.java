@@ -35,7 +35,7 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
 
         @Override
         public void setValue(Object object, String fieldName, String columnName, Object value,
-                SearchModelType searchModelType) {
+                SearchModelType searchModelType, String customSql) {
             QueryWrapper wrapper = (QueryWrapper) object;
             switch (searchModelType) {
                 case GREATER_THAN:
@@ -62,6 +62,14 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
                 case END_NOT_WITH:
                     wrapper.ne(columnName, value);
                     break;
+                case CUSTOM_SQL:
+                    if (customSql == null) {
+                        break;
+                    }
+
+                    String sql = customSql.replaceAll("\\?", "{0}");
+                    wrapper.apply(sql, value);
+                    break;
                 default:
                     wrapper.eq(columnName, value);
             }
@@ -73,7 +81,7 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
         @SuppressWarnings("unchecked")
         @Override
         public void setValue(Object object, String fieldName, String columnName, Object value,
-                SearchModelType searchModelType) {
+                SearchModelType searchModelType, String customSql) {
             Collection<Object> collection = (Collection<Object>) value;
 
             if (collection.isEmpty()) {
@@ -101,7 +109,7 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
 
         @Override
         public void setValue(Object object, String fieldName, String columnName, Object value,
-                SearchModelType searchModelType) {
+                SearchModelType searchModelType, String customSql) {
             QueryWrapper wrapper = (QueryWrapper) object;
             OrderByType type = (OrderByType) value;
 
@@ -123,14 +131,12 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
 
         @Override
         public void setValue(Object object, String fieldName, String columnName, Object value,
-                SearchModelType searchModelType) {
-            String str = (String) value;
+                SearchModelType searchModelType, String customSql) {
+            String str = StringUtils.trimToNull((String) value);
 
-            if (StringUtils.isBlank(str)) {
+            if (str == null) {
                 return;
             }
-
-            str = str.trim();
 
             QueryWrapper wrapper = (QueryWrapper) object;
             switch (searchModelType) {
@@ -172,6 +178,14 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
                     break;
                 case NOT_EQUAL_TO:
                     wrapper.ne(columnName, str);
+                    break;
+                case CUSTOM_SQL:
+                    if (customSql == null) {
+                        break;
+                    }
+
+                    String sql = customSql.replaceAll("\\?", "{0}");
+                    wrapper.apply(sql, str);
                     break;
                 default:
                     wrapper.eq(columnName, str);

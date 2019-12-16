@@ -1,11 +1,6 @@
 package net.guerlab.spring.searchparams;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * 搜索模式
@@ -25,4 +20,11 @@ public @interface SearchModel {
      * @return 搜索模式类型
      */
     SearchModelType value() default SearchModelType.EQUAL_TO;
+
+    /**
+     * 自定义sql
+     *
+     * @return 自定义sql
+     */
+    String sql() default "";
 }

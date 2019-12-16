@@ -22,7 +22,9 @@ public interface SearchParamsHandler {
      *            参数值
      * @param searchModelType
      *            搜索模式类型
+     * @param customSql
+     *            自定义sql
      */
     void setValue(final Object object, final String fieldName, final String columnName, final Object value,
-            final SearchModelType searchModelType);
+            final SearchModelType searchModelType, String customSql);
 }

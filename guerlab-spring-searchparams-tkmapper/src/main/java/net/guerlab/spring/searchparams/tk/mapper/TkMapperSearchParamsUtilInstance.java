@@ -7,9 +7,6 @@ import net.guerlab.spring.searchparams.SearchParamsUtilInstance;
 import org.apache.commons.lang3.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -38,7 +35,7 @@ public class TkMapperSearchParamsUtilInstance extends SearchParamsUtilInstance {
 
         @Override
         public void setValue(Object object, String fieldName, String columnName, Object value,
-                SearchModelType searchModelType) {
+                SearchModelType searchModelType, String customSql) {
             Example example = (Example) object;
             Example.Criteria criteria = example.and();
             switch (searchModelType) {
@@ -66,6 +63,13 @@ public class TkMapperSearchParamsUtilInstance extends SearchParamsUtilInstance {
                 case END_NOT_WITH:
                     criteria.andNotEqualTo(columnName, value);
                     break;
+                case CUSTOM_SQL:
+                    if (customSql == null) {
+                        break;
+                    }
+
+                    criteria.andCondition(customSql.replaceAll("\\?", "'" + value + "'"));
+                    break;
                 default:
                     criteria.andEqualTo(columnName, value);
             }
@@ -77,7 +81,7 @@ public class TkMapperSearchParamsUtilInstance extends SearchParamsUtilInstance {
         @SuppressWarnings("unchecked")
         @Override
         public void setValue(Object object, String fieldName, String columnName, Object value,
-                SearchModelType searchModelType) {
+                SearchModelType searchModelType, String customSql) {
             Collection<Object> collection = (Collection<Object>) value;
 
             if (collection.isEmpty()) {
@@ -106,7 +110,7 @@ public class TkMapperSearchParamsUtilInstance extends SearchParamsUtilInstance {
 
         @Override
         public void setValue(Object object, String fieldName, String columnName, Object value,
-                SearchModelType searchModelType) {
+                SearchModelType searchModelType, String customSql) {
             Example example = (Example) object;
             OrderByType type = (OrderByType) value;
 
@@ -129,14 +133,12 @@ public class TkMapperSearchParamsUtilInstance extends SearchParamsUtilInstance {
 
         @Override
         public void setValue(Object object, String fieldName, String columnName, Object value,
-                SearchModelType searchModelType) {
-            String str = (String) value;
+                SearchModelType searchModelType, String customSql) {
+            String str = StringUtils.trimToNull((String) value);
 
-            if (StringUtils.isBlank(str)) {
+            if (str == null) {
                 return;
             }
-
-            str = str.trim();
 
             Example example = (Example) object;
             Example.Criteria criteria = example.and();
@@ -179,6 +181,13 @@ public class TkMapperSearchParamsUtilInstance extends SearchParamsUtilInstance {
                     break;
                 case NOT_EQUAL_TO:
                     criteria.andNotEqualTo(columnName, str);
+                    break;
+                case CUSTOM_SQL:
+                    if (customSql == null) {
+                        break;
+                    }
+
+                    criteria.andCondition(customSql.replaceAll("\\?", "'" + str + "'"));
                     break;
                 default:
                     criteria.andEqualTo(columnName, str);

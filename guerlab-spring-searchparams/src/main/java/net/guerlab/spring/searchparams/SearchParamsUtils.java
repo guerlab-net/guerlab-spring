@@ -91,15 +91,36 @@ public class SearchParamsUtils {
     }
 
     /**
-     * 获取类字段对应的搜索方式
+     * 获取类字段对应的搜索模式
      *
      * @param field
      *         类字段
+     * @return 搜索模式
+     */
+    private static SearchModel getSearchModel(final Field field) {
+        return field.getAnnotation(SearchModel.class);
+    }
+
+    /**
+     * 获取类字段对应的搜索方式
+     *
+     * @param searchModel
+     *         搜索模式
      * @return 搜索方式
      */
-    private static SearchModelType getSearchModelType(final Field field) {
-        SearchModel searchModel = field.getAnnotation(SearchModel.class);
+    private static SearchModelType getSearchModelType(final SearchModel searchModel) {
         return searchModel == null ? SearchModelType.EQUAL_TO : searchModel.value();
+    }
+
+    /**
+     * 获取类字段对应的自定义sql
+     *
+     * @param searchModel
+     *         搜索模式
+     * @return 自定义sql
+     */
+    private static String getCustomSql(final SearchModel searchModel) {
+        return searchModel == null ? null : searchModel.sql();
     }
 
     /**
@@ -118,7 +139,8 @@ public class SearchParamsUtils {
             final SearchParamsUtilInstance instance) {
         String name = field.getName();
 
-        SearchModelType searchModelType = getSearchModelType(field);
+        SearchModel searchModel = getSearchModel(field);
+        SearchModelType searchModelType = getSearchModelType(searchModel);
 
         if (searchModelType == SearchModelType.IGNORE) {
             return;
@@ -136,6 +158,7 @@ public class SearchParamsUtils {
             return;
         }
 
-        handler.setValue(object, name, getColumnName(field), value, searchModelType);
+        handler.setValue(object, name, getColumnName(field), value, searchModelType,
+                StringUtils.trimToNull(getCustomSql(searchModel)));
     }
 }
