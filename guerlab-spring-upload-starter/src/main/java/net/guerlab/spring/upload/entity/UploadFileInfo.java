@@ -1,7 +1,6 @@
 package net.guerlab.spring.upload.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import net.guerlab.spring.commons.sequence.SnHelper;
 import net.guerlab.spring.upload.config.PathInfoConfig;
 import org.apache.commons.lang3.StringUtils;
 
@@ -70,28 +69,6 @@ public class UploadFileInfo {
      *         原始文件名
      * @param path
      *         保存路径
-     * @param suffix
-     *         后缀
-     * @param contentType
-     *         文件类型
-     * @param fileSize
-     *         文件大小
-     */
-    public UploadFileInfo(String originalFilename, String path, String suffix, String contentType, long fileSize) {
-        setFileName(SnHelper.createSn(), suffix);
-        setPath(path);
-        this.fileSize = fileSize;
-        this.contentType = contentType;
-        this.originalFilename = originalFilename;
-    }
-
-    /**
-     * 通过保存路径和文件名后缀初始化路径信息
-     *
-     * @param originalFilename
-     *         原始文件名
-     * @param path
-     *         保存路径
      * @param fileName
      *         文件名
      * @param suffix
@@ -103,54 +80,13 @@ public class UploadFileInfo {
      */
     public UploadFileInfo(String originalFilename, String path, String fileName, String suffix, String contentType,
             long fileSize) {
-        setFileName(fileName, suffix);
-        setPath(path);
+        this.fileName = fileName;
+        this.suffix = suffix;
+        this.saveFileName = fileName + suffix;
         this.fileSize = fileSize;
         this.contentType = contentType;
         this.originalFilename = originalFilename;
-    }
-
-    /**
-     * 通过路径信息和文件名后缀初始化路径信息
-     *
-     * @param originalFilename
-     *         原始文件名
-     * @param pathInfo
-     *         路径信息
-     * @param suffix
-     *         后缀
-     * @param contentType
-     *         文件类型
-     */
-    public UploadFileInfo(String originalFilename, UploadFileInfo pathInfo, String suffix, String contentType) {
-        setFileName(SnHelper.createSn(), suffix);
-        setPath(pathInfo == null ? "" : pathInfo.getSavePath());
-        fileSize = pathInfo == null ? 0 : pathInfo.fileSize;
-        this.contentType = contentType;
-        this.originalFilename = originalFilename;
-    }
-
-    /**
-     * 通过路径信息和文件名后缀初始化路径信息
-     *
-     * @param originalFilename
-     *         原始文件名
-     * @param pathInfo
-     *         路径信息
-     * @param fileName
-     *         文件名
-     * @param suffix
-     *         后缀
-     * @param contentType
-     *         文件类型
-     */
-    public UploadFileInfo(String originalFilename, UploadFileInfo pathInfo, String fileName, String suffix,
-            String contentType) {
-        setFileName(fileName, suffix);
-        setPath(pathInfo == null ? "" : pathInfo.getSavePath());
-        fileSize = pathInfo == null ? 0 : pathInfo.fileSize;
-        this.contentType = contentType;
-        this.originalFilename = originalFilename;
+        setPath(path);
     }
 
     /**
@@ -295,12 +231,6 @@ public class UploadFileInfo {
         if (!saveDir.isDirectory()) {
             saveDir.mkdirs();
         }
-    }
-
-    private void setFileName(String fileName, String suffix) {
-        this.fileName = fileName == null ? SnHelper.createSn() : fileName;
-        this.suffix = suffix;
-        saveFileName = this.fileName + suffix;
     }
 
     @Override
