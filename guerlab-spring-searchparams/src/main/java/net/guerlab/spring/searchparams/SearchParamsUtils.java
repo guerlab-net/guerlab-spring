@@ -1,13 +1,16 @@
 package net.guerlab.spring.searchparams;
 
 import net.guerlab.commons.reflection.FieldUtil;
+import net.guerlab.spring.searchparams.exception.ParamsLengthOverflowException;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.Column;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -24,6 +27,16 @@ public class SearchParamsUtils {
 
     private static final Predicate<Field> PAGE_PARAMS_FILTER = e -> !AbstractSearchParams.class.getName()
             .equals(e.getDeclaringClass().getName());
+
+    /**
+     * 启用参数长度检查
+     */
+    private static boolean enableParamLengthCheck;
+
+    /**
+     * 参数最大长度
+     */
+    private static int paramMaxLength;
 
     private SearchParamsUtils() {
     }
@@ -58,16 +71,22 @@ public class SearchParamsUtils {
         fieldMap.getOrDefault(false, Collections.emptyList())
                 .forEach(field -> setValue(field, object, searchParams, instance));
         fieldMap.getOrDefault(true, Collections.emptyList()).stream()
-                .sorted(Comparator.comparingInt(SearchParamsUtils::getOrderByIndexValue))
+                .sorted(comparingInt(SearchParamsUtils::getOrderByIndexValue))
                 .forEach(field -> setValue(field, object, searchParams, instance));
         instance.afterHandler(searchParams, object);
+    }
+
+    private static <T> Comparator<T> comparingInt(ToIntFunction<? super T> keyExtractor) {
+        Objects.requireNonNull(keyExtractor);
+        return (Comparator<T> & Serializable) (c1, c2) -> Integer
+                .compare(keyExtractor.applyAsInt(c2), keyExtractor.applyAsInt(c1));
     }
 
     /**
      * 获取OrderByIndex注解的参数值
      *
      * @param field
-     *            字段
+     *         字段
      * @return OrderByIndex注解的参数值
      */
     private static int getOrderByIndexValue(Field field) {
@@ -158,7 +177,55 @@ public class SearchParamsUtils {
             return;
         }
 
+        if (enableParamLengthCheck && value instanceof CharSequence) {
+            if (paramMaxLength > 0 && ((CharSequence) value).length() > paramMaxLength) {
+                throw new ParamsLengthOverflowException(name, paramMaxLength);
+            }
+        }
+
         handler.setValue(object, name, getColumnName(field), value, searchModelType,
                 StringUtils.trimToNull(getCustomSql(searchModel)));
+    }
+
+    /**
+     * 获取启用参数长度检查
+     *
+     * @return 启用参数长度检查
+     */
+    @SuppressWarnings("unused")
+    public static boolean isEnableParamLengthCheck() {
+        return enableParamLengthCheck;
+    }
+
+    /**
+     * 设置启用参数长度检查
+     *
+     * @param enableParamLengthCheck
+     *         启用参数长度检查
+     */
+    @SuppressWarnings("unused")
+    public static void setEnableParamLengthCheck(boolean enableParamLengthCheck) {
+        SearchParamsUtils.enableParamLengthCheck = enableParamLengthCheck;
+    }
+
+    /**
+     * 获取参数最大长度
+     *
+     * @return 参数最大长度
+     */
+    @SuppressWarnings("unused")
+    public static int getParamMaxLength() {
+        return paramMaxLength;
+    }
+
+    /**
+     * 设置参数最大长度
+     *
+     * @param paramMaxLength
+     *         参数最大长度
+     */
+    @SuppressWarnings("unused")
+    public static void setParamMaxLength(int paramMaxLength) {
+        SearchParamsUtils.paramMaxLength = paramMaxLength;
     }
 }
