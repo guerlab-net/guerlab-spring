@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -88,7 +89,7 @@ public class TkMapperSearchParamsUtilInstance extends SearchParamsUtilInstance {
                 return;
             }
 
-            Collection<Object> list = collection.stream().filter(Objects::nonNull).collect(Collectors.toList());
+            List<Object> list = collection.stream().filter(Objects::nonNull).collect(Collectors.toList());
 
             if (list.isEmpty()) {
                 return;
@@ -96,12 +97,33 @@ public class TkMapperSearchParamsUtilInstance extends SearchParamsUtilInstance {
 
             Example example = (Example) object;
             Example.Criteria criteria = example.and();
-            if (searchModelType == SearchModelType.NOT_IN) {
-                criteria.andNotIn(columnName, list);
-            } else {
-                criteria.andIn(columnName, list);
-            }
+            switch (searchModelType) {
+                case NOT_IN:
+                    criteria.andNotIn(columnName, list);
+                    break;
+                case CUSTOM_SQL:
+                    if (customSql == null) {
+                        break;
+                    }
 
+                    CustomerSqlInfo info = new CustomerSqlInfo(customSql);
+                    if (info.num > 0) {
+                        int listSize = list.size() - 1;
+                        for (int j = 0; j < info.num; j++) {
+                            Object val;
+                            if (j > listSize) {
+                                val = null;
+                            } else {
+                                val = list.get(j);
+                            }
+                            customSql = customSql.replaceFirst("\\?", "'" + val + "'");
+                        }
+                    }
+                    criteria.andCondition(customSql);
+                    break;
+                default:
+                    criteria.andIn(columnName, list);
+            }
         }
 
     }
@@ -132,8 +154,7 @@ public class TkMapperSearchParamsUtilInstance extends SearchParamsUtilInstance {
         private static final char PERCENT = '%';
 
         @Override
-        public void setValue(Object object, String fieldName, String columnName, Object value,
-                SearchModelType searchModelType, String customSql) {
+        public void setValue(Object object, String fieldName, String columnName, Object value, SearchModelType searchModelType, String customSql) {
             String str = StringUtils.trimToNull((String) value);
 
             if (str == null) {
@@ -195,5 +216,32 @@ public class TkMapperSearchParamsUtilInstance extends SearchParamsUtilInstance {
 
         }
 
+    }
+
+    private static class CustomerSqlInfo {
+
+        private int num = 0;
+
+        private String sql;
+
+        public CustomerSqlInfo(String sql) {
+            this.sql = sql;
+            format();
+        }
+
+        public void format() {
+            if (sql == null) {
+                return;
+            }
+
+            while (true) {
+                int index = sql.indexOf("?");
+                if (index < 0) {
+                    break;
+                }
+                sql = sql.replaceFirst("\\?", "{" + num + "}");
+                num++;
+            }
+        }
     }
 }

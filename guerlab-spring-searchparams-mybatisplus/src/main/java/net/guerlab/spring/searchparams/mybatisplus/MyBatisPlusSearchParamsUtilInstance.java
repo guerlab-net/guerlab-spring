@@ -8,6 +8,7 @@ import net.guerlab.spring.searchparams.SearchParamsUtilInstance;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -67,8 +68,16 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
                         break;
                     }
 
-                    String sql = customSql.replaceAll("\\?", "{0}");
-                    wrapper.apply(sql, value);
+                    CustomerSqlInfo info = new CustomerSqlInfo(customSql);
+                    if (info.num > 0) {
+                        Object[] values = new Object[info.num];
+                        for (int j = 0; j < info.num; j++) {
+                            values[j] = value;
+                        }
+                        wrapper.apply(info.sql, values);
+                    } else {
+                        wrapper.apply(info.sql);
+                    }
                     break;
                 default:
                     wrapper.eq(columnName, value);
@@ -88,19 +97,41 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
                 return;
             }
 
-            Collection<Object> list = collection.stream().filter(Objects::nonNull).collect(Collectors.toList());
+            List<Object> list = collection.stream().filter(Objects::nonNull).collect(Collectors.toList());
 
             if (list.isEmpty()) {
                 return;
             }
 
             QueryWrapper wrapper = (QueryWrapper) object;
-            if (searchModelType == SearchModelType.NOT_IN) {
-                wrapper.notIn(columnName, list);
-            } else {
-                wrapper.in(columnName, list);
-            }
+            switch (searchModelType) {
+                case NOT_IN:
+                    wrapper.notIn(columnName, list);
+                    break;
+                case CUSTOM_SQL:
+                    if (customSql == null) {
+                        break;
+                    }
 
+                    CustomerSqlInfo info = new CustomerSqlInfo(customSql);
+                    if (info.num > 0) {
+                        Object[] values = new Object[info.num];
+                        int listSize = list.size() - 1;
+                        for (int j = 0; j < info.num; j++) {
+                            if (j > listSize) {
+                                values[j] = null;
+                            } else {
+                                values[j] = list.get(j);
+                            }
+                        }
+                        wrapper.apply(info.sql, values);
+                    } else {
+                        wrapper.apply(info.sql);
+                    }
+                    break;
+                default:
+                    wrapper.in(columnName, list);
+            }
         }
 
     }
@@ -184,8 +215,16 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
                         break;
                     }
 
-                    String sql = customSql.replaceAll("\\?", "{0}");
-                    wrapper.apply(sql, str);
+                    CustomerSqlInfo info = new CustomerSqlInfo(customSql);
+                    if (info.num > 0) {
+                        String[] strArray = new String[info.num];
+                        for (int j = 0; j < info.num; j++) {
+                            strArray[j] = str;
+                        }
+                        wrapper.apply(info.sql, strArray);
+                    } else {
+                        wrapper.apply(info.sql);
+                    }
                     break;
                 default:
                     wrapper.eq(columnName, str);
@@ -193,5 +232,32 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
 
         }
 
+    }
+
+    private static class CustomerSqlInfo {
+
+        private int num = 0;
+
+        private String sql;
+
+        public CustomerSqlInfo(String sql) {
+            this.sql = sql;
+            format();
+        }
+
+        public void format() {
+            if (sql == null) {
+                return;
+            }
+
+            while (true) {
+                int index = sql.indexOf("?");
+                if (index < 0) {
+                    break;
+                }
+                sql = sql.replaceFirst("\\?", "{" + num + "}");
+                num++;
+            }
+        }
     }
 }
