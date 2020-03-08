@@ -64,8 +64,8 @@
         <guerlab-web.version>1.4.1</guerlab-web.version>
 
         <!-- spring -->
-        <spring-cloud.version>Hoxton.SR2</spring-cloud.version>
-        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
+        <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
+        <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
 
         <!-- swagger -->
         <swagger.version>1.6.0</swagger.version>
