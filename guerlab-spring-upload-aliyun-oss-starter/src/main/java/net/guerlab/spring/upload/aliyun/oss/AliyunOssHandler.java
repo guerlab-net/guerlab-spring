@@ -5,7 +5,7 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.PutObjectRequest;
 import net.guerlab.spring.upload.entity.UploadFileInfo;
-import net.guerlab.spring.upload.handler.UploadHandler;
+import net.guerlab.spring.upload.handler.AfterUploadHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,19 +13,20 @@ import org.slf4j.LoggerFactory;
  * 阿里云oss上传处理
  *
  * @author guer
- *
  */
-public class AliyunOssHandler implements UploadHandler {
+public class AliyunOssHandler implements AfterUploadHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AliyunOssHandler.class);
 
-    private static final String OSS_EXCEPTION_MESSAGE = "Caught an OSSException, which means your request made it to OSS, "
-            + "but was rejected with an error response for some reason." + "\nError Message: {}" + "\nError Code:    {}"
-            + "\nRequest ID:    {}" + "\nHost ID:       {}";
+    private static final String OSS_EXCEPTION_MESSAGE =
+            "Caught an OSSException, which means your request made it to OSS, "
+                    + "but was rejected with an error response for some reason." + "\nError Message: {}"
+                    + "\nError Code:    {}" + "\nRequest ID:    {}" + "\nHost ID:       {}";
 
-    private static final String CLIENT_EXCEPTION_MESSAGE = "Caught an ClientException, which means the client encountered "
-            + "a serious internal problem while trying to communicate with OSS, "
-            + "such as not being able to access the network." + "\nError Message: {}";
+    private static final String CLIENT_EXCEPTION_MESSAGE =
+            "Caught an ClientException, which means the client encountered "
+                    + "a serious internal problem while trying to communicate with OSS, "
+                    + "such as not being able to access the network." + "\nError Message: {}";
 
     private final OSS ossClient;
 
@@ -46,7 +47,7 @@ public class AliyunOssHandler implements UploadHandler {
 
     @Override
     public boolean accept(UploadFileInfo fileInfo) {
-        return properties.isEnable() && UploadHandler.super.accept(fileInfo);
+        return properties.isEnable() && AfterUploadHandler.super.accept(fileInfo);
     }
 
     @Override

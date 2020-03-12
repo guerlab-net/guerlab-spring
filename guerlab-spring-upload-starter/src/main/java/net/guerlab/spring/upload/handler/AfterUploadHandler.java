@@ -7,10 +7,9 @@ import net.guerlab.spring.upload.entity.UploadFileInfo;
  * 多个处理接口按照{@link #order()}获取的值，由大到小逐一执行
  *
  * @author guer
- *
  */
 @FunctionalInterface
-public interface UploadHandler {
+public interface AfterUploadHandler {
 
     /**
      * 默认排序值

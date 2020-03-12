@@ -11,7 +11,7 @@ import java.io.File;
  *
  * @author guer
  */
-public class UploadFileInfo {
+public class UploadFileInfo implements IFileInfo {
 
     private static final String ROOT_PATH = "/";
 
@@ -94,6 +94,7 @@ public class UploadFileInfo {
      *
      * @return 原始文件名
      */
+    @Override
     public String getOriginalFilename() {
         return originalFilename;
     }
@@ -113,6 +114,7 @@ public class UploadFileInfo {
      *
      * @return 保存路径
      */
+    @Override
     public String getSavePath() {
         return savePath;
     }
@@ -122,6 +124,7 @@ public class UploadFileInfo {
      *
      * @return 保存文件名
      */
+    @Override
     public String getSaveFileName() {
         return saveFileName;
     }
@@ -131,6 +134,7 @@ public class UploadFileInfo {
      *
      * @return 文件名
      */
+    @Override
     public String getFileName() {
         return fileName;
     }
@@ -140,6 +144,7 @@ public class UploadFileInfo {
      *
      * @return 后缀名
      */
+    @Override
     public String getSuffix() {
         return suffix;
     }
@@ -149,6 +154,7 @@ public class UploadFileInfo {
      *
      * @return 文件类型
      */
+    @Override
     public String getContentType() {
         return contentType;
     }
@@ -158,6 +164,7 @@ public class UploadFileInfo {
      *
      * @return 文件大小
      */
+    @Override
     public long getFileSize() {
         return fileSize;
     }
@@ -167,6 +174,7 @@ public class UploadFileInfo {
      *
      * @return web路径
      */
+    @Override
     public String getWebPath() {
         return PathInfoConfig.getSaveBasePath() + savePath + saveFileName;
     }
@@ -195,25 +203,6 @@ public class UploadFileInfo {
         }
 
         return saveFile;
-    }
-
-    /**
-     * 转换为FileInfo
-     *
-     * @return FileInfo
-     */
-    public FileInfo convertToFileInfo() {
-        FileInfo fileInfo = new FileInfo();
-        fileInfo.setContentType(contentType);
-        fileInfo.setFileName(fileName);
-        fileInfo.setFileSize(fileSize);
-        fileInfo.setOriginalFilename(originalFilename);
-        fileInfo.setSaveFileName(saveFileName);
-        fileInfo.setSavePath(savePath);
-        fileInfo.setSuffix(suffix);
-        fileInfo.setWebPath(getWebPath());
-
-        return fileInfo;
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

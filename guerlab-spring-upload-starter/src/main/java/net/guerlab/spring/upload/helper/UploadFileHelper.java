@@ -1,20 +1,19 @@
 package net.guerlab.spring.upload.helper;
 
-import net.guerlab.commons.exception.ApplicationException;
 import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
-import net.guerlab.spring.upload.entity.FileInfo;
+import net.guerlab.spring.upload.entity.IFileInfo;
 import net.guerlab.spring.upload.entity.UploadFileInfo;
 import net.guerlab.spring.upload.generator.SaveNameGenerator;
 import net.guerlab.spring.upload.generator.SavePathGenerator;
-import net.guerlab.spring.upload.handler.UploadHandler;
+import net.guerlab.spring.upload.handler.AfterUploadHandler;
+import net.guerlab.spring.upload.handler.LocalFileSaveHandler;
+import net.guerlab.spring.upload.handler.SaveHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.MimeType;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -129,21 +128,33 @@ public class UploadFileHelper {
      *         保存名称生成器
      * @return 保存路径
      */
-    public static FileInfo upload(final MultipartFile fileItem, final SavePathGenerator pathGenerator,
+    public static IFileInfo upload(final MultipartFile fileItem, final SavePathGenerator pathGenerator,
             final SaveNameGenerator saveNameGenerator) {
-        String path = pathGenerator.generate(fileItem);
-        String fileName = saveNameGenerator.generate(fileItem);
-        UploadFileInfo fileInfo = new UploadFileInfo(fileItem.getOriginalFilename(), path, fileName,
-                getSuffix(fileItem), fileItem.getContentType(), fileItem.getSize());
+        return upload(fileItem, pathGenerator, saveNameGenerator, null);
+    }
 
-        try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(fileInfo.getSaveFile()))) {
-            stream.write(fileItem.getBytes());
-            handler0(fileInfo);
-            return fileInfo.convertToFileInfo();
-        } catch (Exception e) {
-            LOGGER.debug(e.getMessage(), e);
-            throw new ApplicationException(e.getMessage(), e);
+    /**
+     * 上传文件处理
+     *
+     * @param fileItem
+     *         上传文件对象
+     * @param pathGenerator
+     *         保存路径生成器
+     * @param saveNameGenerator
+     *         保存名称生成器
+     * @param saveHandler
+     *         保存处理
+     * @return 保存路径
+     */
+    public static IFileInfo upload(final MultipartFile fileItem, final SavePathGenerator pathGenerator,
+            final SaveNameGenerator saveNameGenerator, SaveHandler saveHandler) {
+        if (saveHandler == null) {
+            saveHandler = LocalFileSaveHandler.INSTANCE;
         }
+
+        UploadFileInfo fileInfo = saveHandler.save(fileItem, pathGenerator, saveNameGenerator);
+        afterUpload(fileInfo);
+        return fileInfo;
     }
 
     /**
@@ -157,20 +168,38 @@ public class UploadFileHelper {
      *         保存名称生成器
      * @return 文件信息列表
      */
-    public static List<FileInfo> multiUpload(final List<MultipartFile> fileItemList,
+    public static List<IFileInfo> multiUpload(final List<MultipartFile> fileItemList,
             final SavePathGenerator pathGenerator, final SaveNameGenerator saveNameGenerator) {
+        return multiUpload(fileItemList, pathGenerator, saveNameGenerator, null);
+    }
+
+    /**
+     * 获取批量上传的文件信息列表
+     *
+     * @param fileItemList
+     *         上传文件列表
+     * @param pathGenerator
+     *         保存路径生成器
+     * @param saveNameGenerator
+     *         保存名称生成器
+     * @return 文件信息列表
+     */
+    public static List<IFileInfo> multiUpload(final List<MultipartFile> fileItemList,
+            final SavePathGenerator pathGenerator, final SaveNameGenerator saveNameGenerator,
+            final SaveHandler saveHandler) {
         if (CollectionUtils.isEmpty(fileItemList)) {
             LOGGER.debug("fileItemList is null or is empty");
             return Collections.emptyList();
         }
 
         return fileItemList.stream().filter((file) -> file != null && !file.isEmpty())
-                .map((file) -> upload(file, pathGenerator, saveNameGenerator)).collect(Collectors.toList());
+                .map((file) -> upload(file, pathGenerator, saveNameGenerator, saveHandler))
+                .collect(Collectors.toList());
     }
 
-    private static void handler0(UploadFileInfo fileInfo) {
-        Map<String, UploadHandler> handlerMap = SpringApplicationContextUtil.getContext()
-                .getBeansOfType(UploadHandler.class);
+    private static void afterUpload(UploadFileInfo fileInfo) {
+        Map<String, AfterUploadHandler> handlerMap = SpringApplicationContextUtil.getContext()
+                .getBeansOfType(AfterUploadHandler.class);
 
         if (handlerMap.isEmpty()) {
             return;

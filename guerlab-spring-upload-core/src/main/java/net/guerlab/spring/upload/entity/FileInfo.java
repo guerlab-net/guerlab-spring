@@ -5,7 +5,7 @@ package net.guerlab.spring.upload.entity;
  *
  * @author guer
  */
-public class FileInfo {
+public class FileInfo implements IFileInfo {
 
     /**
      * 原始文件名
@@ -52,6 +52,7 @@ public class FileInfo {
      *
      * @return 原始文件名
      */
+    @Override
     public String getOriginalFilename() {
         return originalFilename;
     }
@@ -71,6 +72,7 @@ public class FileInfo {
      *
      * @return 保存路径
      */
+    @Override
     public String getSavePath() {
         return savePath;
     }
@@ -90,6 +92,7 @@ public class FileInfo {
      *
      * @return 保存文件名
      */
+    @Override
     public String getSaveFileName() {
         return saveFileName;
     }
@@ -109,6 +112,7 @@ public class FileInfo {
      *
      * @return 文件名
      */
+    @Override
     public String getFileName() {
         return fileName;
     }
@@ -128,6 +132,7 @@ public class FileInfo {
      *
      * @return 后缀名
      */
+    @Override
     public String getSuffix() {
         return suffix;
     }
@@ -147,6 +152,7 @@ public class FileInfo {
      *
      * @return 文件类型
      */
+    @Override
     public String getContentType() {
         return contentType;
     }
@@ -166,6 +172,7 @@ public class FileInfo {
      *
      * @return 文件大小
      */
+    @Override
     public long getFileSize() {
         return fileSize;
     }
@@ -185,6 +192,7 @@ public class FileInfo {
      *
      * @return web路径
      */
+    @Override
     public String getWebPath() {
         return webPath;
     }
