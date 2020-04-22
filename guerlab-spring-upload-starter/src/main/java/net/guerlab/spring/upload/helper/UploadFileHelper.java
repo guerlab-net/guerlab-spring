@@ -182,6 +182,8 @@ public class UploadFileHelper {
      *         保存路径生成器
      * @param saveNameGenerator
      *         保存名称生成器
+     * @param saveHandler
+     *         文件保存处理
      * @return 文件信息列表
      */
     public static List<IFileInfo> multiUpload(final List<MultipartFile> fileItemList,

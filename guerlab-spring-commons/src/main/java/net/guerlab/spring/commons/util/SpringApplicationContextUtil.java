@@ -30,4 +30,16 @@ public class SpringApplicationContextUtil implements ApplicationContextAware {
         return context;
     }
 
+    /**
+     * 获取应用名称
+     *
+     * @return 应用名称
+     */
+    public static String getApplicationName() {
+        if (context == null) {
+            return null;
+        }
+        return context.getEnvironment().getProperty("spring.application.name");
+    }
+
 }

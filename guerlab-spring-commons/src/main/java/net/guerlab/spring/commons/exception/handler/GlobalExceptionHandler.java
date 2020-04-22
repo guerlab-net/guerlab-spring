@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
     public Fail<Void> methodArgumentTypeMismatchException(HttpServletRequest request,
             MethodArgumentTypeMismatchException e) {
         debug(request, e);
-        return handler0(new MethodArgumentTypeMismatchExceptionInfo(e), e);
+        return handler0(new MethodArgumentTypeMismatchExceptionInfo(e));
     }
 
     /**
@@ -74,7 +74,7 @@ public class GlobalExceptionHandler {
     public Fail<Void> noHandlerFoundException(HttpServletRequest request,
             NoHandlerFoundException e) {
         debug(request, e);
-        return handler0(new NoHandlerFoundExceptionInfo(e), e);
+        return handler0(new NoHandlerFoundExceptionInfo(e));
     }
 
     /**
@@ -90,7 +90,7 @@ public class GlobalExceptionHandler {
     public Fail<Void> httpRequestMethodNotSupportedException(HttpServletRequest request,
             HttpRequestMethodNotSupportedException e) {
         debug(request, e);
-        return handler0(new HttpRequestMethodNotSupportedExceptionInfo(e), e);
+        return handler0(new HttpRequestMethodNotSupportedExceptionInfo(e));
     }
 
     /**
@@ -106,7 +106,7 @@ public class GlobalExceptionHandler {
     public Fail<Void> missingServletRequestParameterException(HttpServletRequest request,
             MissingServletRequestParameterException e) {
         debug(request, e);
-        return handler0(new MissingServletRequestParameterExceptionInfo(e), e);
+        return handler0(new MissingServletRequestParameterExceptionInfo(e));
     }
 
     /**
@@ -134,10 +134,12 @@ public class GlobalExceptionHandler {
     private String getMethodArgumentNotValidExceptionDisplayMessage(ObjectError error) {
         String defaultMessage = error.getDefaultMessage();
 
-        Locale locale = LocaleContextHolder.getLocale();
+        if (defaultMessage == null) {
+            return error.getObjectName() + error.getDefaultMessage();
+        }
 
         try {
-            return messageSource.getMessage(defaultMessage, null, locale);
+            return messageSource.getMessage(defaultMessage, null, LocaleContextHolder.getLocale());
         } catch (NoSuchMessageException e) {
             return error.getObjectName() + error.getDefaultMessage();
         }
@@ -169,7 +171,7 @@ public class GlobalExceptionHandler {
      * AbstractI18nApplicationException异常处理
      *
      * @param request
-     *            请求\
+     *            请求
      * @param e
      *            异常
      * @return 响应数据
@@ -220,7 +222,7 @@ public class GlobalExceptionHandler {
 
             return new Fail<>(getMessage(message), errorCode);
         } else if (StringUtils.isBlank(e.getMessage())) {
-            return handler0(new DefaultExceptionInfo(e), e);
+            return handler0(new DefaultExceptionInfo(e));
         } else {
             return new Fail<>(getMessage(e.getLocalizedMessage()));
         }
@@ -237,7 +239,7 @@ public class GlobalExceptionHandler {
         return fail;
     }
 
-    private Fail<Void> handler0(AbstractI18nInfo i18nInfo, Throwable e) {
+    private Fail<Void> handler0(AbstractI18nInfo i18nInfo) {
         String message = i18nInfo.getMessage(messageSource);
         return new Fail<>(message, i18nInfo.getErrorCode());
     }
