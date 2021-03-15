@@ -29,7 +29,7 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
 
     @Override
     public boolean accept(Object object) {
-        return object instanceof QueryWrapper;
+        return object instanceof QueryWrapper<?>;
     }
 
     private static class DefaultHandler implements SearchParamsHandler {
@@ -37,7 +37,7 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
         @Override
         public void setValue(Object object, String fieldName, String columnName, Object value,
                 SearchModelType searchModelType, String customSql) {
-            QueryWrapper wrapper = (QueryWrapper) object;
+            QueryWrapper<?> wrapper = (QueryWrapper<?>) object;
             switch (searchModelType) {
                 case GREATER_THAN:
                     wrapper.gt(columnName, value);
@@ -103,7 +103,7 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
                 return;
             }
 
-            QueryWrapper wrapper = (QueryWrapper) object;
+            QueryWrapper<?> wrapper = (QueryWrapper<?>) object;
             switch (searchModelType) {
                 case NOT_IN:
                     wrapper.notIn(columnName, list);
@@ -141,7 +141,7 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
         @Override
         public void setValue(Object object, String fieldName, String columnName, Object value,
                 SearchModelType searchModelType, String customSql) {
-            QueryWrapper wrapper = (QueryWrapper) object;
+            QueryWrapper<?> wrapper = (QueryWrapper<?>) object;
             OrderByType type = (OrderByType) value;
 
             if (type == OrderByType.DESC) {
@@ -169,7 +169,7 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
                 return;
             }
 
-            QueryWrapper wrapper = (QueryWrapper) object;
+            QueryWrapper<?> wrapper = (QueryWrapper<?>) object;
             switch (searchModelType) {
                 case GREATER_THAN:
                     wrapper.gt(columnName, str);
@@ -221,7 +221,7 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
                         for (int j = 0; j < info.num; j++) {
                             strArray[j] = str;
                         }
-                        wrapper.apply(info.sql, strArray);
+                        wrapper.apply(info.sql, (Object[]) strArray);
                     } else {
                         wrapper.apply(info.sql);
                     }

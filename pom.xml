@@ -46,10 +46,10 @@
     </issueManagement>
 
     <properties>
-        <revision>3.2.0</revision>
+        <revision>4.0.0-SONATYPE</revision>
         <main.basedir>${basedir}</main.basedir>
 
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <project.encoding>UTF-8</project.encoding>
 
         <!-- maven -->
@@ -64,26 +64,18 @@
         <guerlab-web.version>1.4.2</guerlab-web.version>
 
         <!-- spring -->
-        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
-        <spring-boot.version>2.3.3.RELEASE</spring-boot.version>
-
-        <!-- swagger -->
-        <swagger.version>1.6.2</swagger.version>
-        <springfox.version>3.0.0</springfox.version>
+        <spring-cloud.version>2020.0.1</spring-cloud.version>
+        <spring-boot.version>2.4.3</spring-boot.version>
 
         <!-- mybatis -->
-        <mybatis-starter.version>2.1.3</mybatis-starter.version>
+        <mybatis-starter.version>2.1.4</mybatis-starter.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
 
         <!-- searchparams -->
         <persistence-api.version>1.0.2</persistence-api.version>
 
-        <!-- tk mapper -->
-        <tk-mapper-spring-boot-starter.version>2.1.5</tk-mapper-spring-boot-starter.version>
-        <tk-mapper.version>1.1.5</tk-mapper.version>
-
         <!-- mybatis plus -->
-        <mybatis-plus.version>3.3.0</mybatis-plus.version>
+        <mybatis-plus.version>3.4.2</mybatis-plus.version>
     </properties>
 
     <distributionManagement>
@@ -242,62 +234,17 @@
                 <artifactId>guerlab-spring-searchparams-mybatisplus</artifactId>
                 <version>${revision}</version>
             </dependency>
-            <dependency>
-                <groupId>net.guerlab.spring</groupId>
-                <artifactId>guerlab-spring-searchparams-tkmapper</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.guerlab.spring</groupId>
-                <artifactId>guerlab-spring-swagger2-cloud-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.guerlab.spring</groupId>
-                <artifactId>guerlab-spring-swagger2-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.guerlab.spring</groupId>
-                <artifactId>guerlab-spring-swagger2-ui-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.guerlab.spring</groupId>
-                <artifactId>guerlab-spring-task-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.guerlab.spring</groupId>
-                <artifactId>guerlab-spring-upload-core</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.guerlab.spring</groupId>
-                <artifactId>guerlab-spring-upload-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.guerlab.spring</groupId>
-                <artifactId>guerlab-spring-upload-aliyun-oss-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
 
-            <!-- swagger -->
+            <!-- global-lock -->
             <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger.version}</version>
+                <groupId>net.guerlab.spring</groupId>
+                <artifactId>guerlab-spring-global-lock-starter</artifactId>
+                <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${springfox.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox.version}</version>
+                <groupId>net.guerlab.spring</groupId>
+                <artifactId>guerlab-spring-global-lock-redis-starter</artifactId>
+                <version>${revision}</version>
             </dependency>
 
             <!-- mybatis -->
@@ -317,18 +264,6 @@
                 <groupId>javax.persistence</groupId>
                 <artifactId>persistence-api</artifactId>
                 <version>${persistence-api.version}</version>
-            </dependency>
-
-            <!-- tk.mapper -->
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-core</artifactId>
-                <version>${tk-mapper.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-spring-boot-starter</artifactId>
-                <version>${tk-mapper-spring-boot-starter.version}</version>
             </dependency>
 
             <!-- mybatis plus -->
@@ -386,13 +321,7 @@
         <module>guerlab-spring-redis-starter</module>
         <module>guerlab-spring-searchparams</module>
         <module>guerlab-spring-searchparams-mybatisplus</module>
-        <module>guerlab-spring-searchparams-tkmapper</module>
-        <module>guerlab-spring-swagger2-cloud-starter</module>
-        <module>guerlab-spring-swagger2-starter</module>
-        <module>guerlab-spring-swagger2-ui-starter</module>
-        <module>guerlab-spring-task-starter</module>
-        <module>guerlab-spring-upload-core</module>
-        <module>guerlab-spring-upload-starter</module>
-        <module>guerlab-spring-upload-aliyun-oss-starter</module>
+        <module>guerlab-spring-global-lock-starter</module>
+        <module>guerlab-spring-global-lock-redis-starter</module>
     </modules>
 </project>

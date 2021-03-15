@@ -1,7 +1,5 @@
 package net.guerlab.spring.mybatis.autoconfigure;
 
-import javax.sql.DataSource;
-
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -13,16 +11,16 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.sql.DataSource;
+
 /**
  * mybatis配置
  *
  * @author guer
- *
  */
 @Configuration
-@ConditionalOnClass({
-        DataSource.class, SqlSessionTemplate.class, SqlSessionFactory.class, PlatformTransactionManager.class
-})
+@ConditionalOnClass({ DataSource.class, SqlSessionTemplate.class, SqlSessionFactory.class,
+        PlatformTransactionManager.class })
 @EnableTransactionManagement
 public class MyBatisAutoconfigure {
 
@@ -38,6 +36,7 @@ public class MyBatisAutoconfigure {
      *            会话工厂
      * @return 会话模板
      */
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @ConditionalOnMissingBean(SqlSessionTemplate.class)
     @ConditionalOnBean(SqlSessionFactory.class)
     @Bean
@@ -52,10 +51,10 @@ public class MyBatisAutoconfigure {
      *            数据源
      * @return 事务管理器
      */
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @ConditionalOnBean(DataSource.class)
     @Bean(DEFAULT_TRANSACTION_MANAGER_BEAN_NAME)
     public PlatformTransactionManager defaultTransactionManager(DataSource dataSource) {
-
         return new DataSourceTransactionManager(dataSource);
     }
 }
