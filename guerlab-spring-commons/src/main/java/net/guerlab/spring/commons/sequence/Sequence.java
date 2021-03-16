@@ -37,9 +37,9 @@ public class Sequence {
     /** 用mask防止溢出:位与运算保证计算的结果范围始终是 0-4095 **/
     private static final long SEQUENCE_MASK = ~(-1L << SEQUENCE_BITS);
 
-    private long workerId;
+    private final long workerId;
 
-    private long dataCenterId;
+    private final long dataCenterId;
 
     private long nowSequence = 0L;
 

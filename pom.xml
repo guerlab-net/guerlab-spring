@@ -235,18 +235,6 @@
                 <version>${revision}</version>
             </dependency>
 
-            <!-- global-lock -->
-            <dependency>
-                <groupId>net.guerlab.spring</groupId>
-                <artifactId>guerlab-spring-global-lock-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.guerlab.spring</groupId>
-                <artifactId>guerlab-spring-global-lock-redis-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
             <!-- mybatis -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
@@ -321,7 +309,5 @@
         <module>guerlab-spring-redis-starter</module>
         <module>guerlab-spring-searchparams</module>
         <module>guerlab-spring-searchparams-mybatisplus</module>
-        <module>guerlab-spring-global-lock-starter</module>
-        <module>guerlab-spring-global-lock-redis-starter</module>
     </modules>
 </project>

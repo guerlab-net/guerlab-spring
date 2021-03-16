@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-net.guerlab.spring.locks.redis.autoconfigure.RedisGlobalLockAutoconfigure
