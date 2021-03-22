@@ -3,21 +3,20 @@ package net.guerlab.spring.commons.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * 转换为DTO对象
- *
- * @author guer
+ * 转换对象
  *
  * @param <D>
- *            DTO对象类型
+ *         对象类型
+ * @author guer
  */
 @FunctionalInterface
-public interface ConvertDTO<D> {
+public interface Convert<D> {
 
     /**
      * 转换
      *
-     * @return DTO对象
+     * @return 转换对象
      */
     @JsonIgnore
-    D toDTO();
+    D convert();
 }

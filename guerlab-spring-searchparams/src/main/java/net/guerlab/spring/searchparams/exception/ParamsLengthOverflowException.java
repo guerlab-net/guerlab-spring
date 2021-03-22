@@ -16,12 +16,12 @@ public class ParamsLengthOverflowException extends AbstractI18nApplicationExcept
     /**
      * 参数名
      */
-    private String paramName;
+    private final String paramName;
 
     /**
      * 参数值最大长度
      */
-    private Integer maxLength;
+    private final Integer maxLength;
 
     /**
      * 初始化参数值长度错误异常

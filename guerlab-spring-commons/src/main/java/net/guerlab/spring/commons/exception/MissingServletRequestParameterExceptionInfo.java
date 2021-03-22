@@ -1,20 +1,19 @@
 package net.guerlab.spring.commons.exception;
 
-import java.util.Locale;
-
 import org.springframework.web.bind.MissingServletRequestParameterException;
+
+import java.util.Locale;
 
 /**
  * 缺失请求参数
  *
  * @author guer
- *
  */
 public class MissingServletRequestParameterExceptionInfo extends AbstractI18nInfo {
 
     private static final String DEFAULT_MSG;
 
-    private String parameterName;
+    private final String parameterName;
 
     static {
         Locale locale = Locale.getDefault();

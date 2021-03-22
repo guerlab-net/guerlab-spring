@@ -1,20 +1,19 @@
 package net.guerlab.spring.commons.exception;
 
-import java.util.Locale;
-
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+
+import java.util.Locale;
 
 /**
  * 不支持的HTTP请求方式
  *
  * @author guer
- *
  */
 public class HttpRequestMethodNotSupportedExceptionInfo extends AbstractI18nInfo {
 
     private static final String DEFAULT_MSG;
 
-    private String method;
+    private final String method;
 
     static {
         Locale locale = Locale.getDefault();

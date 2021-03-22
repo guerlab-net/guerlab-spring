@@ -2,9 +2,11 @@ package net.guerlab.spring.commons.autoconfigure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.guerlab.commons.collection.CollectionUtil;
+import net.guerlab.spring.commons.properties.CorsProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -25,6 +27,7 @@ import java.util.List;
  */
 @Configuration
 @AutoConfigureAfter(ObjectMapperAutoconfigure.class)
+@EnableConfigurationProperties(CorsProperties.class)
 public class WebMvcAutoconfigure {
 
     @Configuration

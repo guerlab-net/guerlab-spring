@@ -1,22 +1,21 @@
 package net.guerlab.spring.commons.exception;
 
-import java.util.Locale;
-
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import java.util.Locale;
 
 /**
  * 未发现处理程序(404)
  *
  * @author guer
- *
  */
 public class NoHandlerFoundExceptionInfo extends AbstractI18nInfo {
 
     private static final String DEFAULT_MSG;
 
-    private String method;
+    private final String method;
 
-    private String url;
+    private final String url;
 
     static {
         Locale locale = Locale.getDefault();

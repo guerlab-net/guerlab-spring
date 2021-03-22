@@ -91,7 +91,11 @@ public class ResponseAdvisorAutoconfigure {
          * @return 是否包含注解
          */
         private static boolean hasAnnotation(MethodParameter returnType, Class<? extends Annotation> annotationClass) {
-            return AnnotationUtils.findAnnotation(returnType.getMethod(), annotationClass) != null
+            boolean methodHasAnnotation = false;
+            if (returnType.getMethod() != null) {
+                methodHasAnnotation = AnnotationUtils.findAnnotation(returnType.getMethod(), annotationClass) != null;
+            }
+            return methodHasAnnotation
                     || AnnotationUtils.findAnnotation(returnType.getContainingClass(), annotationClass) != null;
         }
 

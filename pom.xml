@@ -46,7 +46,7 @@
     </issueManagement>
 
     <properties>
-        <revision>4.0.0-SONATYPE</revision>
+        <revision>4.0.0-SNAPSHOT</revision>
         <main.basedir>${basedir}</main.basedir>
 
         <java.version>11</java.version>
@@ -60,8 +60,8 @@
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 
         <!-- guerlab -->
-        <guerlab-commons.version>1.4.2</guerlab-commons.version>
-        <guerlab-web.version>1.4.2</guerlab-web.version>
+        <guerlab-commons.version>1.5.0-SNAPSHOT</guerlab-commons.version>
+        <guerlab-web.version>1.5.0-SNAPSHOT</guerlab-web.version>
 
         <!-- spring -->
         <spring-cloud.version>2020.0.1</spring-cloud.version>

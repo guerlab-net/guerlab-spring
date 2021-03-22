@@ -24,7 +24,9 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
@@ -236,12 +238,28 @@ public class GlobalExceptionHandler {
         String message = getMessage(e.getLocalizedMessage());
         Fail<Collection<String>> fail = new Fail<>(message, e.getErrorCode());
         fail.setData(e.getErrors());
+        setStackTrace(fail, e.getCause());
         return fail;
     }
 
     private Fail<Void> handler0(AbstractI18nInfo i18nInfo) {
         String message = i18nInfo.getMessage(messageSource);
-        return new Fail<>(message, i18nInfo.getErrorCode());
+        Fail<Void> fail = new Fail<>(message, i18nInfo.getErrorCode());
+        setStackTrace(fail, i18nInfo.getThrowable());
+        return fail;
+    }
+
+    private void setStackTrace(Fail<?> fail, Throwable throwable) {
+        if (throwable == null) {
+            return;
+        }
+        List<String> stackTrace = Arrays.stream(throwable.getStackTrace()).map(this::buildStackTraceElementText)
+                .collect(Collectors.toList());
+        fail.setStackTrace(stackTrace);
+    }
+
+    private String buildStackTraceElementText(StackTraceElement element) {
+        return element.getClassName() + element.getMethodName() + ":" + element.getLineNumber();
     }
 
     private String getMessage(String msg) {

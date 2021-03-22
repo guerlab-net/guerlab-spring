@@ -178,7 +178,7 @@ public class SearchParamsUtils {
      * @return 类字段列表
      */
     private static List<Field> getFields(final AbstractSearchParams searchParams) {
-        return FieldUtil.getFiledsWithFilter(searchParams.getClass(), STATIC_FILTER, PAGE_PARAMS_FILTER);
+        return FieldUtil.getFieldsWithFilter(searchParams.getClass(), STATIC_FILTER, PAGE_PARAMS_FILTER);
     }
 
     /**
