@@ -25,9 +25,9 @@ public class SecurityAutoconfigure extends WebSecurityConfigurerAdapter {
     }
 
     static {
+        DEFAULT_CONFIG.setAllowedOriginPatterns(Collections.singletonList(CorsConfiguration.ALL));
         DEFAULT_CONFIG.setAllowedHeaders(Collections.singletonList(CorsConfiguration.ALL));
         DEFAULT_CONFIG.setAllowedMethods(Collections.singletonList(CorsConfiguration.ALL));
-        DEFAULT_CONFIG.setAllowedOrigins(Collections.singletonList(CorsConfiguration.ALL));
         DEFAULT_CONFIG.setMaxAge(1800L);
         DEFAULT_CONFIG.setAllowCredentials(true);
     }
