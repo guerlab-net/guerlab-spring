@@ -27,11 +27,11 @@ public class RedisTemplateAutoconfigure {
      */
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Bean
-    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory factory, ObjectMapper objectMapper) {
+    public RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory factory, ObjectMapper objectMapper) {
         ObjectMapper mapper = objectMapper.copy();
         mapper.activateDefaultTyping(mapper.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL);
 
-        RedisTemplate<Object, Object> template = new RedisTemplate<>();
+        RedisTemplate<?, ?> template = new RedisTemplate<>();
         template.setConnectionFactory(factory);
         template.setKeySerializer(new GenericJackson2JsonRedisSerializer(mapper));
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer(mapper));
