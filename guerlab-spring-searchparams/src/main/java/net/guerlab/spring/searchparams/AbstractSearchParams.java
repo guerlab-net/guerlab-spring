@@ -1,5 +1,7 @@
 package net.guerlab.spring.searchparams;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import javax.persistence.Transient;
 
 /**
@@ -8,19 +10,22 @@ import javax.persistence.Transient;
  * @author guer
  *
  */
+@Schema(name = "AbstractSearchParams", description = "抽象通用搜索参数对象")
 public abstract class AbstractSearchParams {
 
     /**
      * 分页ID
      */
     @Transient
-    protected transient int pageId = 1;
+    @Schema(name = "pageId", description = "分页ID", defaultValue = "1")
+    protected int pageId = 1;
 
     /**
      * 分页内容数量
      */
     @Transient
-    protected transient int pageSize = 10;
+    @Schema(name = "pageId", description = "分页内容数量", defaultValue = "10")
+    protected int pageSize = 10;
 
     /**
      * 获取分页ID

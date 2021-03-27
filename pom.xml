@@ -76,6 +76,9 @@
 
         <!-- mybatis plus -->
         <mybatis-plus.version>3.4.2</mybatis-plus.version>
+
+        <!-- swagger -->
+        <swagger.version>2.1.7</swagger.version>
     </properties>
 
     <distributionManagement>
@@ -245,6 +248,13 @@
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis-typehandlers-jsr310</artifactId>
                 <version>${mybatis-typehandlers-jsr310.version}</version>
+            </dependency>
+
+            <!-- swagger -->
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.version}</version>
             </dependency>
 
             <!-- searchparams -->
