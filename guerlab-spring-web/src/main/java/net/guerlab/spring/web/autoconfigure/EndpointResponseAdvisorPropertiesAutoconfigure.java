@@ -15,7 +15,7 @@ import java.util.List;
  *
  */
 @Configuration
-@ConditionalOnClass(WebEndpointProperties.class)
+@ConditionalOnClass({ WebEndpointProperties.class, ResponseAdvisorProperties.class })
 public class EndpointResponseAdvisorPropertiesAutoconfigure {
 
     @Autowired
