@@ -3,6 +3,7 @@ package net.guerlab.spring.web.autoconfigure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.guerlab.spring.commons.autoconfigure.ObjectMapperAutoconfigure;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -35,9 +36,8 @@ public class RestTemplateAutoconfigure {
      */
     @Bean
     @LoadBalanced
-    @ConditionalOnClass({
-            LoadBalanced.class, RestTemplate.class
-    })
+    @ConditionalOnBean(ObjectMapper.class)
+    @ConditionalOnClass({ LoadBalanced.class, RestTemplate.class })
     @ConditionalOnMissingBean(value = RestTemplate.class, annotation = LoadBalanced.class)
     public RestTemplate loadBalancedRestTemplate(ObjectMapper objectMapper) {
         return createRestTemplate(objectMapper);
@@ -52,6 +52,7 @@ public class RestTemplateAutoconfigure {
      */
     @Bean
     @Primary
+    @ConditionalOnBean(ObjectMapper.class)
     @ConditionalOnClass(RestTemplate.class)
     @ConditionalOnMissingBean(value = RestTemplate.class)
     public RestTemplate restTemplate(ObjectMapper objectMapper) {

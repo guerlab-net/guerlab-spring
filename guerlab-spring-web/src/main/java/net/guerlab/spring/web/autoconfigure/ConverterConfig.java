@@ -4,7 +4,7 @@ import net.guerlab.spring.commons.converter.DateConverter;
 import net.guerlab.spring.commons.converter.LocalDateConverter;
 import net.guerlab.spring.commons.converter.LocalDateTimeConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.support.GenericConversionService;
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
  *
  */
 @Configuration
-@ConditionalOnClass(RequestMappingHandlerAdapter.class)
+@ConditionalOnBean(RequestMappingHandlerAdapter.class)
 public class ConverterConfig {
 
     /**

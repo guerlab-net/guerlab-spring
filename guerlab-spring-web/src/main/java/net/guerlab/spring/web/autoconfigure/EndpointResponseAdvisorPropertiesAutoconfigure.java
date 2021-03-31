@@ -4,7 +4,8 @@ import net.guerlab.spring.web.properties.ResponseAdvisorProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
@@ -15,7 +16,8 @@ import java.util.List;
  *
  */
 @Configuration
-@ConditionalOnClass({ WebEndpointProperties.class, ResponseAdvisorProperties.class })
+@EnableConfigurationProperties(ResponseAdvisorProperties.class)
+@ConditionalOnBean({ WebEndpointProperties.class })
 public class EndpointResponseAdvisorPropertiesAutoconfigure {
 
     @Autowired
