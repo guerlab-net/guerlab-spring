@@ -1,4 +1,4 @@
-package net.guerlab.spring.commons.autoconfigure;
+package net.guerlab.spring.web.autoconfigure;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

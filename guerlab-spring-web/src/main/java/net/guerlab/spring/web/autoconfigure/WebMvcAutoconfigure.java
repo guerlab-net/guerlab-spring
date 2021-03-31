@@ -1,8 +1,9 @@
-package net.guerlab.spring.commons.autoconfigure;
+package net.guerlab.spring.web.autoconfigure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.guerlab.commons.collection.CollectionUtil;
-import net.guerlab.spring.commons.properties.CorsProperties;
+import net.guerlab.spring.commons.autoconfigure.ObjectMapperAutoconfigure;
+import net.guerlab.spring.web.properties.CorsProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

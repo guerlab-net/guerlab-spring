@@ -1,6 +1,7 @@
-package net.guerlab.spring.commons.autoconfigure;
+package net.guerlab.spring.web.autoconfigure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.guerlab.spring.commons.autoconfigure.ObjectMapperAutoconfigure;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

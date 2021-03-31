@@ -1,4 +1,4 @@
-package net.guerlab.spring.commons.exception;
+package net.guerlab.spring.web.exception;
 
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 

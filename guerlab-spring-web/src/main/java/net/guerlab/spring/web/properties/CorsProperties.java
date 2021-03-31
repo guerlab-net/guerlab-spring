@@ -1,4 +1,4 @@
-package net.guerlab.spring.commons.properties;
+package net.guerlab.spring.web.properties;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -7,7 +7,7 @@ import org.springframework.web.cors.CorsConfiguration;
 
 /**
  * CORS配置
- * 
+ *
  * @author guer
  *
  */

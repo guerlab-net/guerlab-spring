@@ -1,15 +1,14 @@
-package net.guerlab.spring.commons.autoconfigure;
+package net.guerlab.spring.web.autoconfigure;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import net.guerlab.spring.web.properties.ResponseAdvisorProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;
 
-import net.guerlab.spring.commons.properties.ResponseAdvisorProperties;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author guer

@@ -1,12 +1,11 @@
 package net.guerlab.spring.commons.exception;
 
-import java.util.Locale;
-
+import net.guerlab.commons.exception.ApplicationException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import net.guerlab.commons.exception.ApplicationException;
+import java.util.Locale;
 
 /**
  * 抽象国际化异常信息

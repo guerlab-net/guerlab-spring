@@ -1,16 +1,15 @@
-package net.guerlab.spring.commons.exception;
-
-import java.util.Locale;
+package net.guerlab.spring.web.exception;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 
+import java.util.Locale;
+
 /**
  * 抽象国际化错误消息
  *
  * @author guer
- *
  */
 public abstract class AbstractI18nInfo {
 

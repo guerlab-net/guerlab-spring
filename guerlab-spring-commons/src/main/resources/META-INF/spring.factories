@@ -1,12 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-net.guerlab.spring.commons.autoconfigure.ConverterConfig,\
-net.guerlab.spring.commons.autoconfigure.EndpointResponseAdvisorPropertiesAutoconfigure,\
-net.guerlab.spring.commons.autoconfigure.GlobalExceptionHandlerAutoConfigure,\
-net.guerlab.spring.commons.autoconfigure.I18nAutoconfigure,\
 net.guerlab.spring.commons.autoconfigure.ObjectMapperAutoconfigure,\
-net.guerlab.spring.commons.autoconfigure.ResponseAdvisorAutoconfigure,\
-net.guerlab.spring.commons.autoconfigure.RestTemplateAutoconfigure,\
-net.guerlab.spring.commons.autoconfigure.SecurityAutoconfigure,\
 net.guerlab.spring.commons.autoconfigure.SequenceAutoconfigure,\
-net.guerlab.spring.commons.autoconfigure.WebMvcAutoconfigure,\
 net.guerlab.spring.commons.util.SpringApplicationContextUtil

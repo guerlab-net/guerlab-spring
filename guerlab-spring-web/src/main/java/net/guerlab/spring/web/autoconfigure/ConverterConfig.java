@@ -1,4 +1,4 @@
-package net.guerlab.spring.commons.autoconfigure;
+package net.guerlab.spring.web.autoconfigure;
 
 import net.guerlab.spring.commons.converter.DateConverter;
 import net.guerlab.spring.commons.converter.LocalDateConverter;

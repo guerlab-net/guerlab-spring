@@ -1,4 +1,4 @@
-package net.guerlab.spring.commons.exception;
+package net.guerlab.spring.web.exception;
 
 import org.springframework.util.ClassUtils;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -17,7 +17,7 @@ public class MethodArgumentTypeMismatchExceptionInfo extends AbstractI18nInfo {
 
     /**
      * 通过MethodArgumentTypeMismatchException初始化
-     * 
+     *
      * @param cause
      *            MethodArgumentTypeMismatchException
      */

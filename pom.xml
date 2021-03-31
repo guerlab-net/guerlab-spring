@@ -237,6 +237,11 @@
                 <artifactId>guerlab-spring-searchparams-mybatisplus</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>net.guerlab.spring</groupId>
+                <artifactId>guerlab-spring-web</artifactId>
+                <version>${revision}</version>
+            </dependency>
 
             <!-- mybatis -->
             <dependency>
@@ -319,5 +324,6 @@
         <module>guerlab-spring-redis-starter</module>
         <module>guerlab-spring-searchparams</module>
         <module>guerlab-spring-searchparams-mybatisplus</module>
+        <module>guerlab-spring-web</module>
     </modules>
 </project>

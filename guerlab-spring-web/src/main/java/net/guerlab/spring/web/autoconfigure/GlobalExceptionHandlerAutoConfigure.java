@@ -1,10 +1,9 @@
-package net.guerlab.spring.commons.autoconfigure;
+package net.guerlab.spring.web.autoconfigure;
 
+import net.guerlab.spring.web.exception.handler.GlobalExceptionHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import net.guerlab.spring.commons.exception.handler.GlobalExceptionHandler;
 
 /**
  * 异常统一处理配置自动配置
