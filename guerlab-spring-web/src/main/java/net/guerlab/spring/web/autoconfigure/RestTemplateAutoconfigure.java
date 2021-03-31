@@ -34,6 +34,7 @@ public class RestTemplateAutoconfigure {
      *
      * @return LoadBalancedRestTemplate
      */
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Bean
     @LoadBalanced
     @ConditionalOnBean(ObjectMapper.class)
@@ -50,6 +51,7 @@ public class RestTemplateAutoconfigure {
      *
      * @return RestTemplate
      */
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Bean
     @Primary
     @ConditionalOnBean(ObjectMapper.class)

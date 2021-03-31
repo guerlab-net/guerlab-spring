@@ -12,14 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author guer
+ * endpoint's response advisor ignore configure
  *
+ * @author guer
  */
 @Configuration
 @EnableConfigurationProperties(ResponseAdvisorProperties.class)
 @ConditionalOnBean({ WebEndpointProperties.class })
 public class EndpointResponseAdvisorPropertiesAutoconfigure {
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     public void advisor(WebEndpointProperties webEndpointProperties,
             ResponseAdvisorProperties responseAdvisorProperties) {
@@ -31,7 +33,7 @@ public class EndpointResponseAdvisorPropertiesAutoconfigure {
 
         List<String> excluded = responseAdvisorProperties.getExcluded();
 
-        List<String> list = excluded == null ? new ArrayList<>() : new ArrayList<>(excluded);
+        List<String> list = excluded == null ? new ArrayList<>() : excluded;
         list.add(basePath);
 
         responseAdvisorProperties.setExcluded(list);

@@ -27,6 +27,7 @@ public class ConverterConfig {
      * @param handlerAdapter
      *             RequestMappingHandlerAdapter
      */
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     public void addDateTimeConverter(RequestMappingHandlerAdapter handlerAdapter) {
         WebBindingInitializer webBindingInitializer = handlerAdapter.getWebBindingInitializer();

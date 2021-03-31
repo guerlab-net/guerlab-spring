@@ -90,6 +90,7 @@ public class ResponseAdvisorAutoconfigure {
          *            注解类
          * @return 是否包含注解
          */
+        @SuppressWarnings("SameParameterValue")
         private static boolean hasAnnotation(MethodParameter returnType, Class<? extends Annotation> annotationClass) {
             boolean methodHasAnnotation = false;
             if (returnType.getMethod() != null) {

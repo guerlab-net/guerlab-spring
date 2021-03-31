@@ -1,39 +1,23 @@
 package net.guerlab.spring.commons.autoconfigure;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.Year;
-import java.util.Date;
-import java.util.Objects;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import net.guerlab.commons.collection.CollectionUtil;
+import net.guerlab.commons.time.jackson.deserializer.*;
+import net.guerlab.commons.time.jackson.serializer.*;
+import net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties;
+import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-
-import net.guerlab.commons.collection.CollectionUtil;
-import net.guerlab.commons.time.jackson.deserializer.DateDeserializer;
-import net.guerlab.commons.time.jackson.deserializer.LocalDateDeserializer;
-import net.guerlab.commons.time.jackson.deserializer.LocalDateTimeDeserializer;
-import net.guerlab.commons.time.jackson.deserializer.LocalTimeDeserializer;
-import net.guerlab.commons.time.jackson.deserializer.MonthDeserializer;
-import net.guerlab.commons.time.jackson.deserializer.YearDeserializer;
-import net.guerlab.commons.time.jackson.serializer.DateSerializer;
-import net.guerlab.commons.time.jackson.serializer.LocalDateSerializer;
-import net.guerlab.commons.time.jackson.serializer.LocalDateTimeSerializer;
-import net.guerlab.commons.time.jackson.serializer.LocalTimeSerializer;
-import net.guerlab.commons.time.jackson.serializer.MonthSerializer;
-import net.guerlab.commons.time.jackson.serializer.YearSerializer;
-import net.guerlab.spring.commons.properties.NumberJsonStringFormatProperties;
-import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.*;
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * ObjectMapper配置
@@ -163,6 +147,7 @@ public class ObjectMapperAutoconfigure {
      * @param numberJsonStringFormatProperties
      *            数值json格式化配置
      */
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     public void objectMapperAdvice(ObjectMapper objectMapper,
             NumberJsonStringFormatProperties numberJsonStringFormatProperties) {

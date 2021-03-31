@@ -39,11 +39,13 @@ public class WebMvcAutoconfigure {
 
         private LocaleChangeInterceptor localeChangeInterceptor;
 
+        @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
         @Autowired
         public void setObjectMapper(ObjectMapper objectMapper) {
             this.objectMapper = objectMapper;
         }
 
+        @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
         @Autowired
         public void setLocaleChangeInterceptor(LocaleChangeInterceptor localeChangeInterceptor) {
             this.localeChangeInterceptor = localeChangeInterceptor;
