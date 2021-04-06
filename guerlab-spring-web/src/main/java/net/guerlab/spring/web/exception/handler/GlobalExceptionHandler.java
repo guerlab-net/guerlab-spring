@@ -1,3 +1,15 @@
+/*
+ * Copyright 2018-2021 guerlab.net and other contributors.
+ *
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE, Version 3 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.guerlab.spring.web.exception.handler;
 
 import net.guerlab.commons.exception.ApplicationException;
@@ -73,8 +85,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(NoHandlerFoundException.class)
-    public Fail<Void> noHandlerFoundException(HttpServletRequest request,
-            NoHandlerFoundException e) {
+    public Fail<Void> noHandlerFoundException(HttpServletRequest request, NoHandlerFoundException e) {
         debug(request, e);
         return handler0(new NoHandlerFoundExceptionInfo(e));
     }
@@ -127,8 +138,7 @@ public class GlobalExceptionHandler {
 
         BindingResult bindingResult = e.getBindingResult();
 
-        Collection<String> displayMessageList = bindingResult.getAllErrors().stream()
-                .map(this::getMethodArgumentNotValidExceptionDisplayMessage).collect(Collectors.toList());
+        Collection<String> displayMessageList = bindingResult.getAllErrors().stream().map(this::getMethodArgumentNotValidExceptionDisplayMessage).collect(Collectors.toList());
 
         return handler0(new RequestParamsError(e, displayMessageList));
     }
@@ -163,8 +173,7 @@ public class GlobalExceptionHandler {
 
         Collection<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
 
-        Collection<String> displayMessageList = constraintViolations.stream().map(ConstraintViolation::getMessage)
-                .collect(Collectors.toList());
+        Collection<String> displayMessageList = constraintViolations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
 
         return handler0(new RequestParamsError(e, displayMessageList));
     }
@@ -179,8 +188,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(AbstractI18nApplicationException.class)
-    public Fail<Void> abstractI18nApplicationException(HttpServletRequest request,
-            AbstractI18nApplicationException e) {
+    public Fail<Void> abstractI18nApplicationException(HttpServletRequest request, AbstractI18nApplicationException e) {
         debug(request, e);
         String message = e.getMessage(messageSource);
         return new Fail<>(message, e.getErrorCode());
@@ -196,8 +204,7 @@ public class GlobalExceptionHandler {
      * @return 响应数据
      */
     @ExceptionHandler(ApplicationException.class)
-    public Fail<Void> applicationException(HttpServletRequest request,
-            ApplicationException e) {
+    public Fail<Void> applicationException(HttpServletRequest request, ApplicationException e) {
         debug(request, e);
         String message = getMessage(e.getLocalizedMessage());
         return new Fail<>(message, e.getErrorCode());
@@ -253,8 +260,7 @@ public class GlobalExceptionHandler {
         if (throwable == null) {
             return;
         }
-        List<String> stackTrace = Arrays.stream(throwable.getStackTrace()).map(this::buildStackTraceElementText)
-                .collect(Collectors.toList());
+        List<String> stackTrace = Arrays.stream(throwable.getStackTrace()).map(this::buildStackTraceElementText).collect(Collectors.toList());
         fail.setStackTrace(stackTrace);
     }
 

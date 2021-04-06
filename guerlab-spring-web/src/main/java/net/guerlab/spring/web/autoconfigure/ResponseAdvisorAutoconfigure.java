@@ -1,3 +1,15 @@
+/*
+ * Copyright 2018-2021 guerlab.net and other contributors.
+ *
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE, Version 3 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.guerlab.spring.web.autoconfigure;
 
 import net.guerlab.commons.collection.CollectionUtil;
@@ -43,9 +55,7 @@ public class ResponseAdvisorAutoconfigure {
     @RestControllerAdvice
     public static class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
-        private static final Class<?>[] NO_CONVERT_CLASS = new Class<?>[] {
-                String.class, Result.class, byte[].class, InputStream.class
-        };
+        private static final Class<?>[] NO_CONVERT_CLASS = new Class<?>[] { String.class, Result.class, byte[].class, InputStream.class };
 
         private ResponseAdvisorProperties properties;
 
@@ -60,8 +70,7 @@ public class ResponseAdvisorAutoconfigure {
         }
 
         @Override
-        public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
-                Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
+        public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
                 ServerHttpResponse response) {
             if (noConvertObject(body) || matchExcluded(request)) {
                 return body;
@@ -96,8 +105,7 @@ public class ResponseAdvisorAutoconfigure {
             if (returnType.getMethod() != null) {
                 methodHasAnnotation = AnnotationUtils.findAnnotation(returnType.getMethod(), annotationClass) != null;
             }
-            return methodHasAnnotation
-                    || AnnotationUtils.findAnnotation(returnType.getContainingClass(), annotationClass) != null;
+            return methodHasAnnotation || AnnotationUtils.findAnnotation(returnType.getContainingClass(), annotationClass) != null;
         }
 
         /**

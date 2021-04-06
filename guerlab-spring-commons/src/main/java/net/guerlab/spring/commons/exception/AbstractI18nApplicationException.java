@@ -1,3 +1,15 @@
+/*
+ * Copyright 2018-2021 guerlab.net and other contributors.
+ *
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE, Version 3 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.guerlab.spring.commons.exception;
 
 import net.guerlab.commons.exception.ApplicationException;
@@ -46,8 +58,7 @@ public abstract class AbstractI18nApplicationException extends ApplicationExcept
      * @param writableStackTrace
      *            写入异常栈
      */
-    public AbstractI18nApplicationException(String message, Throwable cause, boolean enableSuppression,
-            boolean writableStackTrace) {
+    public AbstractI18nApplicationException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
@@ -65,8 +76,7 @@ public abstract class AbstractI18nApplicationException extends ApplicationExcept
      * @param errorCode
      *            错误码
      */
-    public AbstractI18nApplicationException(String message, Throwable cause, boolean enableSuppression,
-            boolean writableStackTrace, int errorCode) {
+    public AbstractI18nApplicationException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, int errorCode) {
         super(message, cause, enableSuppression, writableStackTrace, errorCode);
     }
 

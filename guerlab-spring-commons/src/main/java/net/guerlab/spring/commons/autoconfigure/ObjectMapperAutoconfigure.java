@@ -1,3 +1,15 @@
+/*
+ * Copyright 2018-2021 guerlab.net and other contributors.
+ *
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE, Version 3 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.guerlab.spring.commons.autoconfigure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,8 +49,7 @@ public class ObjectMapperAutoconfigure {
      * @param numberJsonStringFormatProperties
      *            数值json格式化配置
      */
-    public static void setProperties(final ObjectMapper objectMapper,
-            NumberJsonStringFormatProperties numberJsonStringFormatProperties) {
+    public static void setProperties(final ObjectMapper objectMapper, NumberJsonStringFormatProperties numberJsonStringFormatProperties) {
 
         SimpleModule module = new SimpleModule();
         module.addDeserializer(Date.class, new DateDeserializer());
@@ -115,8 +126,7 @@ public class ObjectMapperAutoconfigure {
         }
 
         if (CollectionUtil.isNotEmpty(properties.getFormatNumberClassList())) {
-            properties.getFormatNumberClassList().stream().filter(Objects::nonNull)
-                    .forEach(clazz -> module.addSerializer(clazz, serializer));
+            properties.getFormatNumberClassList().stream().filter(Objects::nonNull).forEach(clazz -> module.addSerializer(clazz, serializer));
         }
 
     }
@@ -149,8 +159,7 @@ public class ObjectMapperAutoconfigure {
      */
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    public void objectMapperAdvice(ObjectMapper objectMapper,
-            NumberJsonStringFormatProperties numberJsonStringFormatProperties) {
+    public void objectMapperAdvice(ObjectMapper objectMapper, NumberJsonStringFormatProperties numberJsonStringFormatProperties) {
         setProperties(objectMapper, numberJsonStringFormatProperties);
     }
 }
