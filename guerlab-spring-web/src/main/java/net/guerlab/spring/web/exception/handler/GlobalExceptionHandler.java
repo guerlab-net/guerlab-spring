@@ -207,7 +207,9 @@ public class GlobalExceptionHandler {
     public Fail<Void> applicationException(HttpServletRequest request, ApplicationException e) {
         debug(request, e);
         String message = getMessage(e.getLocalizedMessage());
-        return new Fail<>(message, e.getErrorCode());
+        Fail<Void> fail = new Fail<>(message, e.getErrorCode());
+        setStackTrace(fail, e);
+        return fail;
     }
 
     /**
