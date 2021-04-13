@@ -207,13 +207,13 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
                     wrapper.likeRight(columnName, str);
                     break;
                 case START_NOT_WITH:
-                    wrapper.apply(columnName + " NOT LIKE {0}", str + PERCENT);
+                    wrapper.notLike(columnName, str + PERCENT);
                     break;
                 case END_WITH:
                     wrapper.likeLeft(columnName, str);
                     break;
                 case END_NOT_WITH:
-                    wrapper.apply(columnName + " NOT LIKE {0}", PERCENT + str);
+                    wrapper.notLike(columnName, PERCENT + str);
                     break;
                 case NOT_EQUAL_TO:
                     wrapper.ne(columnName, str);
@@ -249,7 +249,7 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
         private String sql;
 
         public CustomerSqlInfo(String sql) {
-            this.sql = sql;
+            this.sql = "(" + sql + ")";
             format();
         }
 
@@ -258,8 +258,9 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
                 return;
             }
 
+            int index;
             while (true) {
-                int index = sql.indexOf("?");
+                index = sql.indexOf("?");
                 if (index < 0) {
                     break;
                 }
