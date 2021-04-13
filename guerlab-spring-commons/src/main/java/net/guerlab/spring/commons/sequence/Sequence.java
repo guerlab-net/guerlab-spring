@@ -1,3 +1,15 @@
+/*
+ * Copyright 2018-2021 guerlab.net and other contributors.
+ *
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE, Version 3 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.guerlab.spring.commons.sequence;
 
 import net.guerlab.commons.exception.ApplicationException;
@@ -37,9 +49,9 @@ public class Sequence {
     /** 用mask防止溢出:位与运算保证计算的结果范围始终是 0-4095 **/
     private static final long SEQUENCE_MASK = ~(-1L << SEQUENCE_BITS);
 
-    private long workerId;
+    private final long workerId;
 
-    private long dataCenterId;
+    private final long dataCenterId;
 
     private long nowSequence = 0L;
 
@@ -59,12 +71,10 @@ public class Sequence {
      */
     public Sequence(long workerId, long dataCenterId) {
         if (workerId > MAX_WORKER_ID || workerId < 0) {
-            throw new IllegalArgumentException(
-                    String.format("worker Id can't be greater than %d or less than 0", MAX_WORKER_ID));
+            throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", MAX_WORKER_ID));
         }
         if (dataCenterId > MAX_DATA_CENTER_ID || dataCenterId < 0) {
-            throw new IllegalArgumentException(
-                    String.format("dataCenter Id can't be greater than %d or less than 0", MAX_DATA_CENTER_ID));
+            throw new IllegalArgumentException(String.format("dataCenter Id can't be greater than %d or less than 0", MAX_DATA_CENTER_ID));
         }
 
         this.workerId = workerId;
@@ -93,16 +103,14 @@ public class Sequence {
         if (timestamp < lastTimestamp) {
             long offset = lastTimestamp - timestamp;
             if (offset > 5) {
-                throw new ApplicationException(
-                        String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds", offset));
+                throw new ApplicationException(String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds", offset));
             }
 
             try {
                 this.wait(offset << 1);
                 timestamp = timeGen();
                 if (timestamp < lastTimestamp) {
-                    throw new ApplicationException(String
-                            .format("Clock moved backwards.  Refusing to generate id for %d milliseconds", offset));
+                    throw new ApplicationException(String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds", offset));
                 }
             } catch (Exception e) {
                 throw new ApplicationException(e);
@@ -128,8 +136,7 @@ public class Sequence {
          * 2.然后对每个左移后的值(la、lb、lc、sequence)做位或运算，是为了把各个短的数据合并起来，合并成一个二进制数
          * 3.最后转换成10进制，就是最终生成的id
          */
-        return timestamp - START_TIME << TIMESTAMP_LEFT_SHIFT | dataCenterId << DATA_CENTER_ID_SHIFT
-                | workerId << WORKER_ID_SHIFT | nowSequence;
+        return timestamp - START_TIME << TIMESTAMP_LEFT_SHIFT | dataCenterId << DATA_CENTER_ID_SHIFT | workerId << WORKER_ID_SHIFT | nowSequence;
     }
 
     /**

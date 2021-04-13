@@ -1,0 +1,86 @@
+{
+  "groups": [
+    {
+      "name": "spring.i18n",
+      "type": "net.guerlab.spring.web.properties.I18nProperties",
+      "sourceType": "net.guerlab.spring.web.properties.I18nProperties",
+      "description": "国际化配置."
+    },
+    {
+      "name": "spring.response-advisor",
+      "type": "net.guerlab.spring.web.properties.ResponseAdvisorProperties",
+      "sourceType": "net.guerlab.spring.web.properties.ResponseAdvisorProperties",
+      "description": "响应数据处理配置."
+    },
+    {
+      "name": "web.cors",
+      "type": "net.guerlab.spring.web.properties.CorsProperties",
+      "sourceType": "net.guerlab.spring.web.properties.CorsProperties",
+      "description": "CORS配置."
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.i18n.default-locale",
+      "type": "java.util.Locale",
+      "sourceType": "net.guerlab.spring.web.properties.I18nProperties",
+      "description": "默认语言.",
+      "defaultValue": "java.util.Locale.getDefault()"
+    },
+    {
+      "name": "spring.i18n.locale-change-interceptor",
+      "type": "org.springframework.web.servlet.i18n.LocaleChangeInterceptor",
+      "sourceType": "net.guerlab.spring.web.properties.I18nProperties",
+      "description": "语言环境改变拦截器.",
+      "defaultValue": "org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+    },
+    {
+      "name": "spring.response-advisor.excluded",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "net.guerlab.spring.web.properties.ResponseAdvisorProperties",
+      "description": "排除路径."
+    },
+    {
+      "name": "web.cors.enable",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.guerlab.spring.web.properties.CorsProperties",
+      "description": "enable cors properties."
+    },
+    {
+      "name": "web.cors.allow-credentials",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.guerlab.spring.web.properties.CorsProperties",
+      "description": "header indicates whether the response to request can be exposed when the omit credentials flag is unset."
+    },
+    {
+      "name": "web.cors.allowed-headers",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "net.guerlab.spring.web.properties.CorsProperties",
+      "description": "header indicates, as part of the response to a preflight request, which header field names can be used during the actual request."
+    },
+    {
+      "name": "web.cors.allowed-methods",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "net.guerlab.spring.web.properties.CorsProperties",
+      "description": "header indicates, as part of the response to a preflight request, which methods can be used during the actual request."
+    },
+    {
+      "name": "web.cors.allowed-origins",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "net.guerlab.spring.web.properties.CorsProperties",
+      "description": "header indicates whether a resource can be shared based by returning the value of the Origin request header, \"*\", or \"null\" in the response."
+    },
+    {
+      "name": "web.cors.exposed-headers",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "net.guerlab.spring.web.properties.CorsProperties",
+      "description": "header indicates which headers are safe to expose to the API of a CORS API specification."
+    },
+    {
+      "name": "web.cors.max-age",
+      "type": "java.lang.Long",
+      "sourceType": "net.guerlab.spring.web.properties.CorsProperties",
+      "description": "header indicates how long the results of a preflight request can be cached in a preflight result cache."
+    }
+  ]
+}

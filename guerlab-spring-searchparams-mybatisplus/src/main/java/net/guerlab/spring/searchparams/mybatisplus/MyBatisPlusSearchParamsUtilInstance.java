@@ -1,3 +1,15 @@
+/*
+ * Copyright 2018-2021 guerlab.net and other contributors.
+ *
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE, Version 3 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.guerlab.spring.searchparams.mybatisplus;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -29,15 +41,14 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
 
     @Override
     public boolean accept(Object object) {
-        return object instanceof QueryWrapper;
+        return object instanceof QueryWrapper<?>;
     }
 
     private static class DefaultHandler implements SearchParamsHandler {
 
         @Override
-        public void setValue(Object object, String fieldName, String columnName, Object value,
-                SearchModelType searchModelType, String customSql) {
-            QueryWrapper wrapper = (QueryWrapper) object;
+        public void setValue(Object object, String fieldName, String columnName, Object value, SearchModelType searchModelType, String customSql) {
+            QueryWrapper<?> wrapper = (QueryWrapper<?>) object;
             switch (searchModelType) {
                 case GREATER_THAN:
                     wrapper.gt(columnName, value);
@@ -89,8 +100,7 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
 
         @SuppressWarnings("unchecked")
         @Override
-        public void setValue(Object object, String fieldName, String columnName, Object value,
-                SearchModelType searchModelType, String customSql) {
+        public void setValue(Object object, String fieldName, String columnName, Object value, SearchModelType searchModelType, String customSql) {
             Collection<Object> collection = (Collection<Object>) value;
 
             if (collection.isEmpty()) {
@@ -103,7 +113,7 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
                 return;
             }
 
-            QueryWrapper wrapper = (QueryWrapper) object;
+            QueryWrapper<?> wrapper = (QueryWrapper<?>) object;
             switch (searchModelType) {
                 case NOT_IN:
                     wrapper.notIn(columnName, list);
@@ -139,9 +149,8 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
     private static class OrderByHandler implements SearchParamsHandler {
 
         @Override
-        public void setValue(Object object, String fieldName, String columnName, Object value,
-                SearchModelType searchModelType, String customSql) {
-            QueryWrapper wrapper = (QueryWrapper) object;
+        public void setValue(Object object, String fieldName, String columnName, Object value, SearchModelType searchModelType, String customSql) {
+            QueryWrapper<?> wrapper = (QueryWrapper<?>) object;
             OrderByType type = (OrderByType) value;
 
             if (type == OrderByType.DESC) {
@@ -161,15 +170,14 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
         private static final char PERCENT = '%';
 
         @Override
-        public void setValue(Object object, String fieldName, String columnName, Object value,
-                SearchModelType searchModelType, String customSql) {
+        public void setValue(Object object, String fieldName, String columnName, Object value, SearchModelType searchModelType, String customSql) {
             String str = StringUtils.trimToNull((String) value);
 
             if (str == null) {
                 return;
             }
 
-            QueryWrapper wrapper = (QueryWrapper) object;
+            QueryWrapper<?> wrapper = (QueryWrapper<?>) object;
             switch (searchModelType) {
                 case GREATER_THAN:
                     wrapper.gt(columnName, str);
@@ -199,13 +207,13 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
                     wrapper.likeRight(columnName, str);
                     break;
                 case START_NOT_WITH:
-                    wrapper.apply(columnName + " NOT LIKE {0}", str + PERCENT);
+                    wrapper.notLike(columnName, str + PERCENT);
                     break;
                 case END_WITH:
                     wrapper.likeLeft(columnName, str);
                     break;
                 case END_NOT_WITH:
-                    wrapper.apply(columnName + " NOT LIKE {0}", PERCENT + str);
+                    wrapper.notLike(columnName, PERCENT + str);
                     break;
                 case NOT_EQUAL_TO:
                     wrapper.ne(columnName, str);
@@ -221,7 +229,7 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
                         for (int j = 0; j < info.num; j++) {
                             strArray[j] = str;
                         }
-                        wrapper.apply(info.sql, strArray);
+                        wrapper.apply(info.sql, (Object[]) strArray);
                     } else {
                         wrapper.apply(info.sql);
                     }
@@ -241,7 +249,7 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
         private String sql;
 
         public CustomerSqlInfo(String sql) {
-            this.sql = sql;
+            this.sql = "(" + sql + ")";
             format();
         }
 
@@ -250,8 +258,9 @@ public class MyBatisPlusSearchParamsUtilInstance extends SearchParamsUtilInstanc
                 return;
             }
 
+            int index;
             while (true) {
-                int index = sql.indexOf("?");
+                index = sql.indexOf("?");
                 if (index < 0) {
                     break;
                 }

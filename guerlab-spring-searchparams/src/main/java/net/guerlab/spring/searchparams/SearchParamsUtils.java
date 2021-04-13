@@ -1,3 +1,15 @@
+/*
+ * Copyright 2018-2021 guerlab.net and other contributors.
+ *
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE, Version 3 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.guerlab.spring.searchparams;
 
 import net.guerlab.commons.reflection.FieldUtil;
@@ -12,7 +24,6 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
@@ -25,8 +36,9 @@ public class SearchParamsUtils {
 
     private static final Predicate<Field> STATIC_FILTER = e -> e != null && !Modifier.isStatic(e.getModifiers());
 
-    private static final Predicate<Field> PAGE_PARAMS_FILTER = e -> !AbstractSearchParams.class.getName()
-            .equals(e.getDeclaringClass().getName());
+    private static final Predicate<Field> PAGE_PARAMS_FILTER = e -> !AbstractSearchParams.class.getName().equals(e.getDeclaringClass().getName());
+
+    private static final HashMap<Class<? extends SearchParamsUtilInstance>, SearchParamsUtilInstance> INSTANCES_CACHE = new HashMap<>();
 
     /**
      * 启用参数长度检查
@@ -38,7 +50,69 @@ public class SearchParamsUtils {
      */
     private static int paramMaxLength;
 
+    static {
+        StreamSupport.stream(ServiceLoader.load(SearchParamsUtilInstance.class).spliterator(), false).forEach((instance) -> INSTANCES_CACHE.put(instance.getClass(), instance));
+    }
+
     private SearchParamsUtils() {
+    }
+
+    /**
+     * 注册实例
+     *
+     * @param instance
+     *         实例
+     */
+    public static void register(SearchParamsUtilInstance instance) {
+        if (instance == null) {
+            return;
+        }
+
+        INSTANCES_CACHE.put(instance.getClass(), instance);
+    }
+
+    /**
+     * 注销实例
+     *
+     * @param instance
+     *         实例
+     */
+    public static void unRegister(SearchParamsUtilInstance instance) {
+        if (instance != null) {
+            INSTANCES_CACHE.remove(instance.getClass());
+        }
+    }
+
+    /**
+     * 注销指定类实例
+     *
+     * @param type
+     *         类
+     */
+    public static void unRegister(Class<? extends SearchParamsUtilInstance> type) {
+        if (type != null) {
+            INSTANCES_CACHE.remove(type);
+        }
+    }
+
+    /**
+     * 获取指定类实例
+     *
+     * @param type
+     *         类
+     * @return 实例
+     */
+    public static SearchParamsUtilInstance getInstance(Class<? extends SearchParamsUtilInstance> type) {
+        return type == null ? null : INSTANCES_CACHE.get(type);
+    }
+
+    /**
+     * 获取实例列表
+     *
+     * @return 实例列表
+     */
+    public static Collection<SearchParamsUtilInstance> getInstances() {
+        return Collections.unmodifiableCollection(INSTANCES_CACHE.values());
     }
 
     /**
@@ -53,33 +127,35 @@ public class SearchParamsUtils {
         if (searchParams == null || object == null) {
             return;
         }
+        INSTANCES_CACHE.values().stream().filter(instance -> instance.accept(object)).findFirst().ifPresent(searchParamsUtilInstance -> handler(searchParams, object, searchParamsUtilInstance));
+    }
 
-        ServiceLoader<SearchParamsUtilInstance> serviceLoader = ServiceLoader.load(SearchParamsUtilInstance.class);
-        Stream<SearchParamsUtilInstance> stream = StreamSupport.stream(serviceLoader.spliterator(), false);
-        Optional<SearchParamsUtilInstance> instanceOptional = stream.filter(instance -> instance.accept(object))
-                .findFirst();
-
-        if (!instanceOptional.isPresent()) {
+    /**
+     * 以指定实例对searchParams进行处理
+     *
+     * @param searchParams
+     *         参数列表对象
+     * @param object
+     *         输出对象
+     * @param instance
+     *         处理实例
+     */
+    public static void handler(final AbstractSearchParams searchParams, final Object object, final SearchParamsUtilInstance instance) {
+        if (searchParams == null || object == null || instance == null) {
             return;
         }
 
-        SearchParamsUtilInstance instance = instanceOptional.get();
+        Map<Boolean, List<Field>> fieldMap = getFields(searchParams).stream().collect(Collectors.partitioningBy(field -> Objects.equals(OrderByType.class, field.getType())));
 
-        Map<Boolean, List<Field>> fieldMap = getFields(searchParams).stream()
-                .collect(Collectors.partitioningBy(field -> Objects.equals(OrderByType.class, field.getType())));
-
-        fieldMap.getOrDefault(false, Collections.emptyList())
-                .forEach(field -> setValue(field, object, searchParams, instance));
-        fieldMap.getOrDefault(true, Collections.emptyList()).stream()
-                .sorted(comparingInt(SearchParamsUtils::getOrderByIndexValue))
+        fieldMap.getOrDefault(false, Collections.emptyList()).forEach(field -> setValue(field, object, searchParams, instance));
+        fieldMap.getOrDefault(true, Collections.emptyList()).stream().sorted(comparingInt(SearchParamsUtils::getOrderByIndexValue))
                 .forEach(field -> setValue(field, object, searchParams, instance));
         instance.afterHandler(searchParams, object);
     }
 
     private static <T> Comparator<T> comparingInt(ToIntFunction<? super T> keyExtractor) {
         Objects.requireNonNull(keyExtractor);
-        return (Comparator<T> & Serializable) (c1, c2) -> Integer
-                .compare(keyExtractor.applyAsInt(c2), keyExtractor.applyAsInt(c1));
+        return (Comparator<T> & Serializable) (c1, c2) -> Integer.compare(keyExtractor.applyAsInt(c2), keyExtractor.applyAsInt(c1));
     }
 
     /**
@@ -106,7 +182,7 @@ public class SearchParamsUtils {
      * @return 类字段列表
      */
     private static List<Field> getFields(final AbstractSearchParams searchParams) {
-        return FieldUtil.getFiledsWithFilter(searchParams.getClass(), STATIC_FILTER, PAGE_PARAMS_FILTER);
+        return FieldUtil.getFieldsWithFilter(searchParams.getClass(), STATIC_FILTER, PAGE_PARAMS_FILTER);
     }
 
     /**
@@ -154,8 +230,7 @@ public class SearchParamsUtils {
         return column != null && StringUtils.isNotBlank(column.name()) ? column.name() : field.getName();
     }
 
-    private static void setValue(final Field field, final Object object, final AbstractSearchParams searchParams,
-            final SearchParamsUtilInstance instance) {
+    private static void setValue(final Field field, final Object object, final AbstractSearchParams searchParams, final SearchParamsUtilInstance instance) {
         String name = field.getName();
 
         SearchModel searchModel = getSearchModel(field);
@@ -183,8 +258,7 @@ public class SearchParamsUtils {
             }
         }
 
-        handler.setValue(object, name, getColumnName(field), value, searchModelType,
-                StringUtils.trimToNull(getCustomSql(searchModel)));
+        handler.setValue(object, name, getColumnName(field), value, searchModelType, StringUtils.trimToNull(getCustomSql(searchModel)));
     }
 
     /**
