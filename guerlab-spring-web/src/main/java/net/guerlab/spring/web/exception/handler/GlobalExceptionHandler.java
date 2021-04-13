@@ -191,7 +191,9 @@ public class GlobalExceptionHandler {
     public Fail<Void> abstractI18nApplicationException(HttpServletRequest request, AbstractI18nApplicationException e) {
         debug(request, e);
         String message = e.getMessage(messageSource);
-        return new Fail<>(message, e.getErrorCode());
+        Fail<Void> fail = new Fail<>(message, e.getErrorCode());
+        setStackTrace(fail, e);
+        return fail;
     }
 
     /**
@@ -231,11 +233,15 @@ public class GlobalExceptionHandler {
             int errorCode = responseStatus.value().value();
             String message = responseStatus.reason();
 
-            return new Fail<>(getMessage(message), errorCode);
+            Fail<Void> result = new Fail<>(getMessage(message), errorCode);
+            setStackTrace(result, e);
+            return result;
         } else if (StringUtils.isBlank(e.getMessage())) {
             return handler0(new DefaultExceptionInfo(e));
         } else {
-            return new Fail<>(getMessage(e.getLocalizedMessage()));
+            Fail<Void> result = new Fail<>(getMessage(e.getLocalizedMessage()));
+            setStackTrace(result, e);
+            return result;
         }
     }
 
